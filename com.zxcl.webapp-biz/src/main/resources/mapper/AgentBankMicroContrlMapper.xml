@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.AgentBankMicroContrlDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.AgentBankMicroContrlDTO" >
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="TOTAL_COUNT" property="totalCount" jdbcType="INTEGER" />
+    <result column="TODAY_COUNT" property="todayCount" jdbcType="INTEGER" />
+    <result column="TODAY_MAX_COUNT" property="todayMaxCount" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <!-- updateSelective -->
+  <update id="updateSelective" parameterType="com.zxcl.webapp.dto.AgentBankMicroContrlDTO">
+  	update t_agent_bank_micro_contrl
+  	<set>
+	       UPD_TM=now(),
+	    <if test="totalCount != null" >
+	       TOTAL_COUNT=#{totalCount},
+	    </if>
+	    <if test="todayCount != null" >
+	       TODAY_COUNT=#{todayCount},
+	    </if>
+  	</set>
+  	where USER_ID=#{userId}
+  </update>
+  
+  <!-- getByUserId -->
+  <select id="getByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select USER_ID, CRT_TM, UPD_TM, TOTAL_COUNT, TODAY_COUNT, TODAY_MAX_COUNT
+  	from t_agent_bank_micro_contrl
+  	where USER_ID=#{userId}
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.AgentBankMicroContrlDTO" >
+    insert into t_agent_bank_micro_contrl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+        CRT_TM,
+        UPD_TM,
+        TOTAL_COUNT,
+        TODAY_COUNT,
+      <if test="todayMaxCount != null" >
+        TODAY_MAX_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+        now(),
+        now(),
+        1,
+        1,
+      <if test="todayMaxCount != null" >
+        #{todayMaxCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

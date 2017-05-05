@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="  
+	 http://cxf.apache.org/jaxws  http://cxf.apache.org/schemas/jaxws.xsd
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd  
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd  
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+     http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+    <context:annotation-config />
+    <context:property-placeholder location="classpath:app-context.properties"/>
+    <context:component-scan base-package="com.zxcl.webapp.biz"/>
+    <context:component-scan base-package="com.zxcl.webapp.integration.sao"/>
+    <context:component-scan base-package="com.zxcl.webapp.util"/>
+    <context:component-scan base-package="com.meyacom.fw">
+    	<context:exclude-filter type="assignable" expression="com.meyacom.fw.um.security.core.userdetails.MycSecurityUserDetailsService"/>
+    	<context:exclude-filter type="assignable" expression="com.meyacom.fw.um.security.authentication.provider.MycAuthenticationProvider"/>
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    
+    <task:annotation-driven/>
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+    
+ <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+   <property name="triggers">
+     <list>
+       <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+   		<property name="name" value="timerTaskActionImpl" />
+	    <property name="group" value="bxtx_default" />
+	    <property name="jobDetail">
+	    	<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			    <property name="concurrent" value="false" />
+			    <property name="targetObject" ref="timerTaskActionImpl"/>
+			    <property name="targetMethod" value="execute"/>
+			</bean>
+	    </property>
+	    <property name="cronExpression" value="${ejintai.appStatusQuery.cron}"/>
+       </bean>
+       <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+   		<property name="name" value="timerTaskActionImpl4" />
+	    <property name="group" value="bxtx_default" />
+	    <property name="jobDetail">
+	    	<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			    <property name="concurrent" value="false" />
+			    <property name="targetObject" ref="timerTaskActionImpl4"/>
+			    <property name="targetMethod" value="execute"/>
+			</bean>
+	    </property>
+	    <property name="cronExpression" value="${bxtx.orderStatusQuery4.cron}"/>
+       </bean>
+      <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+       	<property name="name" value="timerTaskMqNotifyToQuoterImpl" />
+	    <property name="group" value="bxtx_default" />
+	    <property name="jobDetail">
+		    <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			    <property name="concurrent" value="false" />
+			    <property name="targetObject" ref="timerTaskMqNotifyToQuoterImpl"/>
+			    <property name="targetMethod" value="execute"/>
+			 </bean>
+	    </property>
+	    <property name="cronExpression" value="${mq.toquoter.cron}"/>
+       </bean>
+     </list>
+   </property>
+ </bean>
+  
+  <bean id="fileServiceClient" class="com.zxcl.file_server.client.impl.HttpFileServiceClientImpl">
+    <property name="serviceUrl" value="${fileserverUrl}" />
+    <property name="sysId" value="${sysId}" /><!-- 写自己系统的标识,用于识别上传文件的属主 -->
+  </bean>
+  
+  <import resource="intf/app-biz-intf-*.xml"/>
+  <import resource="http/app-biz-http-*.xml"/>
+  <import resource="biz-context-inf-zxcl.xml"/>
+</beans>

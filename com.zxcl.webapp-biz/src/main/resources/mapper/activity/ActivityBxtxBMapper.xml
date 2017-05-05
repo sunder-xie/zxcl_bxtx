@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.activity.ActivityBxtxBDAO">
+	
+	<resultMap autoMapping="true" type="com.zxcl.webapp.dto.activity.ActivityBxtxBWinningListDTO" id="getActivityBxtxBWinningsResultMap"></resultMap>
+	
+	<select id="getLotteryNumber" resultType="Integer">
+		SELECT COUNT(USER_ID) FROM t_activity_bxtx_b_drawlist WHERE USER_ID = #{userId}
+	</select>
+	
+	<insert id="insertActivityBxtxBDrawList" parameterType="com.zxcl.webapp.dto.activity.ActivityBxtxBDrawListDTO">
+		INSERT INTO t_activity_bxtx_b_drawlist(USER_ID,IS_HAD,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES(#{userId},#{isHad},#{crtTm},#{crtCde},#{updTm},#{updCde})
+	</insert>
+	
+	<select id="getActivityBxtxBWinnings" resultMap="getActivityBxtxBWinningsResultMap">
+		SELECT USER_ID userId,LEVEL level,`STATUS` status FROM t_activity_bxtx_b_winninglist
+	</select>
+	
+	<update id="updateActivityBxtxBWinningStatus" >
+		UPDATE t_activity_bxtx_b_winninglist SET `STATUS` = #{status}
+		,UPD_TM=NOW(),UPD_CDE=#{userId} WHERE USER_ID = #{userId}
+	</update>
+
+</mapper>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.AgentServiceSiteDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.AgentServiceSiteDTO" >
+    <id column="T_ORG_ID" property="tOrgId" jdbcType="VARCHAR" />
+    <id column="C_AGETN_ID" property="cAgetnId" jdbcType="VARCHAR" />
+    <result column="T_NAME" property="tName" jdbcType="VARCHAR" />
+    <result column="T_ADDRESS" property="tAddress" jdbcType="VARCHAR" />
+    <result column="T_PHONE" property="tPhone" jdbcType="VARCHAR" />
+    <result column="RECORD_STATUS" property="recordStatus" jdbcType="CHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_ORG_ID, C_AGETN_ID, T_NAME, T_ADDRESS, T_PHONE, RECORD_STATUS, REMARK, CRT_TM, 
+    CRT_CDE, UPD_TM, UPD_CDE
+  </sql>
+  <!-- findSitesByAgentId -->
+  <select id="findSitesByAgentId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from t_agent_service_site
+  	where C_AGETN_ID=#{agentId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_agent_service_site
+    where T_ORG_ID = #{orgId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_agent_service_site
+    where T_ORG_ID = #{orgId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.AgentServiceSiteDTO" >
+    insert into t_agent_service_site
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tOrgId != null" >
+        T_ORG_ID,
+      </if>
+      <if test="cAgetnId != null" >
+        C_AGETN_ID,
+      </if>
+      <if test="tName != null" >
+        T_NAME,
+      </if>
+      <if test="tAddress != null" >
+        T_ADDRESS,
+      </if>
+      <if test="tPhone != null" >
+        T_PHONE,
+      </if>
+      <if test="recordStatus != null" >
+        RECORD_STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM,
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+      <if test="updTm != null" >
+        UPD_TM,
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tOrgId != null" >
+        #{tOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgetnId != null" >
+        #{cAgetnId,jdbcType=VARCHAR},
+      </if>
+      <if test="tName != null" >
+        #{tName,jdbcType=VARCHAR},
+      </if>
+      <if test="tAddress != null" >
+        #{tAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tPhone != null" >
+        #{tPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null" >
+        #{recordStatus,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTm != null" >
+        #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.AgentServiceSiteDTO" >
+    update t_agent_service_site
+    <set >
+      <if test="tName != null" >
+        T_NAME = #{tName,jdbcType=VARCHAR},
+      </if>
+      <if test="tAddress != null" >
+        T_ADDRESS = #{tAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tPhone != null" >
+        T_PHONE = #{tPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null" >
+        RECORD_STATUS = #{recordStatus,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+     <!--  <if test="crtTm != null" >
+        CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      </if> -->
+        UPD_TM = now(),
+      <if test="updCde != null" >
+        UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where T_ORG_ID = #{tOrgId,jdbcType=VARCHAR}
+  </update>
+</mapper>

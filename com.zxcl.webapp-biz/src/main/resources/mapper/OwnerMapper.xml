@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.OwnerDAO">
+	<!-- 对t_insurancecompany自关联的查询映射 -->
+	<resultMap type="com.zxcl.webapp.dto.rmi.intf.vote.req.OwnerDTO" id="ownerResultMapping">
+		<id column="orderId" jdbcType="VARCHAR" property="order.orderId"/>
+		<result column="name" jdbcType="VARCHAR" property="ownerName" />
+		<result column="tel" jdbcType="VARCHAR" property="ownerPhone" />
+		<result column="certNo" jdbcType="VARCHAR" property="ownerCertNo" />
+		<result column="certType" jdbcType="VARCHAR" property="ownerCertType" />
+		<result column="address" jdbcType="VARCHAR" property="ownerAddress"/>
+		<result column="proCode" jdbcType="VARCHAR" property="ownerProvince" />
+		<result column="cityCode" jdbcType="VARCHAR" property="ownerCity"/>
+	</resultMap>
+
+	<!-- 插入车主信息 -->
+	<insert id="insert">
+		INSERT INTO
+		t_order_vehicle(INQUIRY_ID,QUOTA_ID,INS_ID,ORDER_ID,CERT_TYPE,CERT_NO,PRO_CODE,CITY_CODE,LINK_ADDRESS,NAME,SEX,BIRTHDAY,TEL,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES(#{inquiry.inquiryId},#{quota.quotaId},#{insurance.insId},#{order.orderId},#{ownerCertType},#{ownerCertNo},#{ownerProvince},#{ownerCity},#{ownerAddress},#{ownerName},
+		#{ownerSex},#{ownerBirthday},#{ownerPhone},now(),#{crtCode},now(),#{updCode})
+	</insert>
+
+	<!-- 根据订单ID查询车主信息 -->
+	<select id="getByOrder" resultMap="ownerResultMapping" parameterType="com.zxcl.webapp.dto.OrderDTO">
+		select ORDER_ID orderId,NAME name,TEL tel,CERT_NO certNo,CERT_TYPE certType from
+		t_order_vehicle where ORDER_ID=#{orderId} and
+		QUOTA_ID=#{quota.quotaId} and INQUIRY_ID=#{inquiry.inquiryId} AND
+		INS_ID=#{insurance.insId}
+	</select>
+	
+	<select id="getOwnerByOrderId" resultMap="ownerResultMapping">
+		select v.ORDER_ID orderId,v.NAME name,v.TEL tel,v.CERT_NO certNo,v.CERT_TYPE certType,v.PRO_CODE proCode,v.CITY_CODE cityCode,v.LINK_ADDRESS address 
+		from t_order_vehicle v LEFT JOIN t_order o on v.ORDER_ID=o.ORDER_ID where v.ORDER_ID=#{orderId} and o.`STATUS`='1'
+	</select>
+	
+<!-- 删除车主信息 -->
+	<delete id="deleteByQuotaId">
+		delete from t_order_vehicle 
+		where order_id=(SELECT order_id from t_order where `QUOTA_ID`=#{quotaId} AND `MICRO_ID`=#{microId} AND `INS_ID`=#{insId})
+	</delete>
+	
+	<!-- 删除车主信息 -->
+	<delete id="deleteByOrderId">
+		delete from t_order_vehicle where order_id=#{orderId}
+	</delete>
+	
+	<!--  -->
+	<update id="update">
+		UPDATE t_order_vehicle 
+		<set>
+			<if test="null != owner.order and owner.order.orderId != null and owner.order.orderId != ''">
+				ORDER_ID=#{owner.order.orderId},
+			</if>
+			UPD_TM=now(),
+		</set>
+		WHERE QUOTA_ID=#{quotaId}  AND INS_ID=#{insId}
+	</update>
+	
+	<update id="updateWithHHBX">
+		update t_order_vehicle
+		<set>
+			<if test="ownerPerson.name and '' != ownerPerson.name">
+				NAME=#{ownerPerson.name},
+			</if>
+			<if test="ownerPerson.certNo and '' != ownerPerson.certNo">
+				CERT_NO=#{ownerPerson.certNo},
+			</if>
+			<if test="ownerPerson.tel and '' != ownerPerson.tel">
+				TEL=#{ownerPerson.tel},
+			</if>
+			<if test="ownerPerson.address and '' != ownerPerson.address">
+				LINK_ADDRESS=#{ownerPerson.address},
+			</if>
+			UPD_TM=now(),
+		</set>
+		WHERE QUOTA_ID=#{quotaId} AND INS_ID='HHBX'
+	</update>
+</mapper>

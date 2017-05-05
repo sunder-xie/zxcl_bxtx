@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.AreaDAO">
+	<!-- 没有关联的映射 -->
+	<resultMap id="areaResultMap" type="com.zxcl.webapp.dto.AreaDTO">
+		<id column="AREA_ID" jdbcType="VARCHAR" property="id" />
+		<result column="AREA_NAME" jdbcType="VARCHAR" property="name" />
+		<result column="AREA_CODE" jdbcType="VARCHAR" property="code" />
+		<result column="AREA_SHORTNAME" jdbcType="VARCHAR" property="shortname" />
+	</resultMap>
+
+	<!-- 和自己有关联的映射 -->
+	<resultMap id="areaParentResultMap" type="com.zxcl.webapp.dto.AreaDTO">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="shortname" jdbcType="VARCHAR" property="shortname" />
+	</resultMap>
+
+	<!-- 获取所有的省份信息 -->
+	<select id="getProvinceAreas" resultMap="areaResultMap">
+		select
+		AREA_ID,AREA_NAME,AREA_CODE,AREA_SHORTNAME from t_area
+		where AREA_PARENTCODE='' or AREA_CODE IS NULL
+	</select>
+
+	<!-- 根据省份code查询省下面的市 -->
+	<select id="getCitysByProvinceCode" resultMap="areaResultMap"
+		parameterType="java.lang.String">
+		select AREA_ID,AREA_NAME,AREA_CODE,AREA_SHORTNAME from
+		t_area where
+		AREA_PARENTCODE=#{provinceCode}
+	</select>
+	
+	<!-- 根据code查询对应的对象 -->
+	<select id="getAreaByCode" resultMap="areaResultMap"
+		parameterType="java.lang.String">
+		select AREA_ID,AREA_NAME,AREA_CODE,AREA_SHORTNAME from
+		t_area where AREA_CODE=#{code} limit 0,1
+	</select>
+
+	<!-- 根据传入的信息(信息模板：河南省平顶山市)获取到的城市信息，返回省份信息 -->
+	<select id="getProvinceByName" resultMap="areaParentResultMap"
+		parameterType="java.lang.String">
+		select p.AREA_ID as id,p.AREA_NAME as name,p.AREA_CODE
+		as code,p.AREA_SHORTNAME as shortname from
+		t_area c left join
+		t_area p
+		on c.AREA_PARENTCODE=p.AREA_CODE where c.AREA_NAME=#{name}
+		LIMIT 0,1
+	</select>
+	<!-- 根据城市CODE，得到省份信息 -->
+	<select id="getProvinceByCityCode" resultMap="areaParentResultMap">
+		select p.AREA_ID as id,p.AREA_NAME as name,p.AREA_CODE
+		as code,p.AREA_SHORTNAME as shortname from
+		t_area c left join t_area p 
+		on c.AREA_PARENTCODE=p.AREA_CODE where c.AREA_CODE=#{cityCode} limit 0,1
+	</select>
+	
+	
+</mapper>

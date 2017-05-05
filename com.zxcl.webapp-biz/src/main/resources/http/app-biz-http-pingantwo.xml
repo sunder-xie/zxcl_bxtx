@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="  
+	 http://cxf.apache.org/jaxws  http://cxf.apache.org/schemas/jaxws.xsd
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd" >
+
+	<!-- 平安报价,核保,支付,查询投保单接口 -->
+	<bean id="pinganHttpService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean"> 
+    	<property name="serviceUrl" value="${pingantwo_http_url}" /> 
+    	<property name="serviceInterface" value="com.zxcl.pingan_http.api.PinganHttpService" /> 
+	</bean>
+	
+	<!-- 平安删除报价单接口 -->
+    <bean id="removePinganQuotaService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean"> 
+        <property name="serviceUrl" value="${share.url}/pingan_http/remoting/removePinganQuotaService" /> 
+        <property name="serviceInterface" value="com.zxcl.pingan_http.api.RemovePinganQuotaService" /> 
+    </bean>
+</beans>

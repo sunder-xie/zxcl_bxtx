@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.AgentServiceControlDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.AgentServiceControlDTO" >
+    <result column="agent_id" property="agentId" jdbcType="VARCHAR" />
+    <result column="is_on" property="isOn" jdbcType="INTEGER" />
+    <result column="service_type" property="serviceType" jdbcType="INTEGER" />
+    <result column="crt_tm" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="crt_by" property="crtBy" jdbcType="VARCHAR" />
+    <result column="upd_tm" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="upd_by" property="updBy" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <!-- selectByAgentIdAndServiceType -->
+  <select id="selectByAgentIdAndServiceType" resultMap="BaseResultMap">
+  	select agent_id, is_on, service_type, crt_tm, crt_by, upd_tm, upd_by, status
+  	from t_agent_service_control
+  	where status=1
+  	and agent_id=#{agentId}
+  	and service_type=#{serviceType}
+  	limit 1
+  </select>
+  
+</mapper>

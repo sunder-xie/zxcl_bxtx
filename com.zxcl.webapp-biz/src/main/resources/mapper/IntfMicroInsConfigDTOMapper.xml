@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.IntfMicroInsConfigDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.IntfMicroInsConfigDTO" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <id column="INS_ID" property="insId" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="TOTAL_COUNT" property="totalCount" jdbcType="INTEGER" />
+    <result column="TODAY_COUNT" property="todayCount" jdbcType="INTEGER" />
+    <result column="TODAY_MAX_COUNT" property="todayMaxCount" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, INS_ID, CRT_TM, UPD_TM, TOTAL_COUNT, TODAY_COUNT, TODAY_MAX_COUNT, STATUS, USER_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.dto.IntfMicroInsConfigDTOKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_intf_micro_ins_config
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and INS_ID = #{insId,jdbcType=VARCHAR}
+    <if test="userType == null">
+    	and USER_TYPE = '1'
+    </if>
+    <if test="userType != null">
+    	and USER_TYPE = #{userType,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.IntfMicroInsConfigDTO" >
+    insert into t_intf_micro_ins_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="insId != null" >
+        INS_ID,
+      </if>
+      CRT_TM,
+      UPD_TM,
+      <if test="todayMaxCount != null" >
+        TODAY_MAX_COUNT,
+      </if>
+      <if test="totalCount != null" >
+        TOTAL_COUNT,
+      </if>
+      <if test="todayCount != null" >
+        TODAY_COUNT,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="insId != null" >
+        #{insId,jdbcType=VARCHAR},
+      </if>
+      now(),
+      now(),
+      <if test="todayMaxCount != null" >
+         #{todayMaxCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalCount != null" >
+        #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="todayCount != null" >
+        #{todayCount,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+         #{userType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.IntfMicroInsConfigDTO" >
+    update t_intf_micro_ins_config
+    <set>
+       UPD_TM = now(),
+      <if test="totalCount != null" >
+        TOTAL_COUNT = #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="todayCount != null" >
+        TODAY_COUNT = #{todayCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and INS_ID = #{insId,jdbcType=VARCHAR}
+      and USER_TYPE = #{userType,jdbcType=VARCHAR}
+  </update>
+</mapper>

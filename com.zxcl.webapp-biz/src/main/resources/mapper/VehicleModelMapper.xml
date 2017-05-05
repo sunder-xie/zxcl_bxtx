@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.VehicleModelDAO">
+
+	<resultMap id="VehicleResultMap" type="com.zxcl.webapp.dto.rmi.intf.vehicle.resp.VehicleModelDTO">
+		<id column="modelCode" jdbcType="VARCHAR" property="modelCode" />
+		<result column="insId" jdbcType="VARCHAR" property="insId" />
+		<result column="marketaDate" jdbcType="VARCHAR" property="marketaDate" />
+		<result column="name" jdbcType="VARCHAR" property="vehicleName" />
+		<result column="alias" jdbcType="VARCHAR" property="vehicleAlias" />
+		<result column="seatNum" jdbcType="VARCHAR" property="seatNum" />
+		<result column="displacement" jdbcType="DECIMAL" property="displacement" />
+		<result column="vehiclePrice" jdbcType="DECIMAL" property="vehiclePrice" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<select id="getAll" resultMap="VehicleResultMap">
+		SELECT INS_CDE insId,MODEL_CDE modelCode,NAME
+		name,ALIAS alias,MARKETA_DATE marketaDate,SEAT_NUM
+		seatNum,DISPLACEMENT displacement,
+		VEHICLE_PRICE vehiclePrice,REMARK
+		remark from t_vehicle_model where INS_CDE=#{insId}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_vehicle_model(MODEL_CDE,INS_CDE,NAME,ALIAS,MARKETA_DATE,SEAT_NUM,DISPLACEMENT,VEHICLE_PRICE,REMARK,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES 
+		<foreach collection="vehicles" item="vehicle" separator=",">		
+			(#{vehicle.modelCode},#{vehicle.insId},#{vehicle.vehicleName},#{vehicle.vehicleAlias},#{vehicle.marketaDate},
+			#{vehicle.seatNum},#{vehicle.displacement},#{vehicle.vehiclePrice},#{vehicle.remark},now(),#{vehicle.crtCode},now(),#{vehicle.updCode})
+		</foreach>
+	</insert>
+</mapper>

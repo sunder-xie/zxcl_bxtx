@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.MicroAgentDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.MicroAgentDTO" >
+    <id column="MICRO_ID" property="microId" jdbcType="VARCHAR" />
+    <id column="MICRO_ID_AGENT" property="microIdAgent" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_BY" property="crtBy" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_BY" property="updBy" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  
+  
+  
+  
+  <sql id="Base_Column_List" >
+    MICRO_ID, MICRO_ID_AGENT, CRT_TM, CRT_BY, UPD_TM, UPD_BY, STATUS
+  </sql>
+  
+  
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.dto.MicroAgentDTOKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_micro_agent
+    where MICRO_ID = #{microId,jdbcType=VARCHAR}
+    and MICRO_ID_AGENT = #{microIdAgent,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  
+  
+  <!-- selectMicroAgentListByMicroId -->
+  <select id="selectMicroAgentListByMicroId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_micro_agent
+    where MICRO_ID = #{agentMicroId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- selectMicroAgentByAgentMicroId -->
+  <select id="selectMicroAgentByAgentMicroId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_micro_agent
+    where MICRO_ID = #{microId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.zxcl.webapp.dto.MicroAgentDTOKey" >
+    delete from t_micro_agent
+    where MICRO_ID = #{microId,jdbcType=VARCHAR}
+      and MICRO_ID_AGENT = #{microIdAgent,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  
+  
+  
+  
+  
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.MicroAgentDTO" >
+    insert into t_micro_agent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="microId != null" >
+        MICRO_ID,
+      </if>
+      <if test="microIdAgent != null" >
+        MICRO_ID_AGENT,
+      </if>
+        CRT_TM,
+      <if test="crtBy != null" >
+        CRT_BY,
+      </if>
+        UPD_TM,
+      <if test="updBy != null" >
+        UPD_BY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="microId != null" >
+        #{microId,jdbcType=VARCHAR},
+      </if>
+      <if test="microIdAgent != null" >
+        #{microIdAgent,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+  
+  
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.MicroAgentDTO" >
+    update t_micro_agent
+    <set >
+        UPD_TM = now(),
+      <if test="updBy != null" >
+        UPD_BY = #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where MICRO_ID = #{microId,jdbcType=VARCHAR}
+    and MICRO_ID_AGENT = #{microIdAgent,jdbcType=VARCHAR}
+  </update>
+</mapper>

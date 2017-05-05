@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.OrderDAO">
+	<!-- 对t_insurancecompany自关联的查询映射 -->
+	<resultMap type="com.zxcl.webapp.dto.OrderDTO" id="orderListResultMapping">
+		<result column="inquiryId" jdbcType="VARCHAR" property="inquiry.inquiryId" />
+		<result column="quotaId" jdbcType="VARCHAR" property="quota.quotaId" />
+		<result column="orderId" jdbcType="VARCHAR" property="orderId" />
+		<result column="insId" jdbcType="VARCHAR" property="insurance.insId" />
+		<result column="payId" jdbcType="VARCHAR" property="payId" />
+		<result column="payTime" jdbcType="VARCHAR" property="payTime" />
+		<result column="vciApplyNo" jdbcType="VARCHAR" property="vciApplyNo" />
+		<result column="plateNo" jdbcType="VARCHAR" property="inquiry.plateNo" />
+		<result column="tciPrem" jdbcType="VARCHAR" property="quota.TCIPremTax" />
+		<result column="vciPrem" jdbcType="VARCHAR" property="quota.VCIPremTax" />
+		<result column="tax" jdbcType="VARCHAR" property="quota.vehicleTax" />
+		<result column="forStatus" jdbcType="VARCHAR" property="forStatus" />
+		<result column="carApplyNo" jdbcType="VARCHAR" property="carApplyNo" />
+		<result column="tciApplyNo" jdbcType="VARCHAR" property="tciApplyNo" />
+		<result column="queryStage" jdbcType="VARCHAR" property="queryStage" />
+		<result column="vciApplyNo" jdbcType="VARCHAR" property="vciApplyNo" />
+		<result column="tciPlyNo" jdbcType="VARCHAR" property="tciPlyNo" />
+		<result column="vciPlyNo" jdbcType="VARCHAR" property="vciPlyNo" />
+		<result column="payName" jdbcType="VARCHAR" property="payName" />
+		<result column="totalMoney" jdbcType="VARCHAR" property="totMoney" />
+		<result column="payerWay" jdbcType="VARCHAR" property="payWay" />
+		<result column="noticeNo" jdbcType="VARCHAR" property="noticeNo" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="tciStartDate" jdbcType="VARCHAR" property="inquiry.tciStartDate" />
+		<result column="tciEndDate" jdbcType="VARCHAR" property="inquiry.tciEndDate" />
+		<result column="vciStartDate" jdbcType="VARCHAR" property="inquiry.vciStartDate" />
+		<result column="vciEndDate" jdbcType="VARCHAR" property="inquiry.vciEndDate" />
+		<result column="microId" jdbcType="VARCHAR" property="micro.micro_id" />
+	</resultMap>
+	
+	<resultMap type="com.zxcl.webapp.dto.OrderDTO" id="orderListResultMapping2">
+		<result column="orderId" jdbcType="VARCHAR" property="orderId" />
+		<result column="inquiryId" jdbcType="VARCHAR" property="inquiry.inquiryId" />
+		<result column="insId" jdbcType="VARCHAR" property="insurance.insId" />
+		<result column="tciPrem" jdbcType="VARCHAR" property="quota.TCIPremTax" />
+		<result column="vciPrem" jdbcType="VARCHAR" property="quota.VCIPremTax" />
+		<result column="tax" jdbcType="VARCHAR" property="quota.vehicleTax" />
+		<result column="plateNo" jdbcType="VARCHAR" property="inquiry.plateNo" />
+		<result column="queryStage" jdbcType="VARCHAR" property="queryStage" />
+		<result column="vehicleName" jdbcType="VARCHAR" property="inquiry.vehicleName" />
+		<result column="ownerName" jdbcType="VARCHAR" property="inquiry.ownerName" />
+		<result column="quotaId" jdbcType="VARCHAR" property="quota.quotaId" />
+		<result column="tciApplyNo" jdbcType="VARCHAR" property="tciApplyNo" />
+		<result column="quotaType" jdbcType="VARCHAR" property="quota.quotaType" />
+		<result column="microId" jdbcType="VARCHAR" property="micro.micro_id" />
+		<result column="crtCode" jdbcType="VARCHAR" property="crtCode" />
+	</resultMap>
+	
+	<resultMap type="com.zxcl.webapp.dto.webdto.SyntheticalDTO" id="sytheticalResultMapping">
+		<result column="insId" jdbcType="VARCHAR" property="insId"/>
+		<result column="inquiryId" jdbcType="VARCHAR" property="inquiryId"/>
+		<result column="quotaId" jdbcType="VARCHAR" property="quotaId"/>
+		<result column="orderId" jdbcType="VARCHAR" property="orderId"/>
+		<result column="ownerName" jdbcType="VARCHAR" property="ownerName"/>
+		<result column="quotaType" jdbcType="VARCHAR" property="quotaType"/>
+		<result column="queryStatus" jdbcType="VARCHAR" property="status"/>
+		<result column="vciMon" jdbcType="VARCHAR" property="vciMon"/>
+		<result column="tciMon" jdbcType="VARCHAR" property="tciMon"/>
+		<result column="taxMon" jdbcType="VARCHAR" property="taxMon"/>
+		<result column="quotaType" jdbcType="VARCHAR" property="quotaType" />
+	</resultMap>
+	
+	<resultMap type="com.zxcl.webapp.dto.rmi.intf.vote.req.OwnerDTO" id="ownerResultMapping">
+		<result column="orderId" jdbcType="VARCHAR" property="order.orderId" />
+		<result column="inquiryId" jdbcType="VARCHAR" property="inquiry.inquiryId" />
+		<result column="quotaId" jdbcType="VARCHAR" property="quota.quotaId" />
+		<result column="insuranceId" jdbcType="VARCHAR" property="insurance.insId" />
+		<result column="ownerName" jdbcType="VARCHAR" property="ownerName" />
+		<result column="ownerCertNo" jdbcType="VARCHAR" property="ownerCertNo" />
+		<result column="ownerCertType" jdbcType="VARCHAR" property="ownerCertType" />
+		<result column="ownerSex" jdbcType="VARCHAR" property="ownerSex" />
+		<result column="ownerBirthday" jdbcType="VARCHAR" property="ownerBirthday" />
+		<result column="ownerPhone" jdbcType="VARCHAR" property="ownerPhone" />
+		<result column="ownerProvince" jdbcType="VARCHAR" property="ownerProvince" />
+		<result column="ownerCity" jdbcType="VARCHAR" property="ownerCity" />
+		<result column="ownerAddress" jdbcType="VARCHAR" property="ownerAddress" />
+	</resultMap>
+	
+	
+	<resultMap type="com.zxcl.webapp.dto.ReportDTO" id="reportResultMapping">
+		<result column="inquiryId" jdbcType="VARCHAR" property="inquiryId" />
+		<result column="quotaId" jdbcType="VARCHAR" property="quotaId" />
+		<result column="insId" jdbcType="VARCHAR" property="insId" />
+		<result column="orderId" jdbcType="VARCHAR" property="orderId" />
+		<result column="microId" jdbcType="VARCHAR" property="microId" />
+		<result column="prem" jdbcType="VARCHAR" property="prem" />
+		<result column="microComm" jdbcType="VARCHAR" property="microComm" />
+		<result column="agentComm" jdbcType="VARCHAR" property="agentComm" />
+		<result column="plateNo" jdbcType="VARCHAR" property="plateNo" />
+		<result column="appinsured" jdbcType="VARCHAR" property="appinsured" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="tax" jdbcType="DECIMAL" property="tax" />
+		<result column="tciPrem" jdbcType="DECIMAL" property="tciPrem" />
+		<result column="vciPrem" jdbcType="DECIMAL" property="vciPrem" />
+		<result column="microFee" jdbcType="VARCHAR" property="microFee" />
+		<result column="agentFee" jdbcType="VARCHAR" property="agentFee" />
+		<result column="agentId" jdbcType="VARCHAR" property="agentId" />
+		<result column="plyCrtTm" jdbcType="VARCHAR" property="plyCrtTm" />
+		<result column="insName" jdbcType="VARCHAR" property="insName" />
+		<result column="count" jdbcType="VARCHAR" property="count" />
+		<result column="teamName" jdbcType="VARCHAR" property="teamName" />
+		<result column="className" jdbcType="VARCHAR" property="className" />
+		<result column="teamId" jdbcType="VARCHAR" property="teamId" />
+		<result column="classCode" jdbcType="VARCHAR" property="classCode" />
+		<result column="microName" jdbcType="VARCHAR" property="microName" />
+		<result column="agentName" jdbcType="VARCHAR" property="agentName" />
+		<result column="carApplyNo" jdbcType="VARCHAR" property="carApplyNo" />
+	</resultMap>
+	
+		<!-- 人工报价明细数据 -->
+	<select id="peopleAaskDetailDAO" resultMap="orderListResultMapping">
+		SELECT quota.QUOTA_ID quotaId,
+				quota.INS_ID insId,
+				quota.INQUIRY_ID inquiryId,
+				 torder.ORDER_ID orderId,
+				torder.QUERY_STATUS queryStage,
+				torder.STATUS status
+		FROM t_quota quota,t_order torder
+		WHERE torder.QUOTA_ID = quota.QUOTA_ID
+		AND quota.INQUIRY_ID=#{inquiryId} AND torder.STATUS='1'
+	</select>
+	<!-- 根据当前登录的小薇账户查询出正在进行的订单 -->
+	<select id="getOrderByMicroId" resultMap="orderListResultMapping">
+		select i.INQUIRY_ID inquiryId,q.QUOTA_ID quotaId,q.INS_ID insId,p.ORDER_ID orderId,i.PLATE_NO plateNo,
+		q.TCI_PREM tciPrem,q.VCI_PREM vciPrem,q.TAX tax, p.QUERY_STATUS forStatus
+		from  t_inquiry_target i 
+		LEFT JOIN t_order p ON i.INQUIRY_ID=p.INQUIRY_ID
+		where p.MICRO_ID=#{microId} and p.`STATUS`='1'
+	</select>
+
+	<!-- 根据订单号查询出相关信息 -->
+	<select id="getOrderById" resultMap="orderListResultMapping">
+		SELECT DISTINCT o.INQUIRY_ID inquiryId,pay.PAYER_ID payId,o.QUOTA_ID quotaId,o.INS_ID insId,o.ORDER_ID orderId,o.NOTICE_NO noticeNo,
+		o.CAR_APPLY_NO carApplyNo,o.TCI_APPLY_NO tciApplyNo,o.VCI_APPLY_NO vciApplyNo,q.TCI_PREM tciPrem,q.VCI_PREM vciPrem,q.TAX tax,
+		o.TCI_PLY_NO tciPlyNo,o.VCI_PLY_NO vciPlyNo,
+		pay.PAYER_WAY payerWay,i.TCI_INSUER_BEGIN_DATE tciStartDate,i.TCI_INSUER_END_DATE tciEndDate,
+		i.VCI_INSUER_BEGIN_DATE vciStartDate,i.VCI_INSUER_END_DATE  vciEndDate,o.QUERY_STATUS queryStage,o.MICRO_ID  microId 
+		FROM t_order o 
+		LEFT JOIN t_quota q ON o.QUOTA_ID=q.QUOTA_ID
+		LEFT JOIN t_order_payer pay ON pay.ORDER_ID=o.ORDER_ID
+		LEFT JOIN t_inquiry i ON i.INQUIRY_ID=o.INQUIRY_ID
+		where <!-- o.`STATUS`='1' AND --> o.ORDER_ID=#{orderId}  
+		<if test="null != microId and '' != microId">
+			AND o.MICRO_ID=#{microId} 
+		</if>
+		<if test="null != insId and '' != insId">
+			AND o.INS_ID=#{insId}
+		</if>
+	</select>
+
+
+	<!-- 获取支付相关的信息 -->
+	<select id="getPay" resultMap="orderListResultMapping">
+		select p.INQUIRY_ID inquiryId,p.QUOTA_ID quotaId,p.INS_ID insId,
+		p.ORDER_ID orderId,p.PAYER_ID payId,p.PAYER_TIME payTime 
+		from t_order_payer p left JOIN t_order o on o.ORDER_ID=p.ORDER_ID
+		where o.`STATUS`='1' AND p.`STATUS`='1' AND p.ORDER_ID=#{orderId} AND o.micro_id=#{microId} AND p.INS_ID=#{insId}
+	</select>
+
+	<!-- 插入订单信息 -->
+	<insert id="insert" parameterType="com.zxcl.webapp.dto.OrderDTO">
+		INSERT INTO
+		t_order(INQUIRY_ID,QUOTA_ID,INS_ID,ORDER_ID,MICRO_ID,CAR_APPLY_NO,TCI_APPLY_NO,VCI_APPLY_NO,UNDER_TIME,CREAT_TIME,PLY_CRT_TM,STATUS,
+		CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,NOTICE_NO,TCI_PLY_NO,VCI_PLY_NO,QUERY_STATUS)
+		VALUES(#{inquiry.inquiryId},#{quota.quotaId},#{insurance.insId},#{orderId},#{micro.micro_id},#{carApplyNo},#{tciApplyNo},#{vciApplyNo},
+		#{underTime},#{creatTime},#{plyCrtTime},#{status},now(),#{crtCode},now(),#{updCode},#{noticeNo},#{tciPlyNo},#{vciPlyNo},#{queryStage})
+	</insert>
+
+	<!-- 插入支付信息 -->
+	<insert id="insertOrderPay">
+		insert into
+		t_order_payer(INQUIRY_ID,QUOTA_ID,INS_ID,ORDER_ID,PAYER_ID,PAYER_TIME,STATUS,PAYER_WAY,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES(#{inquiry.inquiryId},#{quota.quotaId},#{insurance.insId},#{orderId},#{payId},#{payTime},#{status},#{payWay},now(),#{crtCode},now(),#{updCode})
+	</insert>
+	
+	<!-- selectOrderByMicroIdPageCount -->
+	<select id="selectOrderByMicroIdPageCount" resultType="java.lang.Integer">
+		 SELECT count(o.order_ID)
+		 FROM  t_order o  
+         LEFT JOIN t_order_appInsured a  ON a.ORDER_ID=o.ORDER_ID 
+         LEFT JOIN t_quota qo ON qo.QUOTA_ID=o.QUOTA_ID   
+         LEFT JOIN  t_inquiry_target t ON t.INQUIRY_ID = o.INQUIRY_ID 
+         LEFT JOIN t_inquiry i ON o.INQUIRY_ID = i.INQUIRY_ID 
+         WHERE o.STATUS='1'  
+         AND  o.micro_id=#{microId} AND i.STATE != '3' 
+         AND o.QUERY_STATUS IN(4,5,8,14) <!-- 14平安已开单状态 -->
+         <if test="null != wd and '' != wd">
+         	AND FIND_IN_SET(o.QUERY_STATUS,#{wd})
+         </if>
+	</select>
+	
+	<!-- selectOrderByMicroIdPage -->
+	<select id="selectOrderByMicroIdPage" resultMap="orderListResultMapping2">
+		 SELECT DISTINCT t.INQUIRY_ID inquiryId,qo.QUOTA_ID quotaId,o.ins_id insId,o.order_ID orderId,o.CAR_APPLY_NO,qo.tci_prem tciPrem,qo.vci_prem  vciPrem,qo.tax tax,t.plate_no plateNo ,
+	        o.QUERY_STATUS queryStage,t.OWNER_NAME ownerName,qo.quota_id quotaId,o.tci_Apply_No tciApplyNo,
+           o.vci_Apply_No vciApplyNo,qo.QUOTA_TYPE quotaType 
+		 FROM  t_order o  
+         LEFT JOIN t_order_appInsured a  ON a.ORDER_ID=o.ORDER_ID 
+         LEFT JOIN t_quota qo ON qo.QUOTA_ID=o.QUOTA_ID   
+         LEFT JOIN  t_inquiry_target t ON t.INQUIRY_ID = o.INQUIRY_ID 
+         LEFT JOIN t_inquiry i ON o.INQUIRY_ID = i.INQUIRY_ID 
+         WHERE o.STATUS='1'  
+         AND  o.micro_id=#{microId} AND i.STATE != '3' 
+         AND o.QUERY_STATUS IN(4,5,8,14) <!-- 14平安已开单状态 -->
+         <if test="null != wd and '' != wd">
+         	AND FIND_IN_SET(o.QUERY_STATUS,#{wd})
+         </if>
+         ORDER BY a.upd_tm DESC
+         <if test="start != null">
+          	limit #{start},#{pageSize}
+         </if>
+	</select>
+	
+	<!-- 根据小微 查询 出待核保，待申请核保相关信息相关信息 -->
+	<select id="selectOrderByMicroId" resultMap="orderListResultMapping2">
+		 SELECT DISTINCT t.INQUIRY_ID inquiryId,qo.QUOTA_ID quotaId,o.ins_id insId,o.order_ID orderId,o.CAR_APPLY_NO,qo.tci_prem tciPrem,qo.vci_prem  vciPrem,qo.tax tax,t.plate_no plateNo ,
+	        o.QUERY_STATUS queryStage,t.OWNER_NAME ownerName,qo.quota_id quotaId,o.tci_Apply_No tciApplyNo,
+           o.vci_Apply_No vciApplyNo,qo.QUOTA_TYPE quotaType 
+				 FROM  t_order o  
+         LEFT JOIN t_order_appInsured a  ON a.ORDER_ID=o.ORDER_ID 
+         LEFT JOIN t_quota qo ON qo.QUOTA_ID=o.QUOTA_ID   
+         LEFT JOIN  t_inquiry_target t ON t.INQUIRY_ID = o.INQUIRY_ID 
+         WHERE o.`STATUS`='1'  and  o.micro_id=#{microId} and q.query_stage!='1'  ORDER BY a.upd_tm DESC
+	
+<!-- 	    SELECT DISTINCT a.INQUIRY_ID inquiryId,a.tci_prem tciPrem,a.vci_prem  vciPrem,a.tax tax,c.plate_no plateNo , -->
+<!-- 	        d.query_stage queryStage,c.OWNER_NAME ownerName,a.quota_id quotaId,f.tci_Apply_No tciApplyNo, -->
+<!--            f.vci_Apply_No vciApplyNo ,a.ins_id insId,f.order_ID orderId FROM  t_quota a   -->
+<!--           LEFT JOIN  t_order   f   ON f.INQUIRY_ID = a.INQUIRY_ID -->
+<!--          LEFT JOIN t_inquiry_target c  ON c.INQUIRY_ID=a.INQUIRY_ID  -->
+<!--          LEFT JOIN t_order_query d ON d.INQUIRY_ID=a.INQUIRY_ID    -->
+<!--          LEFT JOIN  t_order_appInsured  e ON e.INQUIRY_ID = a.INQUIRY_ID  -->
+<!--          WHERE f.`STATUS`='1' and a.quota_ID IN (SELECT QUOTA_ID FROM t_quota)  and  a.micro_id=#{microId}  ORDER BY a.upd_tm DESC -->
+	</select>
+	
+	<!-- selectByItemsPageCount -->
+	<select id="selectByItemsPageCount" resultType="java.lang.Integer">
+		SELECT
+		COUNT(b.PLATE_NO)
+		FROM
+		t_order a,
+		t_inquiry_target b,
+		t_quota d
+		WHERE a.INQUIRY_ID = b.INQUIRY_ID
+		AND a.MICRO_ID = #{microId}
+		AND d.`QUOTA_ID` = a.`QUOTA_ID`
+		AND a.`QUERY_STATUS` = '6'
+		<if test="'' != wd and null != wd">
+			AND (b.OWNER_NAME = #{wd} OR b.plate_no = #{wd})
+		</if>
+	</select>
+	<!-- selectByItemsPage -->
+	<select id="selectByItemsPage" resultMap="sytheticalResultMapping">
+		SELECT
+		a.INQUIRY_ID inquiryId,
+		a.INS_ID insId,
+		a.`ORDER_ID` orderId,
+		a.QUOTA_ID quotaId,
+		b.OWNER_NAME ownerName,
+		b.PLATE_NO plateNo,
+		d.tci_prem tciMon,d.vci_prem vciMon,d.tax taxMon
+		FROM
+		t_order a,
+		t_inquiry_target b,
+		t_quota d
+		WHERE a.INQUIRY_ID = b.INQUIRY_ID
+		AND a.MICRO_ID = #{microId}
+		AND d.`QUOTA_ID` = a.`QUOTA_ID`
+		AND a.`QUERY_STATUS` = '6'
+		<if test="'' != wd and null != wd">
+			AND (b.OWNER_NAME = #{wd} OR b.plate_no = #{wd})
+		</if>
+		ORDER BY a.PLY_CRT_TM DESC
+		<if test="start != null">
+          	limit #{start},#{pageSize}
+          </if>
+	</select>
+	
+	<!-- 根据条件 查询 出待核保，待申请核保相关信息相关信息 -->
+	<select id="selectByItems" resultMap="sytheticalResultMapping">
+		SELECT c.INQUIRY_ID inquiryId,qo.quota_id quotaId,o.ORDER_ID orderId,qo.QUOTA_TYPE quotaType,o.INS_ID insId,qo.tci_prem tciMon,qo.vci_prem vciMon,qo.tax taxMon,c.plate_no plateNo ,
+			o.QUERY_STATUS queryStatus,a.name ownerName
+			FROM t_order o 
+			LEFT JOIN t_order_vehicle a ON a.ORDER_ID = o.ORDER_ID 
+			LEFT JOIN t_inquiry_target c ON c.INQUIRY_ID=a.INQUIRY_ID 
+			LEFT JOIN t_quota qo on qo.quota_id=o.quota_id
+			WHERE o.micro_id=#{microId}
+			AND (o.VCI_PLY_NO != '' OR o.`TCI_PLY_NO` != '')
+			and ((o.QUERY_STATUS='6' and qo.QUOTA_TYPE='A')
+			or (o.QUERY_STATUS='12' and qo.QUOTA_TYPE='M'))
+          <if test="'' != queryTime and null != queryTime">
+          	<![CDATA[AND a.UPD_TM > #{queryTime} ]]>
+          </if>
+          <if test="'' != queryCondition and null != queryCondition">
+          	 AND (a.name like CONCAT('%', #{queryCondition}, '%') OR c.plate_no like CONCAT('%', #{queryCondition}, '%'))   
+          </if>
+          ORDER BY o.upd_tm  DESC
+	</select>
+	
+	
+		<!-- 根据小微   订单号 查询 出待核保，待申请核保相关信息相关信息 -->
+	<select id="selectByMicroIdAndOrderId" resultMap="orderListResultMapping2">
+          SELECT DISTINCT a.INQUIRY_ID inquiryId,a.tci_prem tciPrem,a.vci_prem vciPrem,a.tax tax,c.plate_no plateNo , f.QUERY_STATUS queryStage,
+		  c.vehicle_name vehicleName,a.quota_id quotaId,f.tci_Apply_No tciApplyNo, f.vci_Apply_No vciApplyNo ,a.INS_ID insId,f.order_ID orderId
+		  FROM t_quota a 
+		  LEFT JOIN t_order f ON f.QUOTA_ID = a.QUOTA_ID 
+		  LEFT JOIN t_order_vehicle j ON j.ORDER_ID=f.ORDER_ID
+		  LEFT JOIN t_inquiry_target c ON c.INQUIRY_ID=a.INQUIRY_ID 
+		  LEFT JOIN t_order_appInsured e ON e.ORDER_ID = f.ORDER_ID
+		  WHERE f.`STATUS`='1' and f.ORDER_ID=#{orderId} ORDER BY a.upd_tm DESC 
+	</select>
+	
+		<!-- 根据订单号和保险公司id 获取订单信息（交强险投保单号，商业险投保单号） -->
+	<select id="selectOrderByOrderIdAndInsId" resultMap="orderListResultMapping" parameterType="java.lang.String">
+	   SELECT f.INQUIRY_ID inquiryId,f.QUOTA_ID quotaId,f.ORDER_ID orderId, f.INS_ID  insId ,f.tci_Apply_No tciApplyNo ,f.vci_Apply_No vciApplyNo,
+	    f.CAR_APPLY_NO carApplyNo , f.QUERY_STATUS queryStage
+	      from t_order f WHERE f.`STATUS`='1'AND f.INS_ID=#{insId}AND   f.ORDER_ID=#{orderId}
+	</select>
+
+	<!-- 根据询价ID得到车主信息 -->
+	<select id="getOwnerByInquiryId" resultMap="ownerResultMapping">
+		SELECT a.INQUIRY_ID inquiryId,a.QUOTA_ID quotaId,a.INS_ID insuranceId,
+			a.ORDER_ID orderId,a.NAME ownerName,a.CERT_NO ownerCertNo,
+			a.CERT_TYPE ownerCertType,a.SEX ownerSex,a.BIRTHDAY ownerBirthday,
+			a.TEL ownerPhone,b.PRO_CODE ownerProvince,b.CITY_CODE ownerCity,
+			b.LINK_ADDRESS ownerAddress 
+			FROM t_order_vehicle a LEFT JOIN t_dispatch_info b ON a.INQUIRY_ID = b.INQUIRY_ID 
+			LEFT JOIN t_order o on o.ORDER_ID=b.ORDER_ID
+			WHERE  o.`STATUS`='1' AND a.INQUIRY_ID=#{inquiryId}
+	</select>
+	
+	<!-- 根据orderId获取付款方和付款金额 -->
+	<select id="selectNameAndMoney" resultMap="orderListResultMapping">
+	SELECT c.name  payName,(a.TCI_PREM+a.VCI_PREM+a.TAX) AS totalMoney 
+		FROM 
+		t_quota a LEFT JOIN 
+		t_order b ON a.QUOTA_ID=b.QUOTA_ID LEFT JOIN
+		t_order_applicant c ON b.ORDER_ID=c.ORDER_ID
+		WHERE  b.order_id=#{orderId};
+	</select>
+	
+		<!-- 根据订单号 获取保费，车牌号，被保人，小微id -->
+	<select id="selectMon" resultMap="reportResultMapping">
+		SELECT DISTINCT t.MICRO_ID, bb.inquiry_id inquiryId ,t.micro_id microId,aa.QUOTA_ID quotaId,t.ins_id insId,t.order_id orderId,
+		aa.tax tax, aa.tci_prem tciPrem,aa.vci_prem vciPrem,bb.name appinsured,cc.plate_no plateNo,t.PLY_CRT_TM plyCrtTm,
+		ff.agent_id agentId, ff.agt_team_id teamId, ff.micro_class classCode 
+		FROM t_ORDER t 
+		LEFT JOIN t_quota aa ON t.QUOTA_ID= aa.QUOTA_ID 
+		LEFT JOIN t_order_appinsured bb ON bb.ORDER_ID= t.ORDER_ID 
+		LEFT JOIN t_inquiry_target cc ON cc.inquiry_id=t.inquiry_id 
+		LEFT JOIN t_micro_info ff ON ff.micro_id= t.MICRO_ID 
+		WHERE t.`STATUS`='1' AND t.order_id=#{orderId}  and aa.MICRO_ID=#{microId} AND t.MICRO_ID=#{microId} and aa.INS_ID=#{insId} AND t.INS_ID=#{insId}
+	</select>
+	
+	<!-- 查询出  小微费率及中介id-->
+	<select id="selectMicroFeeRate"  resultMap="reportResultMapping"  >
+           SELECT   t.ins_id insId,t.micro_id  microId,t.fee_rate microFee ,b.agent_id agentId,t.begin_date,t.end_date
+            FROM  t_micro_ins_fee_config  t 
+            LEFT JOIN t_micro_info  b ON t.micro_id=b.micro_id AND t.ins_id=b.ins_id
+            WHERE t.`STATUS`='1' AND t.ins_id=#{insId} AND t.micro_id=#{microId} AND (NOW() BETWEEN t.begin_date AND t.end_date)
+	</select>
+	
+	<!-- 根据中介id 和保险公司 获取中介的费率 -->
+	<select id="selectAgentFeeRate" resultMap="reportResultMapping">
+	      SELECT  t.fee_rate agentFee,t.ins_id insId,t.agent_id agentId,t.begin_date,t.end_date 
+          FROM t_agn_ins_config t 
+          WHERE t.`STATUS`='1' AND t.ins_id=#{insId} AND t.agent_id=#{agentId}  AND (NOW() BETWEEN t.begin_date AND t.end_date)
+	</select>
+	
+	<!-- 将相关的信息插入到t_report 表中 -->
+	<insert id="insertReport">
+	    INSERT INTO t_report(INQUIRY_ID, QUOTA_ID, INS_ID, 	ORDER_ID, AGENT_ID, MICRO_ID, PREM, MICRO_COMM, AGENT_COMM, 
+		MICRO_FEE, AGENT_FEE, PLATE_NO, APPINSURED, PLY_CRT_TM, TEAM_ID, CLASS_CODE, STATUS, CRT_TM, CRT_CDE,UPD_TM, UPD_CDE)
+		VALUES(#{inquiryId},#{quotaId}, #{insId}, #{orderId},#{agentId},#{microId}, #{prem}, #{microComm}, #{agentComm}, 
+		#{microFee}, #{agentFee}, #{plateNo}, #{appinsured}, #{plyCrtTm}, #{teamId},#{classCode},#{status}, now(), 
+		#{crtCode}, now(), #{updCode});
+	</insert>
+	
+	<select id="getOrderStatusByOrderId" resultType="java.lang.String">
+		SELECT QUERY_STATUS FROM t_order WHERE ORDER_ID=#{orderId}
+	</select>
+	
+	<!-- 查询t_report表中是否有相同的数据 -->
+	 <select id="selectTreport"  resultType="Integer">
+	      SELECT COUNT(*) FROM t_report tt WHERE tt.order_id=#{orderId}  AND tt.ins_id=#{insId} AND tt.`STATUS`='1'
+	 </select>
+	 
+	 <!-- 根据条件查询小微所有完成订单的报表 -->
+	<select id="selectAllMicroReportByPage"  resultMap="reportResultMapping">
+	     SELECT t.INQUIRY_ID  inquiryId, t.QUOTA_ID  quotaId, t.INS_ID  insId, t.ORDER_ID orderId, 
+		 t.MICRO_ID microId, t.PREM prem, t.MICRO_COMM microComm, t.AGENT_COMM agentComm, t.MICRO_FEE microFee, 
+		 t.AGENT_FEE agentFee, t.PLATE_NO plateNo, t.APPINSURED  appinsured, t.PLY_CRT_TM plyCrtTm, t.STATUS status, 
+		 t.CRT_TM crtTm, t.CRT_CDE crtCde,t.UPD_TM  updTm,t.UPD_CDE  updCde,jj.micro_name  microName, o.CAR_APPLY_NO carApplyNo
+		 FROM t_report t  LEFT JOIN  t_micro_info jj ON   jj.micro_id=t.micro_id 
+		  LEFT JOIN t_order o on o.ORDER_ID=q.ORDER_ID 
+		 where 1=1 and t.`STATUS`='1' and o.`STATUS`='1' 
+		 and t.agent_id=(select AGENT_ID from t_micro_info where MICRO_ID=(select micro_id from t_micro_info where user_id=#{userId})) 
+		 AND o.QUERY_STATUS='6' and t.micro_id=(select micro_id from t_micro_info where user_id=#{userId}) 
+		<if  test="null!=carApplyNo and ''!=carApplyNo">
+             	 and o.CAR_APPLY_NO like concat('%',#{carApplyNo},'%')
+          	</if>
+          	<if  test="null!=appinsured and ''!=appinsured">
+             	 and t.APPINSURED like concat('%',#{appinsured},'%')
+          	</if>
+          	<if test="null!=queryCondition and ''!=queryCondition">          		
+	          	AND (o.CAR_APPLY_NO like CONCAT('%', #{queryCondition}, '%') OR t.APPINSURED like CONCAT('%', #{queryCondition}, '%'))   
+          	</if>
+          	<if test="null!=beginTime and ''!=beginTime ">
+          		<![CDATA[ AND t.PLY_CRT_TM >= #{beginTime}  ]]>
+          	</if>
+          	<if test="null!=endTime and ''!=endTime">
+          	   <![CDATA[  AND t.PLY_CRT_TM <= #{endTime} ]]>
+          	</if>
+          	<if test="null!=time and ''!=time">
+          	   AND t.PLY_CRT_TM like  CONCAT('%', #{time}, '%')
+          	</if>
+	</select>
+	
+	<!-- 根据订单id查询当前订单的详情 -->
+	<select id="selectDetailReport"   resultMap="reportResultMapping">
+	     SELECT  t.INS_ID indId,h.ins_name insName,t.ORDER_ID orderId,t.AGENT_ID agentId,g.agent_name agentName,t.MICRO_ID microId,t.PREM prem,t.MICRO_COMM microComm,
+	       micro_fee microFee,t.PLATE_NO plateNo,t.APPINSURED appinsured,t.TEAM_ID teamId,t.CLASS_CODE classCode,t.PLY_CRT_TM plyCrtTm,o.CAR_APPLY_NO carApplyNo
+          FROM  T_REPORT  t 
+          LEFT JOIN t_agent_info g ON t.agent_id=g.agent_id  LEFT JOIN t_ins_info h ON h.ins_id=t.INS_ID
+          LEFT JOIN t_order o ON t.order_id=o.order_id 
+          where t.order_id=#{orderId}
+	</select>
+	
+	<select id="getCountByQuotaId" resultType="java.lang.Integer">
+		select count(ORDER_ID) from t_order where QUOTA_ID=#{quotaId} AND MICRO_ID=#{microId} AND INS_ID=#{insId}
+	</select>
+	
+	<select id="getOrderByQuotaId" resultMap="orderListResultMapping2">
+		select INQUIRY_ID inquiryId,QUOTA_ID quotaId,INS_ID insId,ORDER_ID orderId from t_order where QUOTA_ID=#{quotaId} AND MICRO_ID=#{microId} 
+		<if test="null!=insId and ''!=insId">
+			AND INS_ID=#{insId}
+		</if>
+		<if test="null==insId or ''==insId">
+		  order by UPD_TM limit 1
+		</if>
+	</select>
+	
+	
+	<select id="getOrderByQuotaId2" resultMap="orderListResultMapping2">
+		select INQUIRY_ID inquiryId,QUOTA_ID quotaId,INS_ID insId,ORDER_ID orderId,MICRO_ID microId,CRT_CDE crtCode from t_order where QUOTA_ID=#{quotaId}
+	</select>
+	<select id="getOrderByQuotaId3" resultMap="orderListResultMapping2">
+		select INQUIRY_ID inquiryId,QUOTA_ID quotaId,INS_ID insId,ORDER_ID orderId,MICRO_ID microId,CRT_CDE crtCode from t_order where QUOTA_ID=#{quotaId}
+	</select>
+	<!-- 根据报价单查询订单的投保人与被保人 -->
+	<select id="getOrderInfoByQuotaId" resultMap="orderListResultMapping">
+		select order_appinsured.`NAME` name,order_applicant.`NAME` payName 
+		from t_order_appinsured order_appinsured,t_order_applicant order_applicant
+		where order_appinsured.ORDER_ID=order_applicant.ORDER_ID
+		and order_appinsured.QUOTA_ID=#{quotaId} 
+	</select>
+	<select id="getOrderByCarApplyNo" resultMap="orderListResultMapping2">
+		SELECT a.ORDER_ID orderId,a.QUOTA_ID quotaId,a.INQUIRY_ID inquiryId,a.CAR_APPLY_NO carApplyNo,a.INS_ID insId,a.QUERY_STATUS queryStage   
+		FROM t_order a 
+		WHERE a.STATUS='1' and a.CAR_APPLY_NO=#{carApplyNo} and a.MICRO_ID=#{microId} 
+	</select>
+	
+	<select id="getOrderByCApplyNo" resultMap="orderListResultMapping2">
+		SELECT a.ORDER_ID orderId,a.QUOTA_ID quotaId,a.INQUIRY_ID inquiryId,a.CAR_APPLY_NO carApplyNo,a.INS_ID insId,a.QUERY_STATUS queryStage   
+		FROM t_order a 
+		WHERE a.STATUS='1' AND a.CAR_APPLY_NO=#{carApplyNo} 
+	</select>
+	
+	<select id="getOrderByNoticeNo" resultMap="orderListResultMapping2">
+		SELECT CRT_CDE crtCode,ORDER_ID orderId,QUOTA_ID quotaId,INQUIRY_ID inquiryId,CAR_APPLY_NO carApplyNo,INS_ID insId from t_order where `STATUS`='1' 
+		and NOTICE_NO=#{noticeNo} 
+		<if test="null != microId">
+		and MICRO_ID=#{microId} 
+		</if>
+		limit 1
+	</select>
+	
+	
+	
+<!-- 	改变订单的状态 -->
+	<update id="updateOrderStatusByInquiryId">
+		update t_order o SET o.`STATUS`= #{status},o.UPD_TM=now() WHERE o.INQUIRY_ID=#{inquiryId};
+	</update>
+	
+	<update id="updateOrderStatusByOrderId">
+		UPDATE t_order SET QUERY_STATUS=#{queryStage},UPD_TM=now() WHERE ORDER_ID=#{orderId}
+	</update>
+	
+	<!-- 修改保单号生成时间 -->
+	<update id="updatePlyCrtTimeByOrderId">
+		UPDATE t_order SET PLY_CRT_TM=now(),UPD_TM=now() WHERE ORDER_ID=#{orderId}
+	</update>
+	
+	<update id="updatePay">
+		update t_order_payer pay,t_order o 
+		set pay.PAYER_TIME=#{payTime},pay.UPD_TM=now(),pay.UPD_CDE=#{updCode}
+		where pay.ORDER_ID=o.ORDER_ID AND pay.ORDER_ID=#{orderId} AND o.MICRO_ID=#{micro.micro_id} AND pay.INS_ID=#{insurance.insId}
+	</update>
+	
+	<select id="getOrderByInquiryId" resultMap="orderListResultMapping">
+		SELECT INQUIRY_ID inquiryId,QUOTA_ID quotaId,ORDER_ID orderId FROM t_order WHERE INQUIRY_ID=#{inquiryId} 
+	</select>
+	
+	<!-- 删除订单查询信息 -->
+	<delete id="deleteByQuotaId">
+		delete from t_order where QUOTA_ID=#{quotaId} AND MICRO_ID=#{microId} AND INS_ID=#{insId}
+	</delete>
+	
+	<update id="updateByOrderId">
+		update t_order 
+		<set>
+			<if test="null!=carApplyNo and  ''!=carApplyNo">
+				CAR_APPLY_NO=#{carApplyNo}	,
+			</if>
+			<if test="null!=tciApplyNo and  ''!=tciApplyNo">
+				TCI_APPLY_NO=#{tciApplyNo}	,
+			</if>
+			<if test="null!=vciApplyNo and  ''!=vciApplyNo">
+				VCI_APPLY_NO=#{vciApplyNo}	,
+			</if>
+			<if test="null!=underTime and  ''!=underTime">
+				UNDER_TIME=#{underTime}	,
+			</if>
+			<if test="null!=tciPlyNo and  ''!=tciPlyNo">
+				TCI_PLY_NO=#{tciPlyNo}	,
+			</if>
+			<if test="null!=vciPlyNo and  ''!=vciPlyNo">
+				VCI_PLY_NO=#{vciPlyNo}	,
+			</if>
+			<if test="null!=plyCrtTime and  ''!=plyCrtTime">
+				PLY_CRT_TM=now(),
+			</if>
+				UPD_TM=now(),
+			<if test="null!=updCode and  ''!=updCode">
+				UPD_CDE=#{updCode},
+			</if>
+			<if test="noticeNo != null and '' != noticeNo">
+				NOTICE_NO=#{noticeNo},
+			</if>
+			<if test="queryStage != null and '' != queryStage">
+				QUERY_STATUS=#{queryStage},
+			</if>
+		</set>
+		where order_id=#{orderId}
+	</update>
+	
+	<update id="updateNoticeNoByOrderId">
+		UPDATE t_order SET NOTICE_NO=#{noticeNo},UPD_TM=now(),UPD_CDE=#{updCde} WHERE ORDER_ID=#{orderId}
+	</update>
+	
+	<select id="getOrderIdByApplyNo" resultMap="orderListResultMapping2">
+		SELECT ORDER_ID orderId,MICRO_ID microId,INS_ID insId FROM t_order WHERE TCI_APPLY_NO=#{applyNo} OR VCI_APPLY_NO=#{applyNo}
+	</select>
+	
+	<select id="getAppNoByOrderId" resultMap="orderListResultMapping">
+		SELECT TCI_APPLY_NO tciApplyNo,VCI_APPLY_NO vciApplyNo,NOTICE_NO noticeNo,INS_ID insId,MICRO_ID microId,
+		CAR_APPLY_NO carApplyNo,QUERY_STATUS queryStage  
+		FROM t_order WHERE ORDER_ID=#{orderId}
+	</select>
+	<update id="updateStatus">
+		UPDATE t_order SET STATUS=#{status},UPD_TM=NOW() WHERE ORDER_ID=#{orderId}
+	</update>
+	<select id="getInquiryIdByOrderId" resultType="java.util.Map">
+		SELECT INQUIRY_ID inquiryId,INS_ID insId FROM t_order WHERE ORDER_ID=#{orderId}
+	</select>
+	
+	<update id="createPolicyOperation">
+		UPDATE t_order 
+			<set>
+				<if test="null != tciPlyNo and  '' != tciPlyNo">
+					TCI_PLY_NO=#{tciPlyNo},
+				</if>
+				<if test="null != vciPlyNo and  '' != vciPlyNo">
+					VCI_PLY_NO=#{vciPlyNo},
+				</if>
+				<if test="(null != vciPlyNo and  '' != vciPlyNo) or (null != tciPlyNo and  '' != tciPlyNo)">
+					PLY_CRT_TM=NOW(),
+				</if>
+				UPD_TM=NOW(),
+			</set>
+			WHERE ORDER_ID=#{orderId}
+	</update>
+	
+	<update id="createPolicyOperation2">
+		UPDATE t_order 
+			<set>
+				<if test="null != tciPlyNo and  '' != tciPlyNo">
+					TCI_PLY_NO=#{tciPlyNo},
+				</if>
+				<if test="null != vciPlyNo and  '' != vciPlyNo">
+					VCI_PLY_NO=#{vciPlyNo},
+				</if>
+				UPD_TM=NOW(),
+			</set>
+			WHERE ORDER_ID=#{orderId}
+	</update>
+	
+	
+	<select id="queryOrderApplyStatus" resultType="Integer">
+		SELECT COUNT(ORDER_ID) FROM t_order_apply_status WHERE ORDER_ID=#{orderId}
+	</select>
+	
+	<update id="updateOrderApplyStatus">
+		UPDATE t_order_apply_status 
+		<set>
+			<if test="null != tciApplyNo and '' != tciApplyNo">
+				TCI_APPLY_NO=#{tciApplyNo},
+			</if>
+			<if test="null != vciApplyNo and '' != vciApplyNo">
+				VCI_APPLY_NO=#{vciApplyNo},
+			</if>
+			<if test="null != tciApplyStatus and '' != tciApplyStatus">
+				TCI_APPLY_STATUS=#{tciApplyStatus},
+			</if>
+			<if test="null != vciApplyStatus and '' != vciApplyStatus">
+				VCI_APPLY_STATUS=#{vciApplyStatus},
+			</if>
+			<if test="null != tciPlyNo and '' != tciPlyNo">
+				TCI_PLY_NO=#{tciPlyNo},
+			</if>
+			<if test="null != vciPlyNo and '' != vciPlyNo">
+				VCI_PLY_NO=#{vciPlyNo},
+			</if>
+			UPD_TM=NOW(),
+		</set>
+		WHERE ORDER_ID=#{orderId}
+	</update>
+	
+	<insert id="insertOrderApplyStatus">
+		INSERT INTO t_order_apply_status(ORDER_ID,INS_ID,TCI_APPLY_NO,VCI_APPLY_NO,TCI_APPLY_STATUS,VCI_APPLY_STATUS,TCI_PLY_NO,VCI_PLY_NO,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE) 
+			VALUE(#{orderId},#{insId},#{tciApplyNo},#{vciApplyNo},#{tciApplyStatus},#{vciApplyStatus},#{tciPlyNo},#{vciPlyNo},now(),'bxtx',now(),'bxtx');
+	</insert>
+	
+	<select id="getQueryStageByInquiryId" resultType="String">
+		select QUERY_STATUS from t_order where INQUIRY_ID=#{inquiryId}
+	</select>
+	
+	<sql id="timerOrderQueryBaseSql">
+ 	  b.INQUIRY_ID     inquiryId,
+	  b.QUOTA_ID       quotaId,
+	  b.INS_ID         insId,
+	  b.ORDER_ID       orderId,
+	  b.QUERY_STATUS    queryStage,
+	  b.MICRO_ID       microId
+	</sql>
+	
+	<select id="getAllByStage" resultMap="orderListResultMapping">
+		SELECT tmp_table.* FROM (
+			SELECT
+			<include refid="timerOrderQueryBaseSql"/>
+			FROM t_order b
+			WHERE b.STATUS='1'
+			AND b.QUERY_STATUS IN(2,4,5,14) 
+			AND (b.INS_ID = 'ACIC' OR b.INS_ID = 'JTIC' OR b.INS_ID = 'AICS' OR b.INS_ID = 'PAIC' OR b.INS_ID = 'CPIC' OR b.INS_ID = 'CICP' OR b.INS_ID = 'TPIC')
+			AND b.CREAT_TIME > #{minTime}
+			UNION
+			SELECT
+			<include refid="timerOrderQueryBaseSql"/>
+			FROM t_order b
+			WHERE b.STATUS='1'
+			AND b.QUERY_STATUS IN(2,4,5) 
+			AND (b.INS_ID = 'PINGANHTTP' OR b.INS_ID = 'PICCHTTP')
+			AND b.CREAT_TIME > #{minTime}
+		) AS tmp_table
+		LIMIT #{pageNo},#{pageSize}
+	</select>
+	
+	<select id="getAllHttpByStage" resultMap="orderListResultMapping">
+		SELECT
+		<include refid="timerOrderQueryBaseSql"/>
+		FROM t_order b
+		WHERE b.STATUS='1'
+		AND b.QUERY_STATUS IN(4) 
+		AND (b.INS_ID = 'PINGANHTTP' OR b.INS_ID = 'PICCHTTP' OR b.INS_ID = 'TPIC')
+		AND b.CREAT_TIME > #{minTime}
+		LIMIT #{pageNo},#{pageSize}
+	</select>
+	
+	<select id="getOrderIdByInquiryIdAndStatus" resultMap="orderListResultMapping">
+		SELECT ORDER_ID orderId,QUERY_STATUS queryStage,QUOTA_ID quotaId,INS_ID insId FROM t_order WHERE INQUIRY_ID=#{inquiryId} AND QUERY_STATUS IN ('5','6');
+	</select>
+	
+	<select id="getCompCodeByOrderId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT comp_code FROM t_agent_info WHERE AGENT_ID = (SELECT AGENT_ID FROM t_micro_info WHERE MICRO_ID = ( SELECT MICRO_ID FROM t_order WHERE ORDER_ID = #{orderId} ) )
+	</select>
+	<insert id="insertInsuranceBdGenInfo" parameterType="com.zxcl.webapp.dto.InsuranceBdGenInfo">
+		INSERT INTO insurance.bxtx_bd_gen_info(`id`,ins_id,bao_dan_no,bd_type,comp_code)
+		VALUES(#{id},#{insId},#{bdNo},#{bdType},#{compCode})
+	</insert>
+	
+	<!-- selectByItemsPageCount -->
+	<select id="selectByItemsRenewPageCount" resultType="java.lang.Integer">
+		SELECT
+		COUNT(b.PLATE_NO)
+		FROM
+		t_order a,
+		t_inquiry_target b,
+		t_quota d,
+		t_inquiry e 
+		WHERE a.INQUIRY_ID = b.INQUIRY_ID
+		AND a.MICRO_ID = #{microId}
+		AND d.`QUOTA_ID` = a.`QUOTA_ID`
+		AND a.`QUERY_STATUS` = '6'
+		AND CHAR_LENGTH(b.PLATE_NO) = 7 
+		AND e.INQUIRY_ID = b.INQUIRY_ID
+		AND (<![CDATA[(e.TCI_INSUER_END_DATE IS NOT NULL AND TIMESTAMPDIFF(MONTH,CURDATE(),e.TCI_INSUER_END_DATE) <= 3) OR 
+			(e.VCI_INSUER_END_DATE IS NOT NULL AND TIMESTAMPDIFF(MONTH,CURDATE(),e.VCI_INSUER_END_DATE) <= 3)]]>)
+		<if test="'' != wd and null != wd">
+			AND (b.OWNER_NAME = #{wd} OR b.plate_no = #{wd})
+		</if>
+	</select>
+	<!-- selectByItemsPage -->
+	<select id="selectByItemsRenewPage" resultMap="sytheticalResultMapping">
+		SELECT
+		a.INQUIRY_ID inquiryId,
+		a.INS_ID insId,
+		a.`ORDER_ID` orderId,
+		a.QUOTA_ID quotaId,
+		b.OWNER_NAME ownerName,
+		b.PLATE_NO plateNo,
+		d.tci_prem tciMon,d.vci_prem vciMon,d.tax taxMon
+		FROM
+		t_order a,
+		t_inquiry_target b,
+		t_quota d,
+		t_inquiry e 
+		WHERE a.INQUIRY_ID = b.INQUIRY_ID
+		AND a.MICRO_ID = #{microId}
+		AND d.`QUOTA_ID` = a.`QUOTA_ID`
+		AND a.`QUERY_STATUS` = '6'
+		AND CHAR_LENGTH(b.PLATE_NO) = 7 
+		AND e.INQUIRY_ID = b.INQUIRY_ID
+		AND (<![CDATA[(e.TCI_INSUER_END_DATE IS NOT NULL AND TIMESTAMPDIFF(MONTH,CURDATE(),e.TCI_INSUER_END_DATE) <= 3) OR 
+			(e.VCI_INSUER_END_DATE IS NOT NULL AND TIMESTAMPDIFF(MONTH,CURDATE(),e.VCI_INSUER_END_DATE) <= 3)]]>)
+		<if test="'' != wd and null != wd">
+			AND (b.OWNER_NAME = #{wd} OR b.plate_no = #{wd})
+		</if>
+		ORDER BY a.PLY_CRT_TM DESC
+		<if test="start != null">
+          	limit #{start},#{pageSize}
+          </if>
+	</select>
+	
+	<update id="updateQuoteByInquiryId">
+		UPDATE t_quota a SET STATUS='0' WHERE a.QUOTA_ID NOT IN (SELECT b.QUOTA_ID FROM t_order b WHERE QUERY_STATUS IN ('6','5') AND INQUIRY_ID=#{inquiryId}) AND INQUIRY_ID=#{inquiryId} 
+	</update>
+	
+	<update id="updateOrderByInquiryId">
+		UPDATE t_order SET STATUS='0' WHERE QUERY_STATUS NOT IN ('6','5') AND INQUIRY_ID=#{inquiryId}
+	</update>
+	
+	<select id="findRemarkStatusByPrimaryKey" resultType="java.lang.String">
+		select REMARK_STATUS 
+		from t_quota_task_trace_remark
+		where STATUS=1
+		and INQUIRY_ID=#{inquiryId}
+		and QUOTA_ID=#{quotaId}
+		and INS_ID=#{insId}
+	</select>
+</mapper>

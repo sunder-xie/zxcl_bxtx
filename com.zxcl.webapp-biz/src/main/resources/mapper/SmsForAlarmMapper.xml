@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.SmsForAlarmDAO">
+	
+	<insert id="insert" parameterType="com.zxcl.webapp.dto.SmsForAlarmDTO">
+		INSERT INTO t_sms_for_alarm(ID,INS_ID,KEYWORD,CONTENT,NOTETIME,ERROR_TYPE,CRT_CDE,CRT_TM,UPD_CDE,UPD_TM) 
+			VALUES(#{id},#{insId},#{keyWord},#{content},#{noteTime},#{errorType},#{crtCde},now(),#{updCde},now());
+	</insert>
+	<select id="getCount" resultType="Integer">
+		SELECT COUNT(*) FROM t_sms_for_alarm WHERE INS_ID=#{insId} AND ERROR_TYPE=#{errorType} AND NOTETIME=#{noteTime}
+	</select>
+</mapper>

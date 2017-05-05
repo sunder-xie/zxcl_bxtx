@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zxcl.webapp</groupId>
+		<artifactId>com.zxcl.webapp</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>com.zxcl.webapp-biz</artifactId>
+	<name>com.zxcl.webapp-biz</name>
+	<dependencies>
+	<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.meyacom.fw</groupId>
+			<artifactId>com.meyacom.fw-biz</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.meyacom.fw</groupId>
+			<artifactId>com.meyacom.fw-security</artifactId>
+			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.cxf</groupId>
+    				<artifactId>cxf-rt-transports-http</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.cxf</groupId>
+    				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.cxf</groupId>
+  					<artifactId>cxf-bundle-jaxrs</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>com.belerweb</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.2.0.Final</version>
+		</dependency>
+		<!-- mysql驱动包 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.36</version>
+		</dependency>
+		<!-- 处理springmvc的Date类型问题 -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<!-- 通联支付 -->
+		<dependency>
+			<groupId>com.allinpay</groupId>
+			<artifactId>com.allinpay-security</artifactId>
+			<version>20130509</version>
+		</dependency>
+		<!-- 转json -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		
+		<!-- 英大 -->
+		<dependency>
+		  <groupId>bxtx.http</groupId>
+		  <artifactId>http-yingda</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<!-- 平安车型查询爬虫 -->
+		<dependency>
+		  <groupId>com.zxcl</groupId>
+		  <artifactId>pingan-query-frm-api</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<!-- 删除平安http报价单 -->
+		<dependency>
+		  <groupId>com.zxcl</groupId>
+		  <artifactId>pingan_http-deleteQuota-api</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+
+
+		<!-- 发短信 -->
+		<dependency>
+			<groupId>com.taobao.sdk.java.auto</groupId>
+			<artifactId>com.taobao.sdk.java.auto</artifactId>
+			<version>1450022832134-20160114</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib-ext-spring</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<!-- 华安intf -->
+		<dependency>
+			<groupId>bxtx.intf.huaan</groupId>
+			<artifactId>huaan_intf</artifactId> 
+			<version>1.0.1</version> 
+		</dependency> 
+		<!-- 平安intf -->
+		<dependency>
+			<groupId>bxtx.intf.pingan</groupId>
+			<artifactId>pingan_intf</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- 中华 -->
+		<dependency>
+			<groupId>bxtx.intf.zhonghua</groupId>
+			<artifactId>zhonghua_intf</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<!-- 太平intf -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>bxtx.intf.taiping</groupId> -->
+<!-- 			<artifactId>taiping_intf</artifactId> -->
+<!-- 			<version>1.0.1</version> -->
+<!-- 		</dependency> -->
+		<!-- 人保 -->
+		<dependency>
+			<groupId>com.zxcl</groupId>
+			<artifactId>renbao_http-api</artifactId>
+			<version>1.1.5</version>
+		</dependency>
+		<!-- 永城 -->
+		<dependency>
+			<groupId>bxtx.intf.yongcheng</groupId>
+			<artifactId>yongcheng_intf</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<!-- 平安http -->
+		<dependency>
+			<groupId>bxtx.intf.pinganhttp</groupId>
+			<artifactId>pinganhttp_intf</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<!-- 信达http -->
+		<dependency>
+			<groupId>bxtx.intf.xinda</groupId>
+			<artifactId>xinda_intf</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- 民安http -->
+		<dependency>
+		  <groupId>bxtx.intf.minan</groupId>
+		  <artifactId>minan_intf</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<!-- 华海http -->
+		<dependency>
+		  <groupId>bxtx.intf.huahai</groupId>
+		  <artifactId>huahai_http</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<!-- 华海intf -->
+		<dependency>
+		  <groupId>bxtx.intf.huahai</groupId>
+		  <artifactId>huahai_intf_bxtx</artifactId>
+		  <version>1.0.4</version>
+		</dependency>
+
+		<!-- 太平 -->
+		<dependency>
+		  <groupId>bxtx.intf_.taiping</groupId>
+		  <artifactId>taiping_intf</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
+		
+		<!-- 太平洋 -->
+		<dependency>
+		  <groupId>bxtx.intf_.taipingyang</groupId>
+		  <artifactId>taipingyang_intf</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<!-- 天平http -->
+		<dependency>
+		  <groupId>com.zxcl</groupId>
+		  <artifactId>tianping_http-api</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<!-- 平安http -->
+		<dependency>
+		  <groupId>com.zxcl</groupId>
+		  <artifactId>pingan_http-api</artifactId>
+		  <version>1.1.3</version>
+		</dependency>
+		
+		<!-- 平安intf -->
+		<dependency>
+		  <groupId>bxtx.intf_.pingan</groupId>
+		  <artifactId>pingan_intf</artifactId>
+		  <version>1.0.0</version>
+		</dependency>
+		
+		<!-- 钱包后端http -->
+		<dependency>
+		  <groupId>zxcl.intf.wallet</groupId>
+		  <artifactId>wallet_web</artifactId>
+		  <version>1.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>fast-md5</groupId>
+			<artifactId>fast-md5</artifactId>
+			<version>2.5</version>
+		</dependency>
+		
+		<!-- 华安保险intf对接 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>bxtx.intf_.huaan</groupId> -->
+<!-- 			<artifactId>huaan_intf</artifactId> -->
+<!-- 			<version>1.0.1</version> -->
+<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+			<version>3.1.3</version>
+		</dependency>
+		
+		<!-- 投保查询返回公共DTO -->
+		<dependency>
+			<groupId>bxtx.http.vote.search</groupId>
+			<artifactId>vote-search-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<!-- 车牌投保查询 -->
+		<dependency>
+			<groupId>bxtx.http</groupId>
+			<artifactId>http_plate_query_master</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		
+		<!-- 华泰intf -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>bxtx.intf.huatai</groupId> -->
+<!-- 			<artifactId>huatai_intf</artifactId> -->
+<!-- 			<version>1.0.0</version> -->
+<!-- 		</dependency> -->
+		
+			<!-- 大地intf -->
+		<dependency>
+			<groupId>bxtx.intf.dadi</groupId>
+			<artifactId>dadi_intf</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<!-- 接口包 -->
+		<dependency>
+		  <groupId>com.zxcl</groupId>
+		  <artifactId>bxtx-intf_api</artifactId>
+		  <version>1.0.19</version>
+		</dependency>
+
+		<!-- ocr服务 -->
+		<dependency>
+			<groupId>com.zxcl</groupId>
+			<artifactId>ocr_service-api</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.zxcl</groupId>
+		  <artifactId>taiping_http-parsePolicy</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
+	</dependencies>
+	<build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.7.0_79</source>
+                        <target>1.7.0_79</target>
+                        <compilerArguments>
+                             <verbose />
+                              <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
+                        </compilerArguments>  
+                    </configuration>        
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

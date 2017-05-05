@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.6 in JDK 6. --><xs:schema xmlns:tns="http://ws.front.app.echannel.ebiz.alltrust.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.front.app.echannel.ebiz.alltrust.com/">
+
+<xs:element name="queryVehicleTypesService" type="tns:queryVehicleTypesService"></xs:element>
+
+<xs:element name="queryVehicleTypesServiceResponse" type="tns:queryVehicleTypesServiceResponse"></xs:element>
+
+<xs:complexType name="queryVehicleTypesService">
+<xs:sequence>
+<xs:element name="request" type="tns:queryVehicleTypesRequest" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="queryVehicleTypesRequest">
+<xs:sequence>
+<xs:element name="authorityData" type="tns:authorityData" minOccurs="0"></xs:element>
+<xs:element name="searchKeyword" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authorityData">
+<xs:sequence>
+<xs:element name="password" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="userName" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="queryVehicleTypesServiceResponse">
+<xs:sequence>
+<xs:element name="response" type="tns:queryVehicleTypesResponse" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="queryVehicleTypesResponse">
+<xs:sequence>
+<xs:element name="msg" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="returnCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="searchKeyword" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleInfo" type="tns:vehicleType" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="vehicleType">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="absFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="airbagCount" type="xs:short" minOccurs="0"></xs:element>
+<xs:element name="brandId" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="curbWeightMax" type="xs:decimal" minOccurs="0"></xs:element>
+<xs:element name="curbWeightMin" type="xs:decimal" minOccurs="0"></xs:element>
+<xs:element name="dateCreated" type="xs:dateTime" minOccurs="0"></xs:element>
+<xs:element name="dateUpdated" type="xs:dateTime" minOccurs="0"></xs:element>
+<xs:element name="factoryId" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="familyId" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="jqxClassid" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="jqxClassname" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="jyClassid" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="modelCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="productStatus" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="riskType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="searchCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="syxClassid" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="syxClassname" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="szxhTaxedPrice" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="theftProof" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="transmissionType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleBrand" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleClass" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleDisplacement" type="xs:decimal" minOccurs="0"></xs:element>
+<xs:element name="vehicleId" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleMaker" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehiclePower" type="xs:decimal" minOccurs="0"></xs:element>
+<xs:element name="vehiclePrice" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="vehicleQuality" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleRemark" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleSeat" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="vehicleSeatMax" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="vehicleSeatMin" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="vehicleSeries" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleTonnage" type="xs:decimal" minOccurs="0"></xs:element>
+<xs:element name="vehicleType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vinCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="xhKindPrice" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="ycVehicleClass" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="zeroPrice" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nXhKindpriceWithouttax" type="xs:long" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="baseObject">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+</xs:schema>

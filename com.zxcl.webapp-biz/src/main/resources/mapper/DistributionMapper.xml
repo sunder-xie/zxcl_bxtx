@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.DistributionDAO">
+	<resultMap type="com.zxcl.webapp.dto.DistributionDTO" id="disResultMapping">
+		<id column="orderId" jdbcType="VARCHAR" property="order.orderId" />
+		<result column="linkName" jdbcType="VARCHAR" property="disName" />
+		<result column="tel" jdbcType="VARCHAR" property="disPhone" />
+		<result column="address" jdbcType="VARCHAR" property="disAddress" />
+		<result column="disTime" jdbcType="VARCHAR" property="dispatchTime" />
+		<result column="disProvince" jdbcType="VARCHAR" property="disProvince" />
+		<result column="disCity" jdbcType="VARCHAR" property="disCity" />
+		<result column="dispatchType" jdbcType="VARCHAR" property="dispatchType" />
+		<result column="address" jdbcType="VARCHAR" property="disAddress" />
+		<result column="expressDeliveryNum"  jdbcType="VARCHAR" property="expressDeliveryNum"/>
+	</resultMap>
+
+	<insert id="insert">
+		INSERT INTO
+		t_dispatch_info(INQUIRY_ID,QUOTA_ID,INS_ID,ORDER_ID,LINK_NAME,TEL,PRO_CODE,CITY_CODE,LINK_ADDRESS,DISPATCH_TIME,STATUS,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,DISPATH_TYPE,DISTRIBUTION_STATUS)
+		VALUES(#{inquiry.inquiryId},#{quota.quotaId},#{insurance.insId},#{order.orderId},#{disName},#{disPhone},#{disProvince},#{disCity},#{disAddress},
+		#{dispatchTime},#{status},now(),#{crtCode},now(),#{updCode},#{dispatchType},'1')
+	</insert>
+
+	<!-- 根据订单ID查询出配送信息 -->
+	<select id="getByOrder" resultMap="disResultMapping">
+		select ORDER_ID orderId,LINK_NAME linkName,TEL tel,LINK_ADDRESS address,DISPATCH_TIME disTime,PRO_CODE disProvince,EXPRESS_DELIVERY_NUM expressDeliveryNum, 
+		CITY_CODE disCity,DISPATH_TYPE dispatchType from t_dispatch_info where ORDER_ID=#{orderId} and QUOTA_ID=#{quota.quotaId} and 
+		INQUIRY_ID=#{inquiry.inquiryId} AND INS_ID=#{insurance.insId}
+	</select>
+	
+	<!-- selectByOrderId -->
+	<select id="selectByOrderId" parameterType="java.lang.String" resultMap="disResultMapping">
+		select ORDER_ID orderId,LINK_NAME linkName,TEL tel,LINK_ADDRESS address,DISPATCH_TIME disTime,PRO_CODE disProvince,
+		CITY_CODE disCity,DISPATH_TYPE dispatchType from t_dispatch_info where ORDER_ID=#{orderId}
+	</select>
+	
+	<!-- updateDistribution -->
+	<update id="updateDistribution" parameterType="com.zxcl.webapp.dto.DistributionDTO">
+		update t_dispatch_info
+		<set>
+			UPD_TM=now(),
+			<if test="disName != null">
+				LINK_NAME=#{disName},
+			</if>
+			<if test="dispatchType != null">
+				DISPATH_TYPE=#{dispatchType},
+			</if>
+			<if test="disPhone != null">
+				TEL=#{disPhone},
+			</if>
+			<if test="disAddress != null">
+				LINK_ADDRESS=#{disAddress},
+			</if>
+			<if test="disProvince != null">
+				PRO_CODE=#{disProvince},
+			</if>
+			<if test="disCity != null">
+				CITY_CODE=#{disCity},
+			</if>
+		</set>
+		where ORDER_ID=#{orderId}	
+	</update>
+
+	<select id="getDistributionByOrderId" resultMap="disResultMapping">
+		select d.ORDER_ID orderId,d.LINK_NAME linkName,d.TEL tel,d.LINK_ADDRESS address,d.DISPATCH_TIME disTime,d.PRO_CODE disProvince,
+		d.CITY_CODE disCity,d.LINK_ADDRESS address from t_dispatch_info d
+		LEFT JOIN t_order o on d.ORDER_ID=o.ORDER_ID where o.ORDER_ID=#{orderId} and o.`STATUS`='1'
+	</select>
+
+	<!-- 删除配送信息 -->
+	<delete id="deleteByQuotaId">
+		delete from t_dispatch_info 
+		where order_id=(SELECT order_id from t_order where `QUOTA_ID`=#{quotaId} AND `MICRO_ID`=#{microId} AND `INS_ID`=#{insId})
+	</delete>
+	
+	<!-- 删除配送信息 -->
+	<delete id="deleteByOrderId">
+		delete from t_dispatch_info where order_id=#{orderId}
+	</delete>
+</mapper>

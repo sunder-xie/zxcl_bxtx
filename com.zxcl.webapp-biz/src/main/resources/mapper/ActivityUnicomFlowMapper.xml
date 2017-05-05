@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.ActivityUnicomFlowDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.activity.unicome.ActivityUnicomFlowDTO" >
+    <id column="FLOW_ID" property="flowId" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_BY" property="crtBy" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_BY" property="updBy" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="VCI_FEE" property="vciFee" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="SECURITY_ID" property="securityId" jdbcType="VARCHAR" />
+    <result column="PHONE_ID" property="phoneId" jdbcType="VARCHAR" />
+    <result column="MODEL_ID" property="modelId" jdbcType="VARCHAR" />
+    <result column="MEAL_ID" property="mealId" jdbcType="VARCHAR" />
+    <result column="STAGE" property="stage" jdbcType="TINYINT" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PLATE_NO" property="plateNo" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="CONTACT_PHONE" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="BUSINESS_HALL" property="businessHall" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FLOW_ID, CRT_TM, CRT_BY, UPD_TM, UPD_BY, ORDER_ID, VCI_FEE, USER_ID, SECURITY_ID, 
+    PHONE_ID, MODEL_ID, MEAL_ID, STAGE, REMARK,CONTACT_NAME,CONTACT_PHONE,BUSINESS_HALL,
+    PLATE_NO,SOURCE
+  </sql>
+  <!-- selectBySecurityId -->
+  <select id="selectBySecurityId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_activity_unicome_flow
+    where SECURITY_ID = #{securityId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- getUnicomeFlowByUserIdAndStage -->
+  <select id="getUnicomeFlowByUserIdAndStage" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_activity_unicome_flow
+    where 1=1
+    <if test="userId != null" >
+      and USER_ID=#{userId}
+    </if>
+    <if test="stage != null" >
+      and STAGE=#{stage}
+    </if>
+  </select>
+  
+  <!-- getUnicomeFlowByContactPhone -->
+  <select id="getUnicomeFlowByContactPhone" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_activity_unicome_flow
+    where 1=1
+    <if test="contactPhone != null" >
+      and CONTACT_PHONE=#{contactPhone}
+    </if>
+    <if test="stage != null" >
+      and STAGE=#{stage}
+    </if>
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_activity_unicome_flow
+    where FLOW_ID = #{flowId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_activity_unicome_flow
+    where FLOW_ID = #{flowId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.activity.unicome.ActivityUnicomFlowDTO" >
+    insert into t_activity_unicome_flow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="contactPhone != null" >
+        CONTACT_PHONE,
+      </if>
+      <if test="flowId != null" >
+        FLOW_ID,
+      </if>
+      CRT_TM,
+      <if test="crtBy != null" >
+        CRT_BY,
+      </if>
+      UPD_TM,
+      <if test="updBy != null" >
+        UPD_BY,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="vciFee != null" >
+        VCI_FEE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="securityId != null" >
+        SECURITY_ID,
+      </if>
+      <if test="phoneId != null" >
+        PHONE_ID,
+      </if>
+      <if test="modelId != null" >
+        MODEL_ID,
+      </if>
+      <if test="mealId != null" >
+        MEAL_ID,
+      </if>
+      <if test="stage != null" >
+        STAGE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="plateNo != null" >
+        PLATE_NO,
+      </if>
+      <if test="source != null" >
+        SOURCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="flowId != null" >
+        #{flowId,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="vciFee != null" >
+        #{vciFee,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="securityId != null" >
+        #{securityId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneId != null" >
+        #{phoneId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="mealId != null" >
+        #{mealId,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null" >
+        #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNo != null" >
+        #{plateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.activity.unicome.ActivityUnicomFlowDTO" >
+    update t_activity_unicome_flow
+    <set >
+      UPD_TM = now(),
+      <if test="updBy != null" >
+        UPD_BY = #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="securityId != null" >
+        SECURITY_ID = #{securityId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneId != null" >
+        PHONE_ID = #{phoneId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelId != null" >
+        MODEL_ID = #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="mealId != null" >
+        MEAL_ID = #{mealId,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null" >
+        STAGE = #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="businessHall != null" >
+        BUSINESS_HALL = #{businessHall,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNo != null" >
+        PLATE_NO = #{plateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        SOURCE = #{source,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where FLOW_ID = #{flowId,jdbcType=VARCHAR}
+  </update>
+</mapper>

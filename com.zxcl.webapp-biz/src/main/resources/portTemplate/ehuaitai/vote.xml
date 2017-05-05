@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PACKET>
+<HEAD>
+<REQCODE>$!{attestationBase.method}</REQCODE>
+<AREACODE>$!{attestationBase.areaCode}</AREACODE>
+<USERCODE>$!{attestationBase.user}</USERCODE>
+<USERPWD>$!{attestationBase.password}</USERPWD>
+<CHANNEL>$!{attestationBase.channel}</CHANNEL>
+</HEAD>
+<BODY>
+<BUSINESSLIST>
+<BUSINESSINFO>
+<PROPOSALNO>$!{proposalno}</PROPOSALNO>
+</BUSINESSINFO>
+<BUSINESSINFO>
+<PROPOSALNO>$!{relationno}</PROPOSALNO>
+</BUSINESSINFO>
+</BUSINESSLIST>
+</BODY>
+</PACKET>

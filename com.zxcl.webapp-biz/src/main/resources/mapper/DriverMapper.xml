@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.DriverDAO">
+	
+	<resultMap type="com.zxcl.webapp.dto.DriverDTO" id="driverResultMapping">
+		<result column="driverId" jdbcType="VARCHAR" property="driverId" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="certNo" jdbcType="VARCHAR" property="certNo" />
+		<result column="driverType" jdbcType="VARCHAR" property="driverType" />
+		<result column="licenseNo" jdbcType="VARCHAR" property="licenseNo" />
+		<result column="licenseDate" jdbcType="VARCHAR" property="licenseDate" />
+		<result column="birthday" jdbcType="VARCHAR" property="birthday" />
+	</resultMap>
+	
+	<!-- 添加驾驶员的基本信息 -->
+	<insert id="insert">
+		INSERT INTO
+		t_driver_info(INQUIRY_ID,DRIVER_ID,CERT_NO,NAME,SEX,BIRTHDAY,DRIVER_TYPE,LICENSE_NO,LICENSED_DATE,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES
+		<foreach collection="drivers" item="driver" separator=",">
+			(#{driver.inquiry.inquiryId},#{driver.driverId},#{driver.certNo},#{driver.name},#{driver.sex},#{driver.birthday},
+			#{driver.driverType},#{driver.licenseNo},#{driver.licenseDate},now(),#{driver.crtCode},now(),#{driver.updCode})
+		</foreach>
+	</insert>
+
+	<!-- 根据询价单号查询条数 -->
+	<select id="getCount" resultType="int">
+		select count(DRIVER_ID) from
+		t_driver_info where
+		INQUIRY_ID=#{inquiryId}
+	</select>
+	
+	<select id="getDrivers" resultMap="driverResultMapping">
+		select DRIVER_ID driverId,NAME name,CERT_NO certNo,DRIVER_TYPE driverType,
+		LICENSE_NO licenseNo,LICENSED_DATE licenseDate,BIRTHDAY birthday 
+		from t_driver_info d LEFT JOIN t_inquiry i on  d.INQUIRY_ID = i.INQUIRY_ID 
+		WHERE i.micro_id = #{microId} and d.INQUIRY_ID= #{inquiryId}
+	</select>
+	
+	<!-- 根据询价单号查询驾驶员 -->
+	<select id="getDriverByInquiryId" resultMap="driverResultMapping">
+		select DRIVER_ID driverId,NAME name,CERT_NO certNo,DRIVER_TYPE driverType,
+		LICENSE_NO licenseNo,LICENSED_DATE licenseDate,BIRTHDAY birthday from
+		t_driver_info where INQUIRY_ID=#{inquiryId}
+	</select>
+	
+	<delete id="deleteDriverByInquiryId">
+		delete FROM t_driver_info where INQUIRY_ID=#{inquiryId}  
+	</delete>
+</mapper>

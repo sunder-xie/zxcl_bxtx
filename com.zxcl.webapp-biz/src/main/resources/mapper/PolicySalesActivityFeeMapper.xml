@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.PolicySalesActivityFeeDAO">
+	
+	<resultMap autoMapping="true" type="com.zxcl.webapp.dto.PolicySalesActivityFeeDTO" id="getALuckyDrawData">
+
+	</resultMap>
+	
+	<select id="getPolicySalesCount" resultType="Integer">
+		SELECT COUNT(POLICY_SALES_ACTIVITY_FEE_ID) FROM `t_policy_sales_activity_fee` 
+		WHERE payee_user_id = #{userId} AND `STATUS` = 1 
+	</select>
+	
+	<select id="getALuckyDrawData" resultMap="getALuckyDrawData">
+		SELECT POLICY_SALES_ACTIVITY_FEE_ID policySalesActivityFeeId,
+		PRODUCT_CODE productCode,POLICY_PRM policyPrm,AGENT_ID agentId,INS_ID insId,
+		POLICY_NO policyNo , RATIO ratio,AMOUNT amount, USER_ID userId, `STATUS` status,`payee_user_id`  payeeUserId
+		 FROM `t_policy_sales_activity_fee`
+		WHERE payee_user_id = #{userId} AND `STATUS` = 1   LIMIT 1
+	</select>
+	
+	<update id="updateLuckDraw" >
+		UPDATE `t_policy_sales_activity_fee` SET `STATUS` = 2
+		 WHERE payee_user_id = #{userId}  AND  POLICY_SALES_ACTIVITY_FEE_ID = #{psafId} 
+		 AND `STATUS` = 1
+	</update>
+	
+	<select id="getPolicyFeeCount" resultType="java.math.BigDecimal">
+		SELECT SUM(policy_prm) FROM t_policy_base WHERE policy_crt_tm &gt;= #{startTime} AND policy_crt_tm &lt;= #{endTime} AND product_code = 'VCI'
+	</select>
+</mapper>

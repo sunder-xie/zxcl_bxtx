@@ -1,0 +1,1 @@
+<xml encoding="utf-8"><appId>$!{attestationBase.appId}</appId><method>$!{attestationBase.method}</method><timestamp>$!{attestationBase.timestamp}</timestamp><sign>$!{attestationBase.sign}</sign><bizContent><![CDATA[$!{attestationBase.model}]]></bizContent></xml>

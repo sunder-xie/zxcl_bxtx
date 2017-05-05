@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.MicroApproveDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.MicroApproveDTO" >
+    <id column="approve_id" property="approveId" jdbcType="BIGINT" />
+    <result column="micro_id" property="microId" jdbcType="VARCHAR" />
+    <result column="micro_card_id" property="microCardId" jdbcType="VARCHAR" />
+    <result column="micro_real_name" property="microRealName" jdbcType="VARCHAR" />
+    <result column="approve_state" property="approveState" jdbcType="INTEGER" />
+    <result column="approve_reason" property="approveReason" jdbcType="VARCHAR" />
+    <result column="crt_cde" property="crtCde" jdbcType="VARCHAR" />
+    <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="upd_cde" property="updCde" jdbcType="VARCHAR" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    approve_id, micro_id, micro_card_id, micro_real_name, approve_state, approve_reason, 
+    crt_cde, crt_time, upd_cde, upd_time, status
+  </sql>
+  
+  <!-- isNeedApporve -->
+  <select id="isNeedApporve" resultType="java.lang.String" parameterType="java.lang.String">
+  	SELECT is_need_apporve FROM t_agent_info WHERE AGENT_ID=(
+  		select agent_id from t_micro_info where user_id=#{userId}
+  	)
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_micro_approve
+    where approve_id = #{approveId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- findConfirm -->
+  <select id="findConfirm" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_micro_approve
+    where micro_id=#{microId}
+    and status=1
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_micro_approve
+    where approve_id = #{approveId,jdbcType=BIGINT}
+  </delete>
+  
+  
+  <!-- updApproveForInvalid -->
+  <update id="updApproveForInvalid" parameterType="java.lang.Long">
+  	update t_micro_approve
+  	set upd_time=now(),
+  	status=0
+  	where approve_id=#{approveId}
+  </update>
+  
+  
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="approveId" parameterType="com.zxcl.webapp.dto.MicroApproveDTO" >
+    insert into t_micro_approve
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="approveId != null" >
+        approve_id,
+      </if>
+      <if test="microId != null" >
+        micro_id,
+      </if>
+      <if test="microCardId != null" >
+        micro_card_id,
+      </if>
+      <if test="microRealName != null" >
+        micro_real_name,
+      </if>
+      <if test="approveState != null" >
+        approve_state,
+      </if>
+      <if test="approveReason != null" >
+        approve_reason,
+      </if>
+      <if test="crtCde != null" >
+        crt_cde,
+      </if>
+        crt_time,
+      <if test="updCde != null" >
+        upd_cde,
+      </if>
+        upd_time,
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="approveId != null" >
+        #{approveId,jdbcType=BIGINT},
+      </if>
+      <if test="microId != null" >
+        #{microId,jdbcType=VARCHAR},
+      </if>
+      <if test="microCardId != null" >
+        #{microCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="microRealName != null" >
+        #{microRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="approveState != null" >
+        #{approveState,jdbcType=INTEGER},
+      </if>
+      <if test="approveReason != null" >
+        #{approveReason,jdbcType=VARCHAR},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.MicroApproveDTO" >
+    update t_micro_approve
+    <set >
+      <if test="microId != null" >
+        micro_id = #{microId,jdbcType=VARCHAR},
+      </if>
+      <if test="microCardId != null" >
+        micro_card_id = #{microCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="microRealName != null" >
+        micro_real_name = #{microRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="approveState != null" >
+        approve_state = #{approveState,jdbcType=INTEGER},
+      </if>
+      <if test="approveReason != null" >
+        approve_reason = #{approveReason,jdbcType=VARCHAR},
+      </if>
+      <if test="updCde != null" >
+        upd_cde = #{updCde,jdbcType=VARCHAR},
+      </if>
+        upd_time = now(),
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where approve_id = #{approveId,jdbcType=BIGINT}
+  </update>
+</mapper>

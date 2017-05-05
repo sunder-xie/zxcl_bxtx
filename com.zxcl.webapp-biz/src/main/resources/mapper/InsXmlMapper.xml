@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.InsXmlDAO">
+	
+	<resultMap type="com.zxcl.webapp.dto.InsXmlDTO" id="portDataResultMapping">
+		<result column="xmlId"  jdbcType="VARCHAR"  property="xmlId"/>
+		<result column="inquiryId"  jdbcType="VARCHAR"  property="inquiryId"/>
+		<result column="quotaId"  jdbcType="VARCHAR"  property="quotaId"/>
+		<result column="orderId"  jdbcType="VARCHAR"  property="orderId"/>
+		<result column="xmlFile"  jdbcType="VARCHAR"  property="xmlFile"/>
+	</resultMap>
+	
+	<!-- 得到报文 -->
+	<select id="getBackXml" resultType="String">
+		SELECT XML_FILE FROM T_INS_XML WHERE INQUIRY_ID=#{inquiryId} AND INS_ID=#{insId} AND REQUEST_BACK='B' AND XML_TYPE=#{xmlType} ORDER BY CRT_TM DESC
+	</select>
+	<!-- 得到查询报文 -->
+	<select id="getRequestXml" resultType="String">
+		SELECT XML_FILE FROM T_INS_XML WHERE INQUIRY_ID=#{inquiryId} AND INS_ID=#{insId} AND REQUEST_BACK='R' AND XML_TYPE=#{xmlType} ORDER BY CRT_TM DESC
+	</select>
+	
+	<!-- 删除报文 -->
+	<delete id="delete">
+		DELETE FROM T_INS_XML WHERE XML_ID=#{backId}
+	</delete>
+
+	<!-- 得到报文ID -->
+	<select id="getBackId" resultType="String">
+		SELECT XML_ID FROM T_INS_XML WHERE INQUIRY_ID=#{inquiryId} AND INS_ID=#{insId} AND XML_TYPE=#{xmlType} AND REQUEST_BACK='B'
+	</select>
+	
+	<!-- 将获取的报文插入到数据表中 -->
+	<insert id="insertResponseXml">
+		INSERT INTO
+		t_ins_xml(XML_ID,INQUIRY_ID,QUOTA_ID,INS_ID,ORDER_ID,XML_FILE,REQUEST_BACK,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,XML_TYPE)
+		VALUES(#{xmlId},#{inquiryId},#{quotaId},#{insId},#{orderId},#{xmlFile},#{requestOrBack},now(),#{crtCode},now(),#{updCode},#{xmlType})
+	</insert>
+
+    <!-- 根据xml_id 跟新数据库的数据 -->
+	<update id="updateXmlOrderId">
+	   UPDATE t_ins_xml t  SET t.ORDER_ID=#{orderId},t.UPD_TM=now(),t.UPD_CDE=#{updCde}  WHERE t.xml_id=#{xmlId}
+	</update>
+    
+    <!-- 根据xml_id 跟新数据库的数据 -->
+	<update id="updateXmlQuotaId">
+	   UPDATE t_ins_xml t  SET t.quota_id=#{quotaId},t.UPD_TM=now(),t.UPD_CDE=#{updCde}  WHERE t.xml_id=#{xmlId}
+	</update>
+	
+	<!-- 查询报文信息 -->
+	<select id="getDataByDTO" resultMap="portDataResultMapping">
+		select XML_ID xmlId,INQUIRY_ID inquiryId,QUOTA_ID quotaId,ORDER_ID orderId,XML_FILE xmlFile 
+		from t_ins_xml where INS_ID=#{insId}  
+		<if test="null!=requestOrBack and ''!=requestOrBack">
+			 and REQUEST_BACK=#{requestOrBack}
+		 </if>	
+		 <if test="null!=xmlType and ''!=xmlType">
+			 and XML_TYPE=#{xmlType}
+		 </if>	
+		 <if test="null!=inquiryId and ''!=inquiryId">
+		 	and  INQUIRY_ID=#{inquiryId}
+		 </if>
+		 <if test="null!=quotaId and ''!=quotaId">
+		 	 and QUOTA_ID=#{quotaId}
+		 </if>
+		 <if test="null!=orderId and ''!=orderId">
+		 	 and ORDER_ID=#{orderId}
+		 </if>
+		 
+		 limit 1
+	</select>
+	
+</mapper>

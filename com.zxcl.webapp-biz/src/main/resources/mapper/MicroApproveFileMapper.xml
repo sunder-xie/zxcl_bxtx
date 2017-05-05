@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.MicroApproveFileDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.MicroApproveFileDTO" >
+    <result column="approve_id" property="approveId" jdbcType="BIGINT" />
+    <result column="file_id" property="fileId" jdbcType="VARCHAR" />
+    <result column="crt_cde" property="crtCde" jdbcType="VARCHAR" />
+    <result column="crt_tm" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="upd_cde" property="updCde" jdbcType="VARCHAR" />
+    <result column="upd_tm" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.MicroApproveFileDTO" >
+    insert into t_micro_approve_file
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="approveId != null" >
+        approve_id,
+      </if>
+      <if test="fileId != null" >
+        file_id,
+      </if>
+      <if test="crtCde != null" >
+        crt_cde,
+      </if>
+        crt_tm,
+      <if test="updCde != null" >
+        upd_cde,
+      </if>
+        upd_tm,
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="approveId != null" >
+        #{approveId,jdbcType=BIGINT},
+      </if>
+      <if test="fileId != null" >
+        #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <!-- findFileListByApproveId -->
+  <select id="findFileListByApproveId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	approve_id, file_id ,crt_cde , crt_tm, upd_cde, upd_tm, status
+  	from t_micro_approve_file
+  	where status=1
+  	and approve_id=#{approveId}
+  </select>
+</mapper>

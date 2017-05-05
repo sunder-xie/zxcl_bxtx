@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.PlatformDAO">
+
+	<resultMap type="com.zxcl.webapp.dto.PlatformDTO" id="PlatformResultMapping">
+		<result column="c_codeClass" jdbcType="VARCHAR" property="codeClass" />
+		<result column="c_name" jdbcType="VARCHAR" property="name" />
+		<result column="c_code" jdbcType="VARCHAR" property="code" />
+		<result column="c_default" jdbcType="VARCHAR" property="isDefault" />
+		<result column="orderByID" jdbcType="VARCHAR" property="orderByID" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="p_code" jdbcType="VARCHAR" property="pcode" />
+	</resultMap>
+
+	<!-- 根据codeClass查询数据 -->
+	<select id="getByCodeClass" resultMap="PlatformResultMapping">
+		select c.ORDER_BY_ID orderByID,c.CODE_CLASS
+		c_codeClass,c.`NAME` c_name,c.`CODE` c_code,c.IS_DEFAULT
+		c_default,c.remark,c.`PAR_CODE` p_code
+		from
+		t_base c 
+		where c.CODE_CLASS=#{codeClass} and c.status='1' ORDER BY c.ORDER_BY_ID
+	</select>
+	
+	<select id="getByCode" resultMap="PlatformResultMapping">
+		SELECT c.name c_name,c.code c_code,c.remark remark FROM t_base c
+		where c.CODE_CLASS=#{codeClass} and 
+		<foreach collection="items" item="item" separator="or">
+			c.code=#{item.code}
+		</foreach>
+		ORDER BY c.ORDER_BY_ID 
+	</select>
+	
+	<select id="getPlatByCode" resultMap="PlatformResultMapping">
+		SELECT c.name c_name,c.code c_code,c.remark remark FROM t_base c
+		where c.CODE_CLASS=#{codeClass} and c.code=#{code}
+	</select>
+	
+	<!-- insert -->
+	<insert id="insert" parameterType="com.zxcl.webapp.dto.PlatformDTO">
+		insert into t_base(CODE_CLASS,NAME,CODE,STATUS,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		values(#{codeClass},#{name},#{code},'1',now(),'system',now(),'system')
+	</insert>
+	<update id="updAccessToken">
+		update t_base set NAME=#{name}
+		where CODE_CLASS=#{codeClass}
+	</update>
+ </mapper>

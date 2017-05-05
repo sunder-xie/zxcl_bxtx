@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.ApiAppControlDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.ApiAppControlDTO" >
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="control_item" property="controlItem" jdbcType="VARCHAR" />
+    <result column="is_on" property="isOn" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.ApiAppControlDTO" >
+    insert into t_api_app_control
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="controlItem != null" >
+        control_item,
+      </if>
+      <if test="isOn != null" >
+        is_on,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="controlItem != null" >
+        #{controlItem,jdbcType=VARCHAR},
+      </if>
+      <if test="isOn != null" >
+        #{isOn,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectByAppId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	app_id,control_item,is_on
+  	from t_api_app_control
+  	where app_id=#{appId}
+  	and control_item=#{controlItem}
+  </select>
+  
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT app_id, control_item, is_on FROM t_api_app_control WHERE app_id in (
+		SELECT app_id FROM t_api_app WHERE comp_code = (
+				SELECT comp_code FROM t_agent_info WHERE agent_id = (
+						SELECT AGENT_ID FROM t_micro_info WHERE USER_ID = #{userId}
+					)
+			)
+	)AND control_item = #{controlItem} LIMIT 1
+  </select>
+</mapper>

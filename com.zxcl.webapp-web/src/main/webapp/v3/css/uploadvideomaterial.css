@@ -1,0 +1,84 @@
+.upload_videomasterial_container {
+	padding-left: 3%;
+	position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    top: 0px;
+    left: 0px;
+    z-index: 901;
+}
+
+.upload_videomasterial_container .tips {
+	margin-top: 10%;
+	font-size: 0.8rem;
+}
+
+.upload_videomasterial_container .upload_item {
+	height: 2rem;
+	line-height: 2rem;
+	margin-top: 1%;
+}
+
+.upload_videomasterial_container .upload_item .upload_type {
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+}
+
+.upload_videomasterial_container .upload_item .upload_btn_div {
+	position: relative; /* 保证子元素的定位 */
+	width: 92px;
+	margin-left: 2%;
+	height: 1rem;
+	text-align: center;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.upload_videomasterial_container .upload_item .upload_btn_div .upload_btn_span
+	{
+	display: inline-block;
+	color: #666;
+	font-family: "黑体";
+	height: 1rem;
+	border: 1px solid #ccc;
+	line-height: 1rem;
+}
+.upload_videomasterial_container .upload_item .upload_btn_div .uploading_btn_span
+	{
+	display: inline-block;
+	color: #666;
+	font-family: "黑体";
+	height: 1rem;
+	line-height: 1rem;
+}
+.upload_videomasterial_container .upload_item .upload_btn_div input {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 60px; /* 宽高和外围元素保持一致 */
+	height: 30px;
+	opacity: 0;
+	-moz-opacity: 0; /* 兼容老式浏览器 */
+	filter: alpha(opacity = 0); /* 兼容IE */
+}
+
+.upload_videomasterial_container .upload_item .delete_btn_div {
+	display: inline-block;
+	margin-left: 2%;
+}
+
+.upload_videomasterial_container .upload_item .delete_btn_div img {
+	vertical-align: middle;
+}
+
+.upload_videomasterial_container .upload_item .add_btn_div {
+	display: inline-block;
+	margin-left: 2%;
+}
+
+.upload_videomasterial_container .upload_item .add_btn_div img {
+	vertical-align: middle;
+}

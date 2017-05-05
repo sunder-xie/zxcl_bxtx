@@ -1,0 +1,82 @@
+/** 不计免赔样式 **/
+
+.noductcontainer{
+	margin:0 auto;display: inline-block;position: relative;
+}
+.noductcontainer .textnochecked{
+	
+	color:#b8b7bd;border: 1px solid #b8b7bd;font-size:13px;padding: 4px 6px 4px 6px;    border-radius: 5px;
+}
+.noductcontainer .textchecked{
+	
+	color:#c30008;border: 1px solid #c30008;font-size:13px;padding: 4px 6px 4px 6px;    border-radius: 5px;
+}
+.noductcontainer .iconchecked{
+position: absolute;bottom: 0;right: 0;width: 12px;height: 12px;overflow: hidden;
+text-indent: -99em;display: block;background-repeat: no-repeat;background-image: url(../images/checkedbg.png)
+}
+.carStyle{
+	padding-top:1rem;
+	padding-bottom:1rem;
+	padding-left:1.2rem;
+	padding-right:1rem;
+	border-bottom:1px solid #F0F0F0;
+}
+.carNoQuery{
+	margin-top:1rem;
+	margin-bottom:1rem;
+	padding-left:1.2rem;
+	padding-right:1rem;
+	text-align:center;
+	color:#016dff;
+}
+
+/** 车型查询 **/
+#chexingchaxun {
+	display:none;position:absolute;top:0px;left:0px;width:100%;height:100%;background-color:white;
+}
+
+#chexingchaxun .vinsearch{
+	background-color:#F0F0F0;width:100%;border-width:98%;height:1rem;
+padding-top:1rem;font-size: 0.8rem;text-indent: 1.2rem;border-bottom: 1px solid #F0F0F0;margin-bottom:0px;
+}
+
+#chexingchaxun .namesearch{
+	padding-left:1.2rem;padding-top:0.8rem;padding-bottom:0.8rem;background-color:#F0F0F0;margin-top: 40px;
+}
+
+#chexingchaxun .namesearch input{
+	width:75%;background: url('../images/search.png') no-repeat scroll left center transparent; background-size: 4%;text-indent: 1rem;border-radius: 15px; border: 1px solid #F0F0F0;background-color:white;padding:3px;
+}
+
+#chexingchaxun .loading{
+	width:100px;height:1px;position:fixed;left:39%;rigth:50%;top:50%;bottom:50%;
+}
+#chexingchaxun .loading div:first-child{
+	width:100px;text-align:center;
+}
+#chexingchaxun .loading div:last-child{
+	margin:0px auto;
+}
+#chexingchaxun .searchResult {
+	
+	
+}
+
+#chexingchaxun .searchResult .detail{
+	padding-top:1rem;padding-bottom:1rem;padding-left:1.2rem;padding-right:1rem;border-bottom:1px solid #F0F0F0;
+}
+
+#chaxingchaxun .vinnoresult {
+	margin-top:1rem;margin-bottom:1rem;padding-left:1.2rem;padding-right:1rem;text-align:center;color:#016dff;
+}
+#chaxingchaxun .namenoresult {
+	margin-top:1rem;margin-bottom:1rem;padding-left:1.2rem;padding-right:1rem;text-align:center;color:#016dff;
+}
+
+
+/** 按钮样式 **/
+.disabledbtn {
+	 background-color: #d0cccc;
+}
+

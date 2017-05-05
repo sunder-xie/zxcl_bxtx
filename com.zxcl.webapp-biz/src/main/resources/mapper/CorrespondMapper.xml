@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.CorrespondDAO">
+	<!-- 对t_insurancecompany自关联的查询映射 -->
+	<resultMap type="com.zxcl.webapp.dto.CorrespondDTO" id="corrMapping">
+		<result column="insId" jdbcType="VARCHAR" property="ins_id" />
+		<result column="insCode" jdbcType="VARCHAR" property="ins_code" />
+		<result column="insCodeName" jdbcType="VARCHAR" property="ins_name" />
+		<result column="isDefault" jdbcType="VARCHAR" property="isDefault" />
+		<result column="codeClass" jdbcType="VARCHAR" property="codeClass" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<!-- 根据自定义险种的code查询出保险公司险种的code -->
+	<select id="getInsInfo" parameterType="list" resultMap="corrMapping">
+		select INS_ID insId,INS_CODE insCode,INS_CODE_NAME
+		insCodeName,IS_DEFAULT isDefault,CODE_CLASS codeClass,CODE code,NAME
+		name from
+		t_system_ins_base where
+		<foreach collection="items" item="item" separator="or">
+			(CODE=#{item.code} and
+			INS_ID=#{insId}) and
+			`STATUS`='1'
+		</foreach>
+	</select>
+
+	<!-- 查询单个结果 -->
+	<select id="get" resultMap="corrMapping">
+		select INS_ID insId,INS_CODE
+		insCode,INS_CODE_NAME
+		insCodeName,IS_DEFAULT isDefault,CODE_CLASS
+		codeClass,CODE code,NAME name,REMARK remark
+		from t_system_ins_base
+		<where>
+			STATUS='1'
+			<if test="ins_id !='' and ins_id !=null">
+				AND INS_ID=#{ins_id}
+			</if>
+			<if test="name !='' and name !=null">
+				AND NAME=#{name}
+			</if>
+			<if test="codeClass !='' and codeClass !=null">
+				AND CODE_CLASS=#{codeClass}
+			</if>
+			<if test="code !='' and code !=null">
+				AND CODE=#{code}
+			</if>
+			<if test="ins_code != '' and ins_code != null">
+				AND INS_CODE=#{ins_code}
+			</if>
+			<if test="(code =='' or code ==null) and (name=='' or name==null) and (ins_code == '' or ins_code == null)">
+				AND IS_DEFAULT='Y'
+			</if>
+			<if test="null!=remark  and ''!=remark ">
+				AND REMARK=#{remark}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询单个结果 -->
+	<select id="getTwo" resultMap="corrMapping">
+		select INS_ID insId,INS_CODE
+		insCode,INS_CODE_NAME
+		insCodeName,IS_DEFAULT isDefault,CODE_CLASS
+		codeClass,CODE code,NAME name
+		from t_system_ins_base
+		<where>
+			STATUS='1'
+			<if test="ins_id !='' and ins_id !=null">
+				AND INS_ID=#{ins_id}
+			</if>
+			<if test="name !='' and name !=null">
+				AND NAME=#{name}
+			</if>
+			<if test="codeClass !='' and codeClass !=null">
+				AND CODE_CLASS=#{codeClass}
+			</if>
+			<if test="code !='' and code !=null">
+				AND CODE=#{code}
+			</if>
+			<if test="ins_code !='' and ins_code !=null">
+				AND INS_CODE=#{ins_code}
+			</if>
+		</where>
+	</select>
+
+	<!-- <select id="get" resultMap="corrMapping"> -->
+	<!-- select INS_ID insId,INS_CODE -->
+	<!-- insCode,INS_CODE_NAME -->
+	<!-- insCodeName,IS_DEFAULT isDefault,CODE_CLASS -->
+	<!-- codeClass,CODE code,NAME -->
+	<!-- name -->
+	<!-- from t_system_ins_base where STATUS='1' -->
+	<!-- #{where} -->
+	<!-- </select> -->
+	
+	<!-- 根据保险公司ID获取 -->
+	<select id="getCorrespondByInsId" resultMap="corrMapping">
+		select INS_ID insId,INS_CODE
+		insCode,INS_CODE_NAME
+		insCodeName,IS_DEFAULT isDefault,CODE_CLASS
+		codeClass,CODE code,NAME name
+		from t_system_ins_base
+		where INS_ID=#{insId}
+	</select>
+</mapper>

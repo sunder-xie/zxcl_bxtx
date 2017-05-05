@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.InsuranceCompanyConfigDAO">
+	<resultMap type="com.zxcl.webapp.dto.InsuranceCompanyConfigDTO" id="insuranceCompanyConfigMapping">
+		<result column="configKey" jdbcType="VARCHAR" property="key" />
+		<result column="configValue" jdbcType="VARCHAR" property="value" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	
+	<!-- 通过配置ID查询信息 -->
+	<select id="getInfoByConfigId" resultMap="insuranceCompanyConfigMapping">
+		SELECT CONFIG_KEY configKey,CONFIG_VALUE configValue,REMARK remark FROM t_ins_company_config WHERE CONFIG_ID=#{configId} AND CONFIG_STATUS='1';
+	</select>
+	
+</mapper>

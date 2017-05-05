@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.InquiryFileDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.InquiryFileDTO" >
+    <result column="INQUIRY_ID" property="inquiryId" jdbcType="VARCHAR" />
+    <result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CRT_BY" property="crtBy" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_BY" property="updBy" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="base_sql">
+  	INQUIRY_ID, FILE_ID, REMARK, CRT_BY, CRT_TM, UPD_BY, UPD_TM, STATUS
+  </sql>
+  
+  <!-- getByFileId -->
+  <select id="getByFileId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="base_sql"/>
+  	from t_inquiry_file
+  	where STATUS=1
+  	and FILE_ID=#{fileId}
+  </select>
+  
+  <!-- delAsUpdateByFileId -->
+  <update id="delAsUpdateByFileId" parameterType="java.lang.String">
+  	update t_inquiry_file
+  	set STATUS=0,
+  	UPD_TM=now()
+  	where FILE_ID=#{fileId}
+  </update>
+  
+  <!-- getListByInquiryId -->
+  <select id="getListByInquiryId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="base_sql"/>
+  	from t_inquiry_file
+  	where STATUS=1
+  	and INQUIRY_ID=#{inquiryId}
+  </select>
+  
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.InquiryFileDTO" >
+    insert into t_inquiry_file
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="inquiryId != null" >
+        INQUIRY_ID,
+      </if>
+      <if test="fileId != null" >
+        FILE_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="crtBy != null" >
+        CRT_BY,
+      </if>
+        CRT_TM,
+      <if test="updBy != null" >
+        UPD_BY,
+      </if>
+        UPD_TM,
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="inquiryId != null" >
+        #{inquiryId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null" >
+        #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

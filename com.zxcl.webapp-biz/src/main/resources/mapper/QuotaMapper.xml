@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.QuotaDAO">
+
+	<resultMap type="com.zxcl.webapp.dto.QuotaDTO" id="quotaResultMapping">
+		<id column="quotaId" jdbcType="VARCHAR" property="quotaId" />
+		<result column="inquiryId" jdbcType="VARCHAR" property="inquiry.inquiryId" />
+		<result column="insId" jdbcType="VARCHAR" property="insurance.insId" />
+		<result column="microId" jdbcType="VARCHAR" property="micro.micro_id" />
+		<result column="tci_prem" jdbcType="VARCHAR" property="TCIPremTax" />
+		<result column="vci_prem" jdbcType="VARCHAR" property="VCIPremTax" />
+		<result column="tax" jdbcType="VARCHAR" property="vehicleTax" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="ownerName" jdbcType="VARCHAR" property="inquiry.ownerName" />
+		<result column="plateNo" jdbcType="VARCHAR" property="inquiry.plateNo" />
+		<result column="quotaType" jdbcType="VARCHAR" property="quotaType" />
+		<result column="orderId" jdbcType="VARCHAR" property="orderId" />
+		<result column="orderStatus" jdbcType="VARCHAR" property="orderStatus" />
+		<result column="discount" jdbcType="VARCHAR" property="discount" />
+		<result column="lastYearClaimNum" jdbcType="VARCHAR" property="lastYearClaimNum" />
+		<result column="warns" jdbcType="VARCHAR" property="warns" />
+		<result column="DISCOUNT" jdbcType="DECIMAL" property="discount" />
+		<result column="inquiryState" jdbcType="DECIMAL" property="inquiry.state" />
+	</resultMap>
+
+	<!-- 添加报价信息：t_quota -->
+	<insert id="insert">
+		INSERT INTO
+		t_quota(INQUIRY_ID,QUOTA_ID,INS_ID,MICRO_ID,TCI_PREM,VCI_PREM,TAX,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,QUOTA_TYPE,DISCOUNT,LASTYEARCLAIMNUM,WARNS)
+		VALUES(#{inquiry.inquiryId},#{quotaId},#{insurance.insId},#{micro.micro_id},#{TCIPremTax},#{VCIPremTax},#{vehicleTax},
+		now(),#{crtCode},now(),#{updCode},#{quotaType},#{discount},#{lastYearClaimNum},#{warns})
+	</insert>
+
+	<!-- 综合查询单个查询 -->
+	<select id="infoViewByInquiryIDDAO" resultMap="quotaResultMapping">
+		SELECT
+		quota.QUOTA_ID quotaId,
+		quota.INS_ID insId,
+		orderTemp.ORDER_ID orderId,
+		quota.INQUIRY_ID inquiryId,
+		inquiry.STATE inquiryState,
+		IFNULL(quota.TAX, 0) tax,
+		IFNULL(quota.TCI_PREM, 0) tci_prem,
+		IFNULL(quota.VCI_PREM, 0) vci_prem,
+		( CASE WHEN orderTemp.QUERY_STATUS IS NULL THEN '-1' ELSE orderTemp.QUERY_STATUS END ) status,
+		orderTemp.QUERY_STATUS orderStatus,
+		quota.QUOTA_TYPE quotaType
+		FROM t_quota quota
+		LEFT JOIN(SELECT torder.QUOTA_ID,torder.ORDER_ID,torder.QUERY_STATUS FROM t_order torder  WHERE torder.INQUIRY_ID=#{inquiryId}) orderTemp
+		ON orderTemp.QUOTA_ID = quota.QUOTA_ID
+		LEFT JOIN t_inquiry inquiry ON quota.INQUIRY_ID = inquiry.INQUIRY_ID 
+		WHERE quota.STATUS='1' AND
+		quota.INQUIRY_ID=#{inquiryId}
+	</select>
+	<!-- 人工报价查询 -->
+	<select id="peopleAaskQueryDAO" resultMap="quotaResultMapping">
+		SELECT
+		inquiry.INQUIRY_ID inquiryId,
+		inquiry_target.OWNER_NAME ownerName,
+		inquiry_target.PLATE_NO plateNo,
+		Sum(Ifnull(quota.TAX, 0)) tax,
+		Sum(Ifnull(quota.VCI_PREM, 0)) vci_prem,
+		Sum(Ifnull(quota.TCI_PREM, 0)) tci_prem,
+		(select count(1) tempCount from t_order torder WHERE
+		torder.QUOTA_ID=quota.QUOTA_ID) status
+		FROM t_inquiry inquiry,
+		t_inquiry_target inquiry_target,
+		t_quota quota
+		WHERE inquiry.INQUIRY_ID = inquiry_target.INQUIRY_ID
+		AND inquiry.INQUIRY_ID = quota.INQUIRY_ID
+		AND quota.QUOTA_TYPE = 'M'
+		GROUP BY
+		inquiry.INQUIRY_ID,inquiry_target.OWNER_NAME,inquiry_target.PLATE_NO
+		ORDER BY quota.CRT_TM DESC
+	</select>
+
+
+	<!-- quotaCountWithBetweenDate -->
+	<select id="quotaCountWithBetweenDate" resultMap="quotaResultMapping">
+		SELECT b.FRM_NO
+		status
+		FROM `t_inquiry` a LEFT JOIN `t_inquiry_target` b
+		ON a.`INQUIRY_ID`=b.`INQUIRY_ID`
+		WHERE a.UPD_TM &gt; #{date1,jdbcType=VARCHAR}
+		AND a.UPD_TM &lt;
+		#{date2,jdbcType=VARCHAR}
+		AND FRM_NO IS NOT NULL
+		AND a.STATE = '2'
+		AND a.`CRT_CDE`=#{userId,jdbcType=VARCHAR}
+		GROUP BY
+		FRM_NO
+	</select>
+
+
+	<!-- 查询单条信息 -->
+	<select id="getByQuotaId" resultMap="quotaResultMapping">
+		select INQUIRY_ID
+		inquiryId,INS_ID insId,micro_ID microId,QUOTA_ID quotaId,TCI_PREM
+		tci_prem,VCI_PREM vci_prem,TAX tax,QUOTA_TYPE quotaType,DISCOUNT
+		discount,
+		LASTYEARCLAIMNUM lastYearClaimNum,WARNS warns from t_quota where
+		QUOTA_ID=#{quotaId}
+	</select>
+
+	<select id="get" resultMap="quotaResultMapping">
+		select INQUIRY_ID inquiryId,INS_ID
+		insId,micro_ID microId,QUOTA_ID quotaId,TCI_PREM
+		tci_prem,VCI_PREM
+		vci_prem,TAX tax from t_quota where
+		QUOTA_ID=#{quotaId} AND
+		INQUIRY_ID=#{inquiry.inquiryId} AND micro_ID=#{micro.micro_id} and
+		INS_ID=#{insurance.insId}
+		AND STATUS='1'
+	</select>
+
+	<select id="getQuotasByMicId" resultMap="quotaResultMapping">
+		select INQUIRY_ID
+		inquiryId,QUOTA_ID quotaId,INS_ID insId,TCI_PREM tci_prem,VCI_PREM
+		vci_prem,TAX tax FROM t_quota where MICRO_ID=#{microId} AND STATUS='1'
+	</select>
+	<!-- 判断报价单有没有重复 -->
+	<select id="existByInsIdDAO" resultMap="quotaResultMapping">
+		select INQUIRY_ID
+		inquiryId,QUOTA_ID quotaId
+		FROM t_quota where MICRO_ID=#{microId} AND STATUS='1' and
+		INQUIRY_ID=#{inquiryId} and INS_ID=#{insId} and QUOTA_TYPE='M'
+	</select>
+
+	<select id="getQuotasByInqueryId" resultMap="quotaResultMapping">
+		SELECT
+		quota.DISCOUNT,
+		quota.INQUIRY_ID inquiryId,
+		quota.QUOTA_ID quotaId,
+		quota.INS_ID insId,
+		quota.TCI_PREM tci_prem,
+		quota.VCI_PREM vci_prem,
+		quota.TAX tax,
+		quota.QUOTA_TYPE quotaType,
+		quota.LASTYEARCLAIMNUM lastYearClaimNum,
+		quota.WARNS warns,
+		(SELECT
+		order_query.QUERY_STATUS
+		FROM t_order order_query
+		WHERE order_query.QUOTA_ID = quota.QUOTA_ID) orderStatus,
+		(SELECT
+		order_query.ORDER_ID
+		FROM t_order order_query
+		WHERE order_query.QUOTA_ID = quota.QUOTA_ID) orderId 
+		FROM t_quota quota 
+		WHERE  quota.INQUIRY_ID =#{inquiryId} and quota.STATUS='1'
+	</select>
+
+	<!-- 根据询价单编码查询没有订单的报价单 -->
+	<select id="getQuotaNoOrderByInquiryId" resultMap="quotaResultMapping">
+		select
+		q.INQUIRY_ID inquiryId,q.INS_ID insId,q.VCI_PREM vci_prem,q.TAX
+		tax,q.TCI_PREM tci_prem
+		from t_quota q LEFT JOIN t_order o on
+		q.QUOTA_ID=o.QUOTA_ID where q.INQUIRY_ID=#{inquiryId} and o.QUOTA_ID
+		is null
+	</select>
+
+	<!-- 更新报价单状态 -->
+	<update id="updateQuotaStatusByInquiryId">
+		update t_quota SET `STATUS`=#{status},UPD_TM=now(),UPD_CDE=#{updCde} where INQUIRY_ID=#{inquiryId}
+	</update>
+	
+	<!-- updateQuotePrm -->
+	<update id="updateQuotePrm">
+		update t_quota
+		<set>
+			<if test="null != taxPrm">
+				TAX=#{taxPrm},
+			</if>
+			<if test="null != vciPrm">
+				VCI_PREM=#{vciPrm},
+			</if>
+			<if test="null != tciPrm">
+				TCI_PREM=#{tciPrm},
+			</if>
+			UPD_TM=now(),
+		</set>
+		WHERE QUOTA_ID=#{quoteId}
+	</update>
+	
+	<select id="getCreateTimeByQuoteId" resultType="java.util.Date">
+		SELECT CRT_TM FROM t_quota WHERE QUOTA_ID=#{quoteId}
+	</select>
+	
+	<select id="queryManualQuotationByInquiryId" resultType="java.lang.Integer">
+		SELECT COUNT(QUOTA_ID) FROM t_quota WHERE INQUIRY_ID=#{inquiryId} AND QUOTA_TYPE='M' AND STATUS='1';
+	</select>
+	
+</mapper>

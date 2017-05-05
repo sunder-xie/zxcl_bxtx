@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.wallet.WalletActiveDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.wallet.WalletActiveDTO" >
+    <id column="ACTIVE_ID" property="activeId" jdbcType="VARCHAR" />
+    
+    <result column="INS_IDS" property="insIds" jdbcType="VARCHAR" />
+    <result column="AGENT_ID" property="agentId" jdbcType="VARCHAR" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="LINK_URL" property="linkUrl" jdbcType="VARCHAR" />
+    
+    
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="THEME" property="theme" jdbcType="VARCHAR" />
+    <result column="MAX_COUNT" property="maxCount" jdbcType="INTEGER" />
+    <result column="DED_COUNT" property="dedCount" jdbcType="INTEGER" />
+    <result column="ACTIVE_START_TM" property="activeStartTm" jdbcType="TIMESTAMP" />
+    <result column="ACTIVE_END_TM" property="activeEndTm" jdbcType="TIMESTAMP" />
+    <result column="AACTIVE_DELAY_TM" property="aactiveDelayTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap type="com.zxcl.webapp.dto.wallet.WalletActiveDTO" id="BaseResultMap2">
+  	<result column="imgUrl" jdbcType="VARCHAR" property="imgUrl"/>
+  	<result column="linkUrl" jdbcType="VARCHAR" property="linkUrl"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zxcl.webapp.dto.wallet.WalletActiveDTO" extends="BaseResultMap" >
+    <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <select id="getActivityInfoByAgentIdAndDate" resultMap="BaseResultMap2">
+	select DISTINCT IMG_URL imgUrl,LINK_URL linkUrl from t_wallet_active where 
+	AGENT_ID=#{agentId}  
+	<![CDATA[
+		and ACTIVE_START_TM <= #{date}
+		and ACTIVE_END_TM >= #{date}
+	]]>
+</select>
+	
+  <sql id="Base_Column_List" >
+    ACTIVE_ID, AMOUNT, THEME, MAX_COUNT, DED_COUNT, ACTIVE_START_TM, ACTIVE_END_TM, AACTIVE_DELAY_TM, 
+    CRT_TM, CRT_CDE, UPD_TM, UPD_CDE, STATUS,AGENT_ID,IMG_URL,LINK_URL,INS_IDS
+  </sql>
+  <sql id="Blob_Column_List" >
+    REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_wallet_active
+    where ACTIVE_ID = #{activeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_wallet_active
+    where ACTIVE_ID = #{activeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveDTO" >
+    insert into t_wallet_active
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="activeId != null" >
+        ACTIVE_ID,
+      </if>
+      <if test="insIds != null" >
+        INS_IDS,
+      </if>
+      <if test="agentId != null" >
+        AGENT_ID,
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL,
+      </if>
+      <if test="linkUrl != null" >
+        LINK_URL,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="theme != null" >
+        THEME,
+      </if>
+      <if test="maxCount != null" >
+        MAX_COUNT,
+      </if>
+      <if test="dedCount != null" >
+        DED_COUNT,
+      </if>
+      <if test="activeStartTm != null" >
+        ACTIVE_START_TM,
+      </if>
+      <if test="activeEndTm != null" >
+        ACTIVE_END_TM,
+      </if>
+      <if test="aactiveDelayTm != null" >
+        AACTIVE_DELAY_TM,
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM,
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+      <if test="updTm != null" >
+        UPD_TM,
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="activeId != null" >
+        #{activeId,jdbcType=VARCHAR},
+      </if>
+      <if test="insIds != null" >
+        #{insIds,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null" >
+        #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUrl != null" >
+        #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="theme != null" >
+        #{theme,jdbcType=VARCHAR},
+      </if>
+      <if test="maxCount != null" >
+        #{maxCount,jdbcType=INTEGER},
+      </if>
+      <if test="dedCount != null" >
+        #{dedCount,jdbcType=INTEGER},
+      </if>
+      <if test="activeStartTm != null" >
+        #{activeStartTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeEndTm != null" >
+        #{activeEndTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aactiveDelayTm != null" >
+        #{aactiveDelayTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTm != null" >
+        #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveDTO" >
+    update t_wallet_active
+    <set >
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="theme != null" >
+        THEME = #{theme,jdbcType=VARCHAR},
+      </if>
+      <if test="maxCount != null" >
+        MAX_COUNT = #{maxCount,jdbcType=INTEGER},
+      </if>
+      <if test="dedCount != null" >
+        DED_COUNT = #{dedCount,jdbcType=INTEGER},
+      </if>
+      <if test="activeStartTm != null" >
+        ACTIVE_START_TM = #{activeStartTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeEndTm != null" >
+        ACTIVE_END_TM = #{activeEndTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aactiveDelayTm != null" >
+        AACTIVE_DELAY_TM = #{aactiveDelayTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        UPD_TM = #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ACTIVE_ID = #{activeId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateActiveWithAct04">
+  	update t_wallet_active
+  	set DED_COUNT = DED_COUNT+1
+  	where ACTIVE_ID='ACT-04'
+  </update>
+</mapper>

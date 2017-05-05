@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.wallet.WalletStayDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.wallet.WalletStayDTO" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <id column="STAY_ID" property="stayId" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="STAY_TYPE" property="stayType" jdbcType="CHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, STAY_ID, AMOUNT, STAY_TYPE, TYPE, REMARK, CRT_TM, CRT_CDE, UPD_TM, UPD_CDE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.dto.wallet.WalletStayDTOKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_stay
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and STAY_ID = #{stayId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.zxcl.webapp.dto.wallet.WalletStayDTOKey" >
+    delete from t_wallet_stay
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and STAY_ID = #{stayId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zxcl.webapp.dto.wallet.WalletStayDTO" >
+    insert into t_wallet_stay (USER_ID, STAY_ID, AMOUNT, 
+      STAY_TYPE, TYPE, REMARK, CRT_TM, 
+      CRT_CDE, UPD_TM, UPD_CDE
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{stayId,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{stayType,jdbcType=CHAR}, #{type,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, #{crtTm,jdbcType=TIMESTAMP}, 
+      #{crtCde,jdbcType=VARCHAR}, #{updTm,jdbcType=TIMESTAMP}, #{updCde,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.wallet.WalletStayDTO" >
+    insert into t_wallet_stay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="stayId != null" >
+        STAY_ID,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="stayType != null" >
+        STAY_TYPE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM,
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+      <if test="updTm != null" >
+        UPD_TM,
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="stayId != null" >
+        #{stayId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="stayType != null" >
+        #{stayType,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTm != null" >
+        #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.wallet.WalletStayDTO" >
+    update t_wallet_stay
+    <set >
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="stayType != null" >
+        STAY_TYPE = #{stayType,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        UPD_TM = #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and STAY_ID = #{stayId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zxcl.webapp.dto.wallet.WalletStayDTO" >
+    update t_wallet_stay
+    set AMOUNT = #{amount,jdbcType=DECIMAL},
+      STAY_TYPE = #{stayType,jdbcType=CHAR},
+      TYPE = #{type,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      UPD_TM = #{updTm,jdbcType=TIMESTAMP},
+      UPD_CDE = #{updCde,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and STAY_ID = #{stayId,jdbcType=VARCHAR}
+  </update>
+</mapper>

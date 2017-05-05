@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.6 in JDK 6. --><xs:schema xmlns:tns="http://ws.front.app.echannel.ebiz.alltrust.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.front.app.echannel.ebiz.alltrust.com/">
+
+<xs:element name="getPayTransNo" type="tns:getPayTransNo"></xs:element>
+
+<xs:element name="getPayTransNoResponse" type="tns:getPayTransNoResponse"></xs:element>
+
+<xs:complexType name="getPayTransNo">
+<xs:sequence>
+<xs:element name="request" type="tns:getTransNoRequest" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTransNoRequest">
+<xs:sequence>
+<xs:element name="authorityData" type="tns:authorityData" minOccurs="0"></xs:element>
+<xs:element name="issueCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="policyAppNo" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="productNo" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authorityData">
+<xs:sequence>
+<xs:element name="password" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="userName" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPayTransNoResponse">
+<xs:sequence>
+<xs:element name="response" type="tns:getPayNoResponse" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPayNoResponse">
+<xs:sequence>
+<xs:element name="payTransNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="returnCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="returnMessage" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="totalPremium" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

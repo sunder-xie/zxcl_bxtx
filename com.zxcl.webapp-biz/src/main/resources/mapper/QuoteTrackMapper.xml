@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.QuoteTrackDAO" >
+  <resultMap type="com.zxcl.webapp.dto.QuoteTrackDTO" id="quoteTrackMap">
+		<result column="operatId"  jdbcType="VARCHAR"  property="operatId"/>
+		<result column="onOperatId"  jdbcType="VARCHAR"  property="onOperatId"/>
+		<result column="taskId"  jdbcType="VARCHAR"  property="taskId"/>
+		<result column="operatTime"  jdbcType="VARCHAR"  property="operatTime"/>
+		<result column="operatUser"  jdbcType="VARCHAR"  property="operatUser"/>
+		<result column="operatStatus"  jdbcType="VARCHAR"  property="operatStatus"/>
+		<result column="remark"  jdbcType="VARCHAR"  property="remark"/>
+  </resultMap>
+  
+  <insert id="insert">
+  	INSERT INTO t_quote_track(OPERAT_ID,ON_OPERAT_ID,TASK_ID,OPERAT_TIME,OPERAT_USER_ID,OPERAT_STATUS,REMARK) 
+  		VALUES(#{operatId},#{onOperatId},#{taskId},#{operatTime},#{operatUser},#{operatStatus},#{remark});
+  </insert>
+  
+  <select id="queryOnOperatId" resultType="String">
+  	SELECT OPERAT_ID FROM t_quote_track WHERE TASK_ID=#{taskId} AND OPERAT_TIME = (SELECT MAX(OPERAT_TIME) FROM t_quote_track WHERE TASK_ID=#{taskId}) LIMIT 1;
+  </select>
+  
+  <select id="queryInfo" resultMap="quoteTrackMap">
+  	SELECT OPERAT_ID operatId,ON_OPERAT_ID onOperatId,TASK_ID taskId,OPERAT_TIME operatTime operatTime,OPERAT_USER_ID operatUser,OPERAT_STATUS operatStatus,REMARK remark 
+  	FROM t_quote_track WHERE TASK_ID=#{taskId} AND OPERAT_TIME = (SELECT MAX(OPERAT_TIME) FROM t_quote_track WHERE TASK_ID=#{taskId});
+  </select>
+  
+  <select id="queryByTaskIdAndStatus" resultMap="quoteTrackMap">
+  	SELECT OPERAT_ID operatId,ON_OPERAT_ID onOperatId,TASK_ID taskId,OPERAT_TIME operatTime,OPERAT_USER_ID operatUser,OPERAT_STATUS operatStatus,REMARK remark 
+  	FROM t_quote_track WHERE TASK_ID=#{taskId} <if test="'' != status and null != status"> AND OPERAT_STATUS = #{status}</if>;
+  </select>
+  
+  <select id="queryQuoteTrackById" resultMap="quoteTrackMap">
+  	SELECT OPERAT_ID operatId,ON_OPERAT_ID onOperatId,TASK_ID taskId,OPERAT_TIME operatTime,OPERAT_USER_ID operatUser,OPERAT_STATUS operatStatus,REMARK remark 
+  	FROM t_quote_track WHERE OPERAT_ID = #{operatId};
+  </select>
+</mapper>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.ManageDispatchDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.ManageDispatchDTO" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="REC_NAME" property="recName" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="AREA_CHILD_CODE" property="areaChildCode" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="BIGINT" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REC_NAME, PHONE, AREA_CODE, AREA_CHILD_CODE, ADDRESS, SORT, CRT_TM, CRT_CDE, 
+    UPD_TM, UPD_CDE, STATUS
+  </sql>
+  
+  <!-- selectDefaultManageDispatch -->
+  <select id="selectDefaultManageDispatch" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    FROM t_manage_dispatch
+    WHERE CRT_CDE = #{operateUser}
+    AND STATUS=1
+    ORDER BY SORT DESC,UPD_TM DESC
+    LIMIT 1
+  </select>
+  
+  <select id="selectById" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    FROM t_manage_dispatch
+    WHERE id=#{id}
+  </select>
+  <!-- selectManageDispatch -->
+  <select id="selectManageDispatch" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    FROM t_manage_dispatch
+    WHERE CRT_CDE = #{operateUser}
+    AND STATUS=1
+    ORDER BY SORT DESC,UPD_TM DESC
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_manage_dispatch
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_manage_dispatch
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.ManageDispatchDTO" >
+    insert into t_manage_dispatch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="recName != null" >
+        REC_NAME,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE,
+      </if>
+      <if test="areaChildCode != null" >
+        AREA_CHILD_CODE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="sort != null" >
+        SORT,
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM,
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+      <if test="updTm != null" >
+        UPD_TM,
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="recName != null" >
+        #{recName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaChildCode != null" >
+        #{areaChildCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="crtTm != null" >
+        #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.ManageDispatchDTO" >
+    update t_manage_dispatch
+    <set >
+      <if test="recName != null" >
+        REC_NAME = #{recName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaChildCode != null" >
+        AREA_CHILD_CODE = #{areaChildCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      </if>
+        UPD_TM = now(),
+      <if test="updCde != null" >
+        UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateById" parameterType="com.zxcl.webapp.dto.ManageDispatchDTO">
+  	update t_manage_dispatch 
+  	<set>
+  	  <if test="recName != null" >
+        REC_NAME = #{recName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaChildCode != null" >
+        AREA_CHILD_CODE = #{areaChildCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      </if>
+      UPD_TM=now()
+  	</set>
+  	where id=#{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

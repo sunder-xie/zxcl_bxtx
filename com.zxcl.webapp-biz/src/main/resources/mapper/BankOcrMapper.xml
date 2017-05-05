@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.BankOcrDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.BankOcrDTO" >
+    <result column="card_name" property="cardName" jdbcType="VARCHAR" />
+    <result column="card_len" property="cardLen" jdbcType="INTEGER" />
+    <result column="card_type" property="cardType" jdbcType="VARCHAR" />
+    <result column="card_presign" property="cardPresign" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="ocr_bank_no" property="ocrBankNo" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- selectBySelitic -->
+  <select id="selectBySelitic" resultMap="BaseResultMap">
+  	select 
+  	card_name, card_len, card_type, card_presign, bank_name, ocr_bank_no, remark
+  	from t_bank_ocr
+  	where card_len=#{len}
+  	and card_presign=#{preSign}
+  	limit 1
+  </select>
+  
+  <!-- getTlBankNoByOcrBankNo -->
+  <select id="getTlBankNoByOcrBankNo" parameterType="java.lang.String" resultType="java.lang.String">
+  	select
+  	tl_bank_no
+  	from t_bank_ocr_tl
+  	where ocr_bank_no=#{ocrBankNo}
+  </select>
+  
+  
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.BankOcrDTO" >
+    insert into t_bank_ocr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cardName != null" >
+        card_name,
+      </if>
+      <if test="cardLen != null" >
+        card_len,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="cardPresign != null" >
+        card_presign,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="ocrBankNo != null" >
+        ocr_bank_no,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardLen != null" >
+        #{cardLen,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPresign != null" >
+        #{cardPresign,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="ocrBankNo != null" >
+        #{ocrBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

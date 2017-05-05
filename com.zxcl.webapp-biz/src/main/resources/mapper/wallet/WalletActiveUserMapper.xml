@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.wallet.WalletActiveUserDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.wallet.WalletActiveUserDTO" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <id column="ACTIVE_ID" property="activeId" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+    <result column="ACTIVE_STATUS" property="activeStatus" jdbcType="CHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, ACTIVE_ID, CRT_TM, CRT_CDE, UPD_TM, UPD_CDE, ACTIVE_STATUS, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveUserDTOKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_active_user
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and ACTIVE_ID = #{activeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveUserDTOKey" >
+    delete from t_wallet_active_user
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and ACTIVE_ID = #{activeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveUserDTO" >
+    insert into t_wallet_active_user (USER_ID, ACTIVE_ID, CRT_TM, 
+      CRT_CDE, UPD_TM, UPD_CDE, 
+      ACTIVE_STATUS, STATUS)
+    values (#{userId,jdbcType=VARCHAR}, #{activeId,jdbcType=VARCHAR}, #{crtTm,jdbcType=TIMESTAMP}, 
+      #{crtCde,jdbcType=VARCHAR}, #{updTm,jdbcType=TIMESTAMP}, #{updCde,jdbcType=VARCHAR}, 
+      #{activeStatus,jdbcType=CHAR}, #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveUserDTO" >
+    insert into t_wallet_active_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="activeId != null" >
+        ACTIVE_ID,
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM,
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+      <if test="updTm != null" >
+        UPD_TM,
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE,
+      </if>
+      <if test="activeStatus != null" >
+        ACTIVE_STATUS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="activeId != null" >
+        #{activeId,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTm != null" >
+        #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+      <if test="activeStatus != null" >
+        #{activeStatus,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveUserDTO" >
+    update t_wallet_active_user
+    <set >
+      <if test="crtTm != null" >
+        CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        UPD_TM = #{updTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      </if>
+      <if test="activeStatus != null" >
+        ACTIVE_STATUS = #{activeStatus,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and ACTIVE_ID = #{activeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zxcl.webapp.dto.wallet.WalletActiveUserDTO" >
+    update t_wallet_active_user
+    set CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      UPD_TM = #{updTm,jdbcType=TIMESTAMP},
+      UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      ACTIVE_STATUS = #{activeStatus,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and ACTIVE_ID = #{activeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

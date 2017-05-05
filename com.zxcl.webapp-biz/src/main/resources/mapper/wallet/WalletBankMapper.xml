@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.wallet.WalletBankDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.wallet.WalletBankDTO" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="CARD_NO" property="cardNo" jdbcType="VARCHAR" />
+    <result column="CARD_OWNER" property="cardOwner" jdbcType="VARCHAR" />
+    <result column="CARD_TYPE" property="cardType" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, BANK_NO, BANK_NAME, CARD_NO, CARD_OWNER, TEL, CRT_CDE, CRT_TM, UPD_CDE, 
+    UPD_TM,CARD_TYPE
+  </sql>
+  
+  <!-- selectBankCountByBankNameAndCarNo -->
+  <select id="selectBankCountByBankNameAndCarNo" resultType="java.lang.Integer">
+  	select count(ID)
+  	from t_wallet_bank
+  	where BANK_NAME=#{bankName} and CARD_NO=#{cardNo} and STATUS=1
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_bank
+    where ID = #{id,jdbcType=VARCHAR} and STATUS=1
+  </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_bank
+    where USER_ID = #{userId,jdbcType=VARCHAR} and STATUS=1
+  </select>
+  
+  <select id="selectByUserId2" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_bank
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+    and CRT_CDE = #{createUserId,jdbcType=VARCHAR}
+    and STATUS=1
+  </select>
+  
+  <select id="hisToryAddCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select 
+  	count(ID)
+  	from t_wallet_bank
+  	where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- selectAgentUserCardCount -->
+  <select id="selectAgentUserCardCount" resultType="java.lang.Integer" >
+    select 
+    count(ID)
+    from t_wallet_bank
+    where USER_ID = #{agentUserId,jdbcType=VARCHAR}
+    and CRT_CDE = #{userId,jdbcType=VARCHAR}
+    and STATUS=1
+  </select>
+  
+  
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  	update t_wallet_bank
+  	set STATUS=0,
+  	UPD_TM=now()
+ 	where ID = #{id,jdbcType=VARCHAR} 
+  </update>
+  
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.wallet.WalletBankDTO" >
+    insert into t_wallet_bank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="cardNo != null" >
+        CARD_NO,
+      </if>
+      <if test="cardOwner != null" >
+        CARD_OWNER,
+      </if>
+      <if test="cardType != null" >
+        CARD_TYPE,
+      </if>
+      <if test="tel != null" >
+        TEL,
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+        CRT_TM,
+      <if test="updCde != null" >
+        UPD_CDE,
+      </if>
+        UPD_TM,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardOwner != null" >
+        #{cardOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+        now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.wallet.WalletBankDTO" >
+    update t_wallet_bank
+    <set >
+      <if test="bankNo != null" >
+        BANK_NO = #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardOwner != null" >
+        CARD_OWNER = #{cardOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="updCde != null" >
+        UPD_CDE = #{updCde,jdbcType=VARCHAR},
+      </if>
+        UPD_TM = now(),
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.UserDAO">
+
+	<resultMap id="userResultMap" type="com.zxcl.webapp.dto.UserDTO">
+		<id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="EMPLOYEE_NO" jdbcType="VARCHAR" property="employeeNo" />
+		<result column="LOGIN_PASSWORD" jdbcType="VARCHAR" property="loginPassword" />
+		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
+		<result column="USER_STATUS" jdbcType="VARCHAR" property="userStatus" />
+		<result column="ENTRY_DATE" jdbcType="DATE" property="entryDate" />
+		<result column="PWD_EXPIRED_DATE" jdbcType="DATE" property="pwdExpiredDate" />
+		<result column="LEAVE_DATE" jdbcType="DATE" property="leaveDate" />
+		<result column="IDENTITY_NO" jdbcType="VARCHAR" property="identityNo" />
+		<result column="ALIAS" jdbcType="VARCHAR" property="alias" />
+		<result column="WECHART_ID" jdbcType="VARCHAR" property="wechartId" />
+		<result column="nick_name"  jdbcType="VARCHAR" property="nickName" />
+		<result column="INVITATION_ID"  jdbcType="VARCHAR" property="invitation" />
+		<result column="RELEVANCE_ID"  jdbcType="VARCHAR" property="relevance" />
+	</resultMap>
+	
+	<resultMap id="userResultMap2" type="com.meyacom.fw.um.dto.UserInfo">
+        <id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+        <result column="LOGIN_PASSWORD" jdbcType="VARCHAR"
+            property="loginPassword" />
+        <result column="EMPLOYEE_NO" jdbcType="VARCHAR" property="employeeNo" />
+        <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+        <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+        <result column="USER_STATUS" jdbcType="VARCHAR" property="userStatus" />
+        <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+        <result column="ENTRY_DATE" jdbcType="DATE" property="entryDate" />
+        <result column="PWD_EXPIRED_DATE" jdbcType="DATE"
+            property="pwdExpiredDate" />
+        <result column="LEAVE_DATE" jdbcType="DATE" property="leaveDate" />
+        <result column="IDENTITY_NO" jdbcType="VARCHAR" property="identityNo" />
+        <result column="alias" jdbcType="VARCHAR" property="alias" />
+    </resultMap>
+
+	<resultMap type="com.meyacom.fw.um.dto.Role" id="roleRseultMapping">
+		<result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+	</resultMap>
+	
+	<update id="updateUserName">
+		UPDATE t_user
+		set USER_NAME=#{userName}
+		where USER_ID=#{userId}
+	</update>
+
+	<select id="queryUser2" parameterType="java.lang.String"
+        resultMap="userResultMap2"> SELECT USER_ID, T_USER.ORG_CODE, ORG_NAME, USER_NAME,
+        EMPLOYEE_NO, LOGIN_PASSWORD, EMAIL, USER_STATUS, ENTRY_DATE,
+        PWD_EXPIRED_DATE, LEAVE_DATE, IDENTITY_NO ,alias FROM T_USER
+        left join T_ORGANIZATION on T_USER.ORG_CODE=
+        T_ORGANIZATION.ORG_CODE where USER_ID=
+        lower(trim(#{userId,jdbcType=VARCHAR})) limit 1
+    </select>
+    
+    
+	<!-- 根据WeChatId去查询用户信息 -->
+	<select id="queryUser" parameterType="java.lang.String"
+		resultMap="userResultMap">
+		select * from t_user
+		where
+		WECHART_ID=#{weChatId,jdbcType=VARCHAR}
+		limit 1
+	</select>
+	
+	<select id="getMaxinvitation" resultType="Integer">
+	       SELECT MAX(CONVERT(INVITATION_ID,DECIMAL)) FROM t_user
+	</select>
+
+	<!-- 根据当前登陆的用户获取相应的角色 -->
+	<select id="getRoleByUserId" resultMap="roleRseultMapping">
+		select ROLE_ID from t_user_role where
+		USER_ID=#{userId}
+	</select>
+	
+			<!-- 根据userId去查询用户信息 -->
+	<select id="queryUserByUserId"  parameterType="java.lang.String" resultMap="userResultMap">
+		select * from t_user
+		where USER_ID=#{userId,jdbcType=VARCHAR}
+		limit 1
+	</select>
+	
+	<select id="queryUserByUserIds"  resultMap="userResultMap">
+		select * from t_user
+		where USER_ID IN
+		<foreach collection="userIds" close=")" separator="," open="(" item="userId">
+			#{userId}
+		</foreach>
+	</select>
+	
+	<select id="getUserIDyInvitation"  parameterType="java.lang.String" resultMap="userResultMap">
+		select * from t_user
+		where USER_ID=#{userId,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<select id="getMyfrend"  parameterType="java.lang.String" resultType="Integer"  >
+		select  COUNT(USER_ID)  from t_user
+		where RELEVANCE_ID=#{invitation,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<!-- 根据userId去绑定微信（将weChatId 插入到对应的数据中） -->
+	<update id="updateWeChatId">
+	      update t_user  
+	                set  WECHART_ID=#{weChatId},
+	                      nick_name=#{nickName}
+	                where user_id=#{userId}
+	</update>
+	
+	<!-- 根据userId去解除绑定微信（将weChatId设为空字符串） -->
+	<update id="deleteWeChatId">
+	      update t_user  
+	                set  WECHART_ID='',
+	                      nick_name=''
+	                where user_id=#{userId}
+	</update>
+	
+	<update id="updatePassword">
+		UPDATE T_USER SET LOGIN_PASSWORD=#{password} WHERE USER_ID=#{userId}
+	</update>
+	
+	
+	<!-- 获取所有的中介信息 -->
+	<insert id="insertUser">
+		INSERT INTO
+		t_user(USER_ID,ORG_CODE,USER_NAME,EMPLOYEE_NO,LOGIN_PASSWORD,
+		EMAIL,USER_STATUS,ENTRY_DATE,PWD_EXPIRED_DATE,LEAVE_DATE,IDENTITY_NO,ALIAS,WECHART_ID,INVITATION_ID,RELEVANCE_ID,USER_TYPE)
+		VALUES(#{user_id},'00',#{micro_name},#{agent_id},#{password},#{email},
+		'A',now(),now(),now(),'','',#{weChatId},#{invitation},#{relevance},'5')
+	</insert>
+	
+	<insert id="addSuggest">
+		INSERT INTO t_suggest (USER_ID, SUGGEST,  CRT_TM, CRT_CDE, UPD_TM, UPD_CDE) 
+		VALUES
+	  	(#{userId}, #{suggest}, now(),#{userId},now(),#{userId})
+	</insert>	
+	
+	
+	<update id="updateAgtByUserId">
+		update t_user 
+		set EMPLOYEE_NO=#{agtId}
+		where USER_ID=#{userId}
+	</update>
+	
+	<update id="updateRelevanceByUserId">
+		update t_user 
+		set RELEVANCE_ID=#{relevanceId}
+		where USER_ID=#{userId}
+	</update>
+	
+</mapper>

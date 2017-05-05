@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.RoleDAO">
+    <insert id="insertUserRole"> insert into t_user_role (user_id,ROLE_ID) values
+        (#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
+    </insert>
+</mapper>

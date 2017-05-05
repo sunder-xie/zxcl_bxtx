@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.InquiryDAO">
+	<resultMap type="com.zxcl.webapp.dto.InquiryDTO" id="inquiryResultMapping">
+		<id column="inquiryId" jdbcType="VARCHAR" property="inquiryId" />
+		<result column="CRT_TM" jdbcType="TIMESTAMP" property="crtTm" />
+		<result column="cityCode" jdbcType="VARCHAR" property="cityCode" />
+		<result column="vehicleName" jdbcType="VARCHAR" property="vehicleName" />
+		<result column="provinceCode" jdbcType="VARCHAR" property="provinceCode" />
+		<result column="newCarSign" jdbcType="VARCHAR" property="newCarSign" />
+		<result column="transferSign" jdbcType="VARCHAR" property="transferSign" />
+		<result column="modelCode" jdbcType="VARCHAR" property="modelCode" />
+		<result column="fstRegNo" jdbcType="VARCHAR" property="fstRegNo" />
+		<result column="engNo" jdbcType="VARCHAR" property="engNo" />
+		<result column="frmNo" jdbcType="VARCHAR" property="frmNo" />
+		<result column="price" jdbcType="VARCHAR" property="vehiclePrice" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="plateNo" jdbcType="VARCHAR" property="plateNo" />
+		<result column="ownerName" jdbcType="VARCHAR" property="ownerName" />
+		<result column="displacement" jdbcType="VARCHAR" property="displacement" />
+		<result column="seatNum" jdbcType="VARCHAR" property="seatNum" />
+		<result column="drivingReg" jdbcType="VARCHAR" property="drivingReg" />
+		<result column="chgOwnerDate" jdbcType="VARCHAR" property="transferDate" />
+		<result column="serialNumber" jdbcType="VARCHAR" property="serialNumber" />
+		<result column="createDate" jdbcType="VARCHAR" property="createDate" />		
+		<result column="tciSign" jdbcType="VARCHAR" property="tciSign" />
+		<result column="tciStartDate" jdbcType="VARCHAR" property="tciStartDate" />
+		<result column="tciEndDate" jdbcType="VARCHAR" property="tciEndDate" />
+		<result column="vciSign" jdbcType="VARCHAR" property="vciSign" />
+		<result column="vciStartDate" jdbcType="VARCHAR" property="vciStartDate" />
+		<result column="vciEndDate" jdbcType="VARCHAR" property="vciEndDate" />
+		<result column="stateName" jdbcType="VARCHAR" property="stateName" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="cityName" jdbcType="VARCHAR" property="cityName" />
+		<result column="ownerCertNo" jdbcType="VARCHAR" property="ownerCertNo" />
+		<result column="ownerBirthday" jdbcType="VARCHAR" property="ownerBirthday" />
+		<result column="ownerSex" jdbcType="VARCHAR" property="ownerSex" />
+		<result column="ownerAge" jdbcType="VARCHAR" property="ownerAge" />
+		<result column="marketDate" jdbcType="VARCHAR" property="marketDate" />
+		<result column="modelCodeType" jdbcType="VARCHAR" property="modelCodeType" />
+		<result column="usageCode" jdbcType="VARCHAR" property="usageCode" />
+		<result column="certfCdeType" jdbcType="VARCHAR" property="certfCdeType" />
+	</resultMap>
+
+	<resultMap type="com.zxcl.webapp.dto.InquiryDTO" id="inquiryResultMapping2">
+		<id column="inquiryId" jdbcType="VARCHAR" property="inquiryId" />
+		<result column="cityCode" jdbcType="VARCHAR" property="cityCode" />
+		<result column="vehicleName" jdbcType="VARCHAR" property="vehicleName" />
+		<result column="provinceCode" jdbcType="VARCHAR" property="provinceCode" />
+		<result column="newCarSign" jdbcType="VARCHAR" property="newCarSign" />
+		<result column="transferSign" jdbcType="VARCHAR" property="transferSign" />
+		<result column="modelCode" jdbcType="VARCHAR" property="modelCode" />
+		<result column="fstRegNo" jdbcType="VARCHAR" property="fstRegNo" />
+		<result column="engNo" jdbcType="VARCHAR" property="engNo" />
+		<result column="frmNo" jdbcType="VARCHAR" property="frmNo" />
+		<result column="price" jdbcType="VARCHAR" property="vehiclePrice" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="plateNo" jdbcType="VARCHAR" property="plateNo" />
+		<result column="ownerName" jdbcType="VARCHAR" property="ownerName" />
+		<result column="displacement" jdbcType="VARCHAR" property="displacement" />
+		<result column="queryStage" jdbcType="VARCHAR" property="queryStage" />
+		<result column="orderId" jdbcType="VARCHAR" property="order.orderId" />
+		<result column="insId" jdbcType="VARCHAR" property="insId" />
+		<result column="orderStatus" jdbcType="VARCHAR" property="order.status" />
+		<result column="serialNumber" jdbcType="VARCHAR" property="serialNumber" />
+		<result column="insQuotaFailCount" jdbcType="VARCHAR" property="insQuotaFailCount" />
+		<result column="insQuotaFailInfo" jdbcType="VARCHAR" property="insQuotaFailInfo" />
+		<result column="reInsureInfo" jdbcType="VARCHAR" property="reInsureInfo" />
+	</resultMap>
+	
+	<select id="getInquiryIdByOrderId" parameterType="java.lang.String" resultType="java.lang.String">
+		select INQUIRY_ID
+		from t_order
+		where ORDER_ID=#{orderId}
+	</select>
+	
+	<!-- 根据页面返回的车辆信息:t_inquiry_target -->
+	<insert id="insert">
+		INSERT INTO
+		t_inquiry_target(INQUIRY_ID,PLATE_NO,OWNER_NAME,ENG_NO,FRM_NO,MODEL_CDE,FST_REG_NO,SEAT_NUM,DISPLACEMENT,
+		VEHICLE_NAME,AREA_CODE,VEHICLE_PRICE,DRIVING_REG,REMARK,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,NEW_VEHICLE_FLAG,
+		CHG_OWNER_FLAG,CHG_OWNER_DATE,SERIAL_NUMBER,OWNER_CERT_NO,OWNER_BIRTHDAY,OWNER_SEX,OWNER_AGE,MARKET_DATE,MODEL_CODE_TYPE,CERTF_CDE_TYPE,vhl_usage_code)
+		VALUES(#{inquiryId},#{plateNo},#{ownerName},#{engNo},#{frmNo},#{modelCode},#{fstRegNo},#{seatNum},#{displacement}
+		,#{vehicleName},#{cityCode},#{vehiclePrice},#{drivingReg},#{remark},now(),#{crtCode},now(),#{updCode},#{newCarSign},
+		#{transferSign},#{transferDate},#{serialNumber},#{ownerCertNo},#{ownerBirthday},#{ownerSex},#{ownerAge},#{marketDate},#{modelCodeType},#{certfCdeType},#{usageCode})
+	</insert>
+
+	<!-- 添加信息:t_inquiry -->
+	<insert id="insertBasic">
+		INSERT INTO
+		t_inquiry(INQUIRY_ID,MICRO_ID,TCI_INSUER_SIGN,TCI_INSUER_BEGIN_DATE,TCI_INSUER_END_DATE,
+		VCI_INSUER_SIGN,VCI_INSUER_BEGIN_DATE,VCI_INSUER_END_DATE,STATE,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,team_id)
+		VALUES(#{inquiry.inquiryId},#{micro.micro_id},#{inquiry.tciSign},#{inquiry.tciStartDate},#{inquiry.tciEndDate},
+		#{inquiry.vciSign},#{inquiry.vciStartDate},#{inquiry.vciEndDate},#{inquiry.state},now(),#{inquiry.crtCode},now(),#{inquiry.updCode},#{micro.agt_team_id})
+	</insert>
+
+	<select id="get" resultMap="inquiryResultMapping" parameterType="String">
+		SELECT
+		  a.INQUIRY_ID               inquiryId,
+		  a.DRIVING_REG              drivingReg,
+		  a.AREA_CODE                cityCode,
+		  a.SEAT_NUM                 seatNum,
+		  a.PLATE_NO                 plateNo,
+		  a.OWNER_NAME               ownerName,
+		  a.VEHICLE_NAME             vehicleName,
+		  a.NEW_VEHICLE_FLAG         newCarSign,
+		  a.CHG_OWNER_FLAG           transferSign,
+		  a.CHG_OWNER_DATE           chgOwnerDate,
+		  a.FST_REG_NO               fstRegNo,
+		  a.MODEL_CDE                modelCode,
+		  a.ENG_NO                   engNo,
+		  a.FRM_NO                   frmNo,
+		  a.VEHICLE_PRICE            price,
+		  a.REMARK                   remark,
+		  a.DISPLACEMENT             displacement,
+		  a.SERIAL_NUMBER            serialNumber,
+		  a.OWNER_CERT_NO			 ownerCertNo,
+		  a.OWNER_BIRTHDAY			 ownerBirthday,
+		  a.OWNER_SEX				 ownerSex,
+		  a.OWNER_AGE				 ownerAge,
+		  i.TCI_INSUER_SIGN          tciSign,
+		  i.TCI_INSUER_BEGIN_DATE    tciStartDate,
+		  i.TCI_INSUER_END_DATE      tciEndDate,
+		  i.VCI_INSUER_SIGN          vciSign,
+		  i.VCI_INSUER_BEGIN_DATE    vciStartDate,
+		  i.VCI_INSUER_END_DATE      vciEndDate,
+		  r.AREA_NAME		     	 cityName,
+		  a.MARKET_DATE              marketDate, 
+		  a.MODEL_CODE_TYPE          modelCodeType,
+		  a.vhl_usage_code           usageCode,
+		  a.CERTF_CDE_TYPE           certfCdeType 
+		FROM t_inquiry_target a
+		  LEFT JOIN t_inquiry i
+		    ON a.INQUIRY_ID = i.INQUIRY_ID
+		    LEFT JOIN t_area r
+		    ON a.AREA_CODE=r.AREA_CODE
+		WHERE a.INQUIRY_ID= #{inquiryId} 
+	</select>
+	
+	<!-- 获取总条数 -->
+	<select id="getCount">
+		select COUNT(INQUIRY_ID) from t_inquiry
+	</select>
+
+	<select id="getInquiryVehicleByInquiryId" resultMap="inquiryResultMapping">
+		select
+		a.INQUIRY_ID inquiryId,a.DRIVING_REG drivingReg,a.AREA_CODE cityCode,a.SEAT_NUM seatNum,a.PLATE_NO plateNo,a.OWNER_NAME ownerName,a.VEHICLE_NAME vehicleName,a.NEW_VEHICLE_FLAG newCarSign,
+		a.CHG_OWNER_FLAG transferSign,a.FST_REG_NO fstRegNo,a.MODEL_CDE modelCode,a.ENG_NO engNo,a.FRM_NO frmNo,
+		a.VEHICLE_PRICE price,a.REMARK remark, b.NAME ownerName, a.DISPLACEMENT displacement,a.SERIAL_NUMBER serialNumber,a.OWNER_CERT_NO certfCde, 
+		c.TCI_INSUER_END_DATE tciEndDate,c.VCI_INSUER_END_DATE vciEndDate,c.TCI_INSUER_SIGN tciSign,c.VCI_INSUER_SIGN vciSign  
+		from t_inquiry_target a  
+		LEFT JOIN t_order_vehicle b ON a.INQUIRY_ID = b.INQUIRY_ID 
+		LEFT JOIN t_inquiry c ON a.INQUIRY_ID = c.INQUIRY_ID 
+		where a.INQUIRY_ID=#{inquiryId} limit 1
+	</select>
+	
+	<select id="getInquiryListByMicroId" resultMap="inquiryResultMapping2">
+		SELECT DISTINCT a.OWNER_NAME ownerName,a.INQUIRY_ID inquiryId,a.AREA_CODE cityCode,a.PLATE_NO plateNo,a.VEHICLE_NAME vehicleName,a.NEW_VEHICLE_FLAG newCarSign,
+		a.CHG_OWNER_FLAG transferSign,a.FST_REG_NO fstRegNo,a.MODEL_CDE modelCode,a.ENG_NO engNo,a.FRM_NO frmNo,
+		a.VEHICLE_PRICE price,a.REMARK remark, b.NAME ownerName, a.DISPLACEMENT displacement,
+		d.QUERY_STATUS queryStage,d.INS_ID insId, 
+		d.ORDER_ID orderId ,d.`STATUS` orderStatus,a.SERIAL_NUMBER serialNumber
+		FROM t_inquiry_target a  
+		LEFT JOIN t_inquiry i on  a.INQUIRY_ID = i.INQUIRY_ID 
+		LEFT JOIN t_order_vehicle b ON a.INQUIRY_ID = b.INQUIRY_ID 
+		LEFT JOIN  t_order d ON d.ORDER_ID = b.ORDER_ID
+		WHERE i.micro_id = #{microId} 
+		<if test="status != '' and status != null">
+			and d.status = #{status}
+		</if>
+		<if test="queryStage != null">
+			and d.QUERY_STATUS in(
+			<foreach collection="queryStage" item="qre">				
+				 #{qre},
+			</foreach>
+			9999999)
+		</if>
+		order by c.UPD_TM DESC,d.UPD_TM DESC,a.UPD_TM DESC
+	</select>
+
+<!-- 	更新询价单状态 -->
+	<update id="ryStatusByInquiryId">
+		update t_inquiry SET STATE=#{state},UPD_TM=now(),UPD_CDE=#{updCde} where INQUIRY_ID=#{inquiryId} 
+	</update>
+	
+<!-- 	更新询价单信息 -->
+	<update id="updateInquiryByInquiryId" parameterType="com.zxcl.webapp.dto.InquiryDTO">
+		UPDATE t_inquiry_target
+		<set>
+			<if test="null!=drivingReg and ''!=drivingReg">
+				DRIVING_REG=#{drivingReg},
+			</if>
+			<if test="null!=plateNo and ''!=plateNo">
+				PLATE_NO=#{plateNo},
+			</if>
+			<if test="null!=cityCode and ''!=cityCode">
+				AREA_CODE=#{cityCode},
+			</if>
+			<if test="null!=ownerName">
+				OWNER_NAME=#{ownerName},
+			</if>
+			<if test="null!=engNo">
+				ENG_NO=#{engNo},
+			</if>
+			<if test="null!=frmNo">
+				FRM_NO=#{frmNo},
+			</if>
+			<if test="null!=fstRegNo and ''!=fstRegNo">
+				FST_REG_NO=#{fstRegNo},
+			</if>
+			<if test="null!=seatNum and ''!=seatNum">
+				SEAT_NUM=#{seatNum},
+			</if>
+			<if test="null!=displacement">
+				DISPLACEMENT=#{displacement},
+			</if>
+			<if test="null!=modelCode">
+				MODEL_CDE=#{modelCode},
+			</if>
+			<if test="null!=vehicleName">
+				VEHICLE_NAME=#{vehicleName},
+			</if>
+			<if test="null!=vehiclePrice and ''!=vehiclePrice">
+				VEHICLE_PRICE=#{vehiclePrice},
+			</if>
+			
+				CHG_OWNER_DATE=#{transferDate},
+			
+			<if test="null!=remark">
+				REMARK=#{remark},
+			</if>
+			<if test="null!=newCarSign and ''!=newCarSign">
+				NEW_VEHICLE_FLAG=#{newCarSign},
+			</if>
+			
+				CHG_OWNER_FLAG=#{transferSign},
+			
+			<if test="null!=serialNumber and ''!=serialNumber">
+				SERIAL_NUMBER=#{serialNumber},
+			</if>
+			<if test="null!=updCode and ''!=updCode">
+				UPD_CDE=#{updCode},
+			</if>
+				UPD_TM=now(),
+			<if test="null!=ownerCertNo">
+				OWNER_CERT_NO=#{ownerCertNo},
+			</if>
+			<if test="null!=ownerBirthday and ''!=ownerBirthday">
+				OWNER_BIRTHDAY=#{ownerBirthday},
+			</if>
+			<if test="null!=ownerSex and ''!=ownerSex">
+				OWNER_SEX=#{ownerSex},
+			</if>
+			<if test="null!=ownerAge and ''!=ownerAge">
+				OWNER_AGE=#{ownerAge},
+			</if>
+			<if test="null!=marketDate and ''!=marketDate">
+				MARKET_DATE = #{marketDate},
+			</if>
+			<if test="null!=modelCodeType and ''!=modelCodeType">
+				MODEL_CODE_TYPE = #{modelCodeType},
+			</if>
+			<if test="null!=certfCdeType and ''!=certfCdeType">
+				CERTF_CDE_TYPE = #{certfCdeType},
+			</if>
+			<if test="null!=usageCode and ''!=usageCode">
+				vhl_usage_code = #{usageCode},
+			</if>
+		</set>
+		where INQUIRY_ID=#{inquiryId}
+	</update>	
+	<!-- 报价暂存查询 -->
+	<select id="infoTempQueryDAO" resultMap="inquiryResultMapping">
+		SELECT  inquiry_target.INQUIRY_ID inquiryId,inquiry_target.PLATE_NO plateNo,
+				inquiry_target.OWNER_NAME ownerName,inquiry.CRT_TM createDate
+		FROM 	t_inquiry_target inquiry_target,t_inquiry inquiry  
+		WHERE 	inquiry_target.INQUIRY_ID=inquiry.INQUIRY_ID
+			  	AND inquiry.MICRO_ID = #{microId} 
+			  	AND inquiry.state='1'
+		order by inquiry.UPD_TM DESC
+	</select>
+	<!-- getClosetInquiry -->
+	<select id="getClosetInquiry" resultMap="inquiryResultMapping">
+		SELECT a.INQUIRY_ID inquiryId, a.UPD_TM as CRT_TM,a.STATE state, b.PLATE_NO plateNo,b.OWNER_NAME ownerName
+		FROM t_inquiry a 
+		LEFT JOIN t_inquiry_target b ON a.INQUIRY_ID=b.INQUIRY_ID AND a.STATE IN(0,1,2)
+		<!-- LEFT JOIN t_order_query c ON c.INQUIRY_ID=a.INQUIRY_ID AND c.QUERY_STAGE NOT IN(5,6,10,11,12) -->
+		WHERE a.CRT_CDE=#{operateUser}
+		<if test="wd != null and '' != wd">
+			AND b.PLATE_NO LIKE CONCAT('%',#{wd},'%')
+		</if>
+		ORDER BY a.UPD_TM DESC
+		LIMIT 10
+	</select>
+	<!-- 综合查询页面 -->
+	<select id="infoQueryCount" resultType="java.lang.Integer">
+		SELECT 	count(inquiry.INQUIRY_ID)
+		FROM 	t_inquiry inquiry,t_inquiry_target inquiry_target
+		WHERE  	inquiry.INQUIRY_ID=inquiry_target.INQUIRY_ID
+		AND inquiry.MICRO_ID = #{microId} and STATE!='-1'
+		<if test="null!=wd and ''!=wd">
+			AND (inquiry_target.PLATE_NO like CONCAT('%', #{wd}, '%') 
+			OR inquiry_target.OWNER_NAME like CONCAT('%', #{wd}, '%')) 
+		</if>
+	</select>
+	
+	<select id="infoQueryPage" resultMap="inquiryResultMapping">
+		SELECT 	inquiry_target.PLATE_NO plateNo,Ifnull(inquiry_target.OWNER_NAME, '') ownerName,inquiry.STATE state,inquiry.INQUIRY_ID inquiryId, 
+				(CASE WHEN inquiry.STATE='0' THEN '报价暂存' WHEN inquiry.STATE='1' THEN '报价暂存' ELSE '已报价' END ) stateName
+		FROM 	t_inquiry inquiry,t_inquiry_target inquiry_target
+		WHERE  	inquiry.INQUIRY_ID=inquiry_target.INQUIRY_ID 
+				AND inquiry.MICRO_ID = #{microId} and STATE!='-1'
+				<if test="null!=wd and ''!=wd">
+					AND (inquiry_target.PLATE_NO like CONCAT('%', #{wd}, '%') 
+					OR inquiry_target.OWNER_NAME like CONCAT('%', #{wd}, '%')) 
+				</if>
+		order by inquiry.UPD_TM DESC
+		<if test="null != start">
+			limit #{start},#{pageSize}
+		</if>
+	</select>
+	
+	<select id="infoQueryDAO" resultMap="inquiryResultMapping">
+		SELECT 	inquiry_target.PLATE_NO plateNo,Ifnull(inquiry_target.OWNER_NAME, '') ownerName,inquiry.STATE state,inquiry.INQUIRY_ID inquiryId,
+				(CASE WHEN inquiry.STATE='0' THEN '报价暂存' WHEN inquiry.STATE='1' THEN '报价暂存' ELSE '已报价' END ) stateName
+		FROM 	t_inquiry inquiry,t_inquiry_target inquiry_target
+		WHERE  	inquiry.INQUIRY_ID=inquiry_target.INQUIRY_ID
+				AND inquiry.MICRO_ID = #{microId} and STATE!='-1'
+				<if test="null!=queryParameter and ''!=queryParameter">
+					AND (inquiry_target.PLATE_NO like CONCAT('%', #{queryParameter}, '%') 
+					OR inquiry_target.OWNER_NAME like CONCAT('%', #{queryParameter}, '%')) 
+				</if>
+		order by inquiry.UPD_TM DESC
+	</select>
+	
+<!-- 	更新询价单状态 -->
+	<update id="updateInquiryStatusByInquiryId">
+		update t_inquiry SET STATE=#{state} ,
+		<if test="null != updCde and '' != updCde">
+			UPD_CDE=#{updCde},
+		</if>
+		UPD_TM=now()
+			
+		 where INQUIRY_ID=#{inquiryId} 
+	</update>
+	
+<!-- 	更新询价单险种表 -->
+	<update id="updateInquiryBasicByInquiryId">
+		update t_inquiry 
+		<set>
+			<if test="null!=tciSign and ''!=tciSign">
+				TCI_INSUER_SIGN =#{tciSign},
+			</if>
+			<if test="null!=tciStartDate and ''!=tciStartDate">
+				TCI_INSUER_BEGIN_DATE =#{tciStartDate},
+			</if>
+			<if test="null!=tciEndDate and ''!=tciEndDate">
+				TCI_INSUER_END_DATE =#{tciEndDate},
+			</if>
+			<if test="null!=vciSign and ''!=vciSign">
+				VCI_INSUER_SIGN =#{vciSign},
+			</if>
+			<if test="null!=vciStartDate and ''!=vciStartDate">
+				VCI_INSUER_BEGIN_DATE =#{vciStartDate},
+			</if>
+			<if test="null!=vciEndDate and ''!=vciEndDate">
+				VCI_INSUER_END_DATE =#{vciEndDate},
+			</if>
+			<if test="null!=updCode and ''!=updCode">
+				UPD_CDE=#{updCode},
+			</if>
+				UPD_TM=now()
+		</set>
+		where INQUIRY_ID=#{inquiryId}
+	</update>
+	
+	<!-- 更新报价失败保险公司数和失败信息 -->
+	<insert id="insertInsQuotaFailInfo" parameterType="com.zxcl.webapp.dto.InquiryFailMsgDTO">
+		INSERT INTO t_inquiry_fail_msg(INQUIRY_ID,INS_ID,REQ_TYPE,ERROR_MASSAGE,ERROR_MSG_REPLACED,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES(#{inquiryId},#{insId},#{reqType},#{errorMassage},#{errorMsgReplaced},#{crtTm},#{crtCde},#{updTm},#{updCde})
+	</insert>
+	
+	<!-- 得到报价失败保险公司数 -->
+	<select id="getInsQuotaFailInfo" resultMap="inquiryResultMapping2">
+		select INS_QUOTA_FAIL_COUNT insQuotaFailCount,INS_QUOTA_FAIL_INFO insQuotaFailInfo from t_inquiry where INQUIRY_ID=#{inquiryId}
+	</select>
+	
+	<!-- 更新重复投保信息 -->
+	<update id="updateReInsureInfo">
+		UPDATE t_inquiry SET REPEAT_INSURANCE_INFORMATION=#{reInsureInfo},UPD_TM=now(),UPD_CDE=#{updCde} WHERE INQUIRY_ID=#{inquiryId}
+	</update>
+	
+	<!-- 根据询价单号查询信息 -->
+	<select id="selectByInquiryId" resultMap="inquiryResultMapping2">
+		SELECT REPEAT_INSURANCE_INFORMATION reInsureInfo FROM t_inquiry WHERE INQUIRY_ID=#{inquiryId}
+	</select>
+	
+	<!-- 根据询价单号查询车牌号 -->
+	<select id="getPlateNoByInquiryId" resultType="String">
+		SELECT PLATE_NO FROM t_inquiry_target WHERE INQUIRY_ID=#{inquiryId}
+	</select>
+	
+	<!-- 根据询价单号修改保险起期 -->
+	<update id="updateStartQuotaDate">
+		UPDATE t_inquiry 
+		<set>
+			<if test="null != ticStartQuotaDate and '' != ticStartQuotaDate">
+				TCI_INSUER_BEGIN_DATE=#{ticStartQuotaDate},
+			</if>
+			<if test="null != ticEndQuotaDate and '' != ticEndQuotaDate">
+				TCI_INSUER_END_DATE=#{ticEndQuotaDate},
+			</if>
+			<if test="null != vicStartQuotaDate and '' != vicStartQuotaDate">
+				VCI_INSUER_BEGIN_DATE=#{vicStartQuotaDate},
+			</if>
+			<if test="null != vicEndQuotaDate and '' != vicEndQuotaDate">
+				VCI_INSUER_END_DATE=#{vicEndQuotaDate},
+			</if>
+			UPD_TM=now(),
+		</set>
+		WHERE INQUIRY_ID=#{inquiryId}
+	</update>
+	
+	<update id="updateCarWithHHBX">
+		UPDATE t_inquiry 
+		<set>
+			<if test="null != car.fstRegYm and '' != car.fstRegYm">
+				FST_REG_NO=#{car.fstRegYm},
+			</if>
+			<if test="null != car.engNo and '' != car.engNo">
+				ENG_NO=#{car.engNo},
+			</if>
+			<if test="null != car.frmNo and '' != car.frmNo">
+				FRM_NO=#{car.frmNo},
+			</if>
+			<if test="null != car.displacement and '' != car.displacement">
+				DISPLACEMENT=#{car.displacement},
+			</if>
+			UPD_TM=now(),
+		</set>
+		WHERE INQUIRY_ID=#{inquiryId}
+	</update>
+	
+</mapper>

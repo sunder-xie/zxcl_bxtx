@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.QuotnConfigDAO" >
+  <resultMap type="com.zxcl.webapp.dto.QuotnConfigDTO" id="quotnConfigMap">
+		<result column="teamId"  jdbcType="VARCHAR"  property="teamId"/>
+		<result column="serviceType"  jdbcType="VARCHAR"  property="serviceType"/>
+		<result column="insId"  jdbcType="VARCHAR"  property="insId"/>
+		<result column="quotnType"  jdbcType="VARCHAR"  property="quotnType"/>
+		<result column="payTipMessage"  jdbcType="VARCHAR"  property="payTipMessage"/>
+  </resultMap>
+  
+  <select id="queryByTeamId" resultMap="quotnConfigMap">
+  		SELECT a.team_id teamId,a.service_type serviceType,a.ins_id insId,a.quotn_type quotnType,a.pay_tip_message payTipMessage FROM t_quotn_service_config a LEFT JOIN t_ins_sort b ON a.ins_id=b.ins_id 
+  		WHERE a.team_id=#{teamId} AND a.STATUS='1' ORDER BY b.sort_no DESC;
+  </select>
+  
+  <select id="queryByTeamIdAndQuotnType" resultMap="quotnConfigMap">
+  	SELECT a.team_id teamId,a.service_type serviceType,a.ins_id insId,a.quotn_type quotnType,a.pay_tip_message payTipMessage FROM t_quotn_service_config a LEFT JOIN t_ins_sort b ON a.ins_id=b.ins_id 
+  		WHERE a.team_id=#{teamId} AND a.STATUS='1' AND a.quotn_type=#{quotnType} ORDER BY b.sort_no DESC;  
+  </select>
+  
+  <select id="queryInsIdByTeamIdAndQuotnType" resultType="String">
+  	SELECT a.ins_id insId FROM t_quotn_service_config a LEFT JOIN t_ins_sort b ON a.ins_id=b.ins_id 
+  		WHERE a.team_id=#{teamId} AND a.STATUS='1' AND a.quotn_type=#{quotnType} GROUP BY a.ins_id ORDER BY b.sort_no DESC;  
+  </select>
+  
+  <select id="queryByTeamIdAndQuotnTypeAndInsId" resultMap="quotnConfigMap">
+  	SELECT team_id teamId,service_type serviceType,ins_id insId,quotn_type quotnType,pay_tip_message payTipMessage FROM t_quotn_service_config 
+  		WHERE team_id=#{teamId} AND status='1' AND quotn_type=#{quotnType} AND ins_id=#{insId} AND service_type=#{serviceType};
+  </select>
+  
+</mapper>

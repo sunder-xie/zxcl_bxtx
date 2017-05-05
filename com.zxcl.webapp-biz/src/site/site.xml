@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Account" xmlns="http://maven.apache.org/DECORATION/1.6.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+    <bannerLeft>
+        <src>images/banner.png</src>
+    </bannerLeft>
+    <publishDate position="right" format="MM/dd/yyyy hh:mm:ss a" />
+    <version position="right" />
+    <body>
+        <head>
+            <!-- <link type="text/css" rel="stylesheet" href="css/maven-theme.css" 
+                /> -->
+        </head>
+        <breadcrumbs>
+            <item name="麦亚信" />
+            <item name="项目网站" />
+        </breadcrumbs>
+        <menu ref="parent" inherit="bottom"></menu>
+        <menu ref="reports"></menu>
+        <menu ref="modules"></menu>
+        <footer>
+            <project>
+                ©2014-2017 深圳市麦亚信科技资讯有限公司 保留所有权利 All rights reserved
+            </project>
+        </footer>
+    </body>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-default-skin</artifactId>
+        <version>1.1</version>
+    </skin>
+</project>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.MicroDAO">
+	<resultMap type="com.zxcl.webapp.dto.MicroDTO" id="microResultMapping">
+		<id column="MICRO_ID" jdbcType="VARCHAR" property="micro_id" />
+		<result column="MICRO_NAME" jdbcType="VARCHAR" property="micro_name" />
+		<result column="AGENT_ID" jdbcType="VARCHAR" property="agency.agent_id" />
+		<result column="AGT_TEAM_ID" jdbcType="VARCHAR" property="agt_team_id" />
+		<result column="TEL" jdbcType="VARCHAR" property="tel" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="FEE_RATE" jdbcType="VARCHAR" property="rote" />
+		<result column="MICRO_CLASS" jdbcType="VARCHAR" property="micro_class" />
+		<result column="APPID" jdbcType="VARCHAR" property="appId" />
+		<result column="configId" jdbcType="VARCHAR" property="configId" />
+		<result column="USER_ID" jdbcType="VARCHAR" property="user_id" />
+		<result column="AGT_TEAM_NAME" jdbcType="VARCHAR" property="agtTeamName"/>
+		<result column="DUTY" jdbcType="VARCHAR" property="duty"/>
+	</resultMap>
+	
+	<resultMap id="insResultMapping" type="com.zxcl.webapp.dto.rmi.intf.common.InsuranceDTO">
+		<id column="insId" jdbcType="VARCHAR" property="insId"/>
+		<id column="insName" jdbcType="VARCHAR" property="insName"/>
+	</resultMap>
+	
+	<resultMap type="com.zxcl.webapp.dto.CompanyAccInfoDTO" id="companyAccinfos" autoMapping="true"></resultMap>
+	
+	<!-- findTeamPeopleCount -->
+	<select id="findTeamPeopleCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM t_micro_info a 
+		WHERE a.AGT_TEAM_ID=#{teamId}
+		AND a.STATUS='1'
+	</select>
+	
+	<!-- findTeamPeopleList -->
+	<select id="findTeamPeopleList" resultType="java.util.HashMap" parameterType="com.zxcl.webapp.biz.util.model.PageParam">
+		SELECT a.TEL tel, a.MICRO_NAME name, a.USER_ID userId
+		FROM t_micro_info a 
+		WHERE a.AGT_TEAM_ID=#{wd}
+		AND a.STATUS='1'
+		ORDER BY CRT_TM DESC
+		limit #{start}, #{pageSize}
+	</select>
+	
+	<update id="updateMicroName">
+		UPDATE t_micro_info
+		set UPD_TM=now(),
+		MICRO_NAME=#{microName}
+		where USER_ID=#{userId}
+	</update>
+	 
+	<!-- 根据登录的账户查找到小薇的信息 -->
+	<select id="getMicroByUserId" resultMap="microResultMapping">
+		select a.MICRO_ID,a.MICRO_NAME,a.AGENT_ID,a.AGT_TEAM_ID,a.TEL,a.STATUS,a.USER_ID,b.AGT_TEAM_NAME,a.DUTY
+		from t_micro_info a LEFT JOIN t_agt_team b ON a.AGT_TEAM_ID=b.AGT_TEAM_ID 
+		where a.USER_ID=#{userId} AND a.STATUS='1' limit 1
+	</select>
+	
+	<!-- 通过登录的microId获取小薇账号 -->
+	<select id="getMicroByMicroId" resultMap="microResultMapping">
+		select a.MICRO_ID,a.MICRO_NAME,a.AGENT_ID,a.AGT_TEAM_ID,a.TEL,a.STATUS,a.USER_ID,b.AGT_TEAM_NAME
+		from t_micro_info a LEFT JOIN t_agt_team b ON a.AGT_TEAM_ID=b.AGT_TEAM_ID 
+		where a.MICRO_ID=#{microId} AND a.STATUS='1' limit 1
+	</select>
+	
+	
+	<!-- selectMicroTeamAddressByUserId -->
+	<select id="selectMicroTeamAddressByUserId" resultType="java.lang.String">
+		SELECT team_address FROM  t_agt_team
+		WHERE AGT_TEAM_ID = (
+		  SELECT AGT_TEAM_ID FROM t_micro_info WHERE user_id = #{userId,jdbcType=VARCHAR}
+		)
+	</select>
+	
+	<!-- 根据登录的手机号查找到小薇的信息 -->
+	<select id="getMicroByTel" resultMap="microResultMapping">
+		select MICRO_ID,MICRO_NAME,AGENT_ID,AGT_TEAM_ID,TEL,STATUS,USER_ID
+		from t_micro_info where TEL=#{tel} AND STATUS='1' limit 1
+	</select>
+	
+	<!-- 根据小微手机号得到账号 -->
+	<select id="getMicroCountByTel" resultType="java.lang.Integer">
+		select count(MICRO_ID)from t_micro_info where TEL=#{tel} AND STATUS='1'
+	</select>
+	
+	
+	<!--插入小微的信息 -->
+	<insert id="insertMicroDTO">
+		INSERT INTO
+		t_micro_info(MICRO_ID,AGENT_ID,AGT_TEAM_ID,MICRO_NAME,USER_ID,
+		TEL,MICRO_CLASS,STATUS,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES((SELECT id FROM ((SELECT (IFNULL(MAX(CONVERT(micro_id,DECIMAL))+1, '0')) id FROM t_micro_info) AS tmp_table)),#{agent_id},#{agt_team_id},#{micro_name},#{user_id},#{tel},#{micro_class},#{status},now(),#{crt_cde},now(),#{upd_cde})
+	</insert> 
+	
+	
+	<select id="getMicroInvitation" resultMap="microResultMapping">
+	select m.MICRO_ID,m.MICRO_NAME,m.AGENT_ID,m.AGT_TEAM_ID,m.STATUS,
+		m.MICRO_CLASS,u.USER_ID user_id
+		from t_micro_info  m
+		LEFT JOIN t_user u ON m.USER_ID=u.USER_ID
+		where u.INVITATION_ID=#{invitation} AND STATUS='1'
+	</select>
+	
+	
+	<!-- 获取费率相关信息 -->
+	<select id="getRoteByMicId" resultMap="microResultMapping">
+		select MICRO_ID,INS_ID,FEE_RATE from t_micro_ins_fee_config where MICRO_ID=#{microId} AND 
+		<![CDATA[ BEGIN_DATE< ]]> #{date} AND END_DATE> #{date} 
+	</select>
+	
+	<select id="getUserIdByMicId" resultType="String">
+		SELECT USER_ID FROM T_MICRO_INFO WHERE MICRO_ID=#{microId} limit 1
+	</select>
+
+<!-- 	根据传入的报价类型获取用户的可以报价的保险公司 -->
+	<select id="getInsByQuotaType" resultMap="insResultMapping">
+		select i.INS_ID insId,i.ins_pet_name insName from t_micro_ins_config m
+		LEFT JOIN t_ins_info i on i.INS_ID=m.INS_ID 
+		left join t_micro_info mi on mi.MICRO_ID=m.MICRO_ID
+		left join t_user u on u.USER_ID=mi.USER_ID
+		where u.USER_ID=#{userId} and i.QUOTA_TYPE=#{quotaType}
+	</select>
+	
+	<!-- 更新小微用户信息 -->
+	<update id="update" parameterType="com.zxcl.webapp.dto.MicroDTO">
+		UPDATE t_micro_info
+		<set>
+			<if test="tel != '' and tel != null">
+				TEL=#{tel},
+			</if>
+			<if test="updCode != '' and updCode != null">
+				UPD_CDE=#{updCode},
+			</if>
+				UPD_TM=now()
+		</set>
+		where MICRO_ID=#{micro_id}
+	</update>
+	<select id="selectAllMicro"  resultType="Integer" >
+		SELECT COUNT(TEL) FROM t_micro_info WHERE TEL=#{tel}	
+	</select>
+	
+	<!-- <select id="getInsIdsByMicroId" resultType="String">
+		SELECT INS_ID FROM t_micro_ins_config WHERE MICRO_ID=#{microId}
+	</select> -->
+
+	<select id="selectAllMicrobyUser"  resultType="Integer" >
+		SELECT COUNT(USER_ID) FROM t_user WHERE USER_ID=#{userId}	
+	</select>
+	
+	<!-- 根据保险公司ID或小微ID得到保险公司配置信息的ID -->
+	<select id="getConfigIdByInsIdAndMicroId" resultType="String">
+		SELECT a.CONFIG_ID configId FROM t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID=b.AGT_TEAM_ID AND a.INS_ID=#{insId} and b.MICRO_ID=#{microId}
+	</select>
+	
+	<!-- findConfigIdByParam -->
+	<select id="findConfigIdByParam" resultType="java.lang.String">
+        SELECT a.CONFIG_ID configId 
+        FROM t_team_param_mapping a,t_micro_info b 
+        WHERE a.TEAM_ID=b.AGT_TEAM_ID 
+        AND a.INS_ID=#{insId} 
+        and b.MICRO_ID=#{microId}
+        and a.QUOTN_TYPE=#{quotnType}
+    </select>
+	
+	<!-- 根据保险公司ID或小微ID得到保险公司status -->
+	<select id="getStatusByInsIdAndMicroId" resultType="String">
+		SELECT a.STATUS status FROM t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID=b.AGT_TEAM_ID  AND a.INS_ID=#{insId} and b.MICRO_ID=#{microId} 
+			AND a.QUOTN_TYPE=#{quotnType} AND a.SERVICE_TYPE = #{serviceType}
+	</select>
+	
+	<!-- 根绝agt_team_id团队编码获取 代理机构名 团队电话号码 -->
+	<select id="selectAgtTeam" resultType="hashmap" parameterType="String">
+		SELECT a.`AGT_TEAM_LEADER_TEL` AS agtTeamTel,a.AGT_TEAM_NAME AS teamName,a.agt_team_alias_name as teamAliasName FROM t_agt_team a WHERE 1=1  AND a.AGT_TEAM_ID=#{agt_team_id}
+	</select>
+	<!-- 根绝agent_id代理机构编码获取 代理机构名 代理机构电话号码 -->
+	<select id="selectAgent" resultType="hashmap" parameterType="String">
+		SELECT a.AGENT_ABBREV AS agentName ,a.`LINKMAN_TEL` AS agentTel FROM t_agent_info a WHERE  1=1  AND a.AGENT_ID=#{agent_id};
+	</select>
+	
+	<update id="updateTeamIdByUserId">
+		update t_micro_info
+		set UPD_TM=now(),
+		UPD_CDE='bxtx_system',
+		AGT_TEAM_ID=#{teamId}
+		where USER_ID=#{userId}
+	</update>
+	
+	<select id="getCompanyAccinfoByCompCode" resultType="com.zxcl.webapp.dto.CompanyAccInfoDTO">
+		SELECT comp_code compCode,first_sign_date firstSignDate,start_date startDate,end_date endDate,`status`,expected_total expectedTotal,
+balance,remark,reserve,reserve1 from insurance.company_accinfo WHERE comp_code  = (
+SELECT comp_code from t_agent_info where
+ AGENT_ID = (SELECT AGENT_ID from t_micro_info  WHERE USER_ID = #{userId})
+)
+		
+	</select>
+	
+	
+</mapper>

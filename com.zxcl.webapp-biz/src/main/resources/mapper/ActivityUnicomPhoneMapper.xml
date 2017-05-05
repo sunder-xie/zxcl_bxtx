@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.ActivityUnicomPhoneDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.activity.unicome.ActivityUnicomPhoneDTO" >
+    <id column="PHONE_ID" property="phoneId" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_BY" property="crtBy" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_BY" property="updBy" jdbcType="VARCHAR" />
+    <result column="OPERATE" property="operate" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="BIT" />
+    <result column="STAGE" property="stage" jdbcType="TINYINT" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PHONE_ID, CRT_TM, CRT_BY, UPD_TM, UPD_BY, OPERATE, STATUS, STAGE, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_activity_unicome_phone
+    where PHONE_ID = #{phoneId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- phoneListCount -->
+  <select id="phoneListCount" resultType="java.lang.Integer" parameterType="com.zxcl.webapp.biz.util.model.PageParam">
+  	SELECT
+  	COUNT(PHONE_ID)
+  	FROM t_activity_unicome_phone
+  	WHERE STATUS=1
+  	AND STAGE=1
+  	<if test="mealId != null">
+  		and PHONE_LEVEL &lt;=#{mealId}
+  	</if>
+  	<if test="mealId == null">
+  		AND (REMARK IS NULL OR REMARK = '')
+  	</if>
+  </select>
+  
+  <!-- lianghaoPhoneList -->
+  <select id="lianghaoPhoneList" resultMap="BaseResultMap">
+  	select
+  	PHONE_ID, REMARK
+    FROM t_activity_unicome_phone
+  	WHERE STATUS=1
+  	AND STAGE=1
+  	AND REMARK IS NOT NULL 
+  	AND REMARK != ''
+  	<if test="mealId != null">
+  		and PHONE_LEVEL &lt;=#{mealId}
+  	</if>
+  	order by RAND()
+    limit #{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <!-- phoneList -->
+  <select id="phoneList" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.biz.util.model.PageParam">
+  	select
+  	PHONE_ID, REMARK
+    FROM t_activity_unicome_phone
+  	WHERE STATUS=1
+  	AND STAGE=1
+  	<if test="mealId != null">
+  		and PHONE_LEVEL &lt;=#{mealId}
+  	</if>
+  	<if test="mealId == null">
+  		AND (REMARK IS NULL OR REMARK = '')
+  	</if>
+  	order by RAND()
+    limit #{start,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_activity_unicome_phone
+    where PHONE_ID = #{phoneId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.activity.unicome.ActivityUnicomPhoneDTO" >
+    insert into t_activity_unicome_phone
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="phoneId != null" >
+        PHONE_ID,
+      </if>
+      CRT_TM,
+      <if test="crtBy != null" >
+        CRT_BY,
+      </if>
+      UPD_TM,
+      <if test="updBy != null" >
+        UPD_BY,
+      </if>
+      <if test="operate != null" >
+        OPERATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="stage != null" >
+        STAGE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="phoneId != null" >
+        #{phoneId,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="operate != null" >
+        #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="stage != null" >
+        #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.activity.unicome.ActivityUnicomPhoneDTO" >
+    update t_activity_unicome_phone
+    <set >
+      UPD_TM = now(),
+      <if test="updBy != null" >
+        UPD_BY = #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="operate != null" >
+        OPERATE = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=BIT},
+      </if>
+      <if test="stage != null" >
+        STAGE = #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PHONE_ID = #{phoneId,jdbcType=VARCHAR}
+  </update>
+</mapper>

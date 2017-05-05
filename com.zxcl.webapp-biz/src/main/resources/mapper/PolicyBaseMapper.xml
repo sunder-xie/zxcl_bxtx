@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.PolicyBaseDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.PolicyBaseDTO" >
+    <id column="policy_base_id" property="policyBaseId" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+    <result column="product_code" property="productCode" jdbcType="VARCHAR" />
+    <result column="agent_id" property="agentId" jdbcType="VARCHAR" />
+    <result column="ins_id" property="insId" jdbcType="VARCHAR" />
+    <result column="policy_no" property="policyNo" jdbcType="VARCHAR" />
+    <result column="policy_crt_tm" property="policyCrtTm" jdbcType="TIMESTAMP" />
+    <result column="plate_no" property="plateNo" jdbcType="VARCHAR" />
+    <result column="frm_no" property="frmNo" jdbcType="VARCHAR" />
+    <result column="eng_no" property="engNo" jdbcType="VARCHAR" />
+    <result column="owner_name" property="ownerName" jdbcType="VARCHAR" />
+    <result column="policy_prm" property="policyPrm" jdbcType="DECIMAL" />
+    <result column="tax" property="tax" jdbcType="DECIMAL" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="cal_status" property="calStatus" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    policy_base_id, created_by, created_date, updated_by, updated_date, product_code, 
+    agent_id, ins_id, policy_no, policy_crt_tm, plate_no, frm_no, eng_no, owner_name, 
+    policy_prm, tax, user_id, cal_status,team_id
+  </sql>
+  
+  
+  <select id="teamPolicyFee" resultType="java.lang.String">
+    SELECT 
+	FORMAT(IFNULL(SUM(policy_prm),0)/10000,2) AS r
+	FROM t_policy_base
+	where team_id=#{teamId}
+	<if test="null != userId and '' != userId">
+  	  AND user_id=#{userId}
+    </if>
+    <if test="type != null and '' != type">
+    	<if test="type == 2">
+    		AND policy_crt_tm &gt;= DATE_ADD(CURDATE(), INTERVAL - DAY(CURDATE()) + 1 DAY)  AND policy_crt_tm &lt; ( LAST_DAY(CURDATE()) + INTERVAL 1 DAY ) 
+    	</if>
+    	<if test="type == 3">
+    		AND policy_crt_tm &gt;=  DATE(NOW()) AND policy_crt_tm &lt; DATE(NOW()) + INTERVAL 1 DAY
+    	</if>
+    </if>
+    <if test="type == null or '' == type">
+    	AND 2=1
+    </if>
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_policy_base
+    where policy_base_id = #{policyBaseId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_policy_base
+    where policy_base_id = #{policyBaseId,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.PolicyBaseDTO" >
+    insert into t_policy_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="policyBaseId != null" >
+        policy_base_id,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+      <if test="productCode != null" >
+        product_code,
+      </if>
+      <if test="agentId != null" >
+        agent_id,
+      </if>
+      <if test="insId != null" >
+        ins_id,
+      </if>
+      <if test="policyNo != null" >
+        policy_no,
+      </if>
+      <if test="policyCrtTm != null" >
+        policy_crt_tm,
+      </if>
+      <if test="plateNo != null" >
+        plate_no,
+      </if>
+      <if test="frmNo != null" >
+        frm_no,
+      </if>
+      <if test="engNo != null" >
+        eng_no,
+      </if>
+      <if test="ownerName != null" >
+        owner_name,
+      </if>
+      <if test="policyPrm != null" >
+        policy_prm,
+      </if>
+      <if test="tax != null" >
+        tax,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="calStatus != null" >
+        cal_status,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="policyBaseId != null" >
+        #{policyBaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null" >
+        #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="insId != null" >
+        #{insId,jdbcType=VARCHAR},
+      </if>
+      <if test="policyNo != null" >
+        #{policyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyCrtTm != null" >
+        #{policyCrtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plateNo != null" >
+        #{plateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="frmNo != null" >
+        #{frmNo,jdbcType=VARCHAR},
+      </if>
+      <if test="engNo != null" >
+        #{engNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerName != null" >
+        #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="policyPrm != null" >
+        #{policyPrm,jdbcType=DECIMAL},
+      </if>
+      <if test="tax != null" >
+        #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="calStatus != null" >
+        #{calStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.PolicyBaseDTO" >
+    update t_policy_base
+    <set >
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCode != null" >
+        product_code = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null" >
+        agent_id = #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="insId != null" >
+        ins_id = #{insId,jdbcType=VARCHAR},
+      </if>
+      <if test="policyNo != null" >
+        policy_no = #{policyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyCrtTm != null" >
+        policy_crt_tm = #{policyCrtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plateNo != null" >
+        plate_no = #{plateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="frmNo != null" >
+        frm_no = #{frmNo,jdbcType=VARCHAR},
+      </if>
+      <if test="engNo != null" >
+        eng_no = #{engNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerName != null" >
+        owner_name = #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="policyPrm != null" >
+        policy_prm = #{policyPrm,jdbcType=DECIMAL},
+      </if>
+      <if test="tax != null" >
+        tax = #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="calStatus != null" >
+        cal_status = #{calStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where policy_base_id = #{policyBaseId,jdbcType=VARCHAR}
+  </update>
+</mapper>

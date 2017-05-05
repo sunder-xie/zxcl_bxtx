@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.ParamConfigDAO">
+	
+	<resultMap autoMapping="true" type="com.zxcl.webapp.dto.ParamConfigDTO"
+		 id="getParamConfigs"></resultMap>
+	
+	<select id="getParamConfigs" resultMap="getParamConfigs">
+		SELECT CONFIG_KEY `key`,CONFIG_VALUE `value`,`STATUS` `status`,`REMARK` `remark`,
+		CRT_TM crtTm,CRT_CDE crtCde,UPD_TM updTm,UPD_CDE updCde FROM t_param_config
+		 WHERE `STATUS` = 1
+	</select>
+	
+	<delete id="deleteByKey">
+		delete from t_param_config
+		where CONFIG_KEY=#{configKey}
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.zxcl.webapp.dto.ParamConfigDTO">
+		insert into t_param_config
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			CONFIG_KEY,
+			CONFIG_VALUE,
+			STATUS,
+			REMARK,
+			CRT_TM,
+			CRT_CDE,
+			UPD_TM,
+			UPD_CDE,
+		</trim>
+		
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			#{key},
+			#{value},
+			1,
+			#{remark},
+			now(),
+			'system',
+			now(),
+			'system',
+		</trim>
+	</insert>
+	
+	
+	<select id="getValueByKey" resultType="String">
+		SELECT CONFIG_VALUE FROM t_param_config WHERE CONFIG_KEY=#{getValueByKey};
+	</select>
+	
+</mapper>

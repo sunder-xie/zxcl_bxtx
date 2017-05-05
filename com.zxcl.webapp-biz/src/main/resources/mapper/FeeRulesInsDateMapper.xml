@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.FeeRulesInsDateDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.FeeRulesInsDateDTO" >
+    <result column="agent_id" property="agentId" jdbcType="VARCHAR" />
+    <result column="ins_id" property="insId" jdbcType="VARCHAR" />
+    <result column="input_date" property="inputDate" jdbcType="DATE" />
+    <result column="ins_begin_date" property="insBeginDate" jdbcType="DATE" />
+    <result column="product_code" property="productCode" jdbcType="VARCHAR" />
+    <result column="ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="crt_by" property="crtBy" jdbcType="VARCHAR" />
+    <result column="crt_tm" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="upd_by" property="updBy" jdbcType="VARCHAR" />
+    <result column="upd_tm" property="updTm" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="base_sql">
+  	agent_id, ins_id, input_date, ins_begin_date, product_code, ratio, status, crt_by, crt_tm, upd_by, upd_tm
+  </sql>
+  <!-- findFeeByParam -->
+  <select id="findFeeByParam" resultMap="BaseResultMap">
+  	select 
+  	<include refid="base_sql"/>
+  	from t_fee_rules_ins_date
+  	where status='1'
+  	and ratio is not null
+  	and agent_id=(
+  		select AGENT_ID from t_micro_info where USER_ID=#{userId}
+  	)
+  	and ins_id=#{insId}
+  	and product_code=#{productCode}
+  	and input_date &gt;= DATE_FORMAT(NOW(), '%Y-%m-%d')
+  	and ins_begin_date &lt;= #{insureStartDate}
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.FeeRulesInsDateDTO" >
+    insert into t_fee_rules_ins_date
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        agent_id,
+      </if>
+      <if test="insId != null" >
+        ins_id,
+      </if>
+      <if test="inputDate != null" >
+        input_date,
+      </if>
+      <if test="insBeginDate != null" >
+        ins_begin_date,
+      </if>
+      <if test="productCode != null" >
+        product_code,
+      </if>
+      <if test="ratio != null" >
+        ratio,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="crtBy != null" >
+        crt_by,
+      </if>
+      <if test="crtTm != null" >
+        crt_tm,
+      </if>
+      <if test="updBy != null" >
+        upd_by,
+      </if>
+      <if test="updTm != null" >
+        upd_tm,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="insId != null" >
+        #{insId,jdbcType=VARCHAR},
+      </if>
+      <if test="inputDate != null" >
+        #{inputDate,jdbcType=DATE},
+      </if>
+      <if test="insBeginDate != null" >
+        #{insBeginDate,jdbcType=DATE},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ratio != null" >
+        #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTm != null" >
+        #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updTm != null" >
+        #{updTm,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

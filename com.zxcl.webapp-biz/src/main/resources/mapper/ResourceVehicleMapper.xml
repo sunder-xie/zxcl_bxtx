@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.ResourceVehicleDAO">
+	<!-- 没有关联的映射 -->
+	<resultMap id="rvResultMapping" type="com.zxcl.webapp.dto.bizdto.ResourceVehicleDTO">
+		<id column="PLATE_NO" jdbcType="VARCHAR" property="plateNo"/>
+		<result column="ENG_NO" jdbcType="VARCHAR" property="engNo"/>
+		<result column="FRM_NO" jdbcType="VARCHAR" property="frmNo"/>
+		<result column="FST_REG_YM" jdbcType="VARCHAR" property="fstRegYm"/>
+		<result column="MODEL_NME" jdbcType="VARCHAR" property="modelNme"/>
+		<result column="OWNER_NME" jdbcType="VARCHAR" property="ownerNme"/>
+		<result column="CERTF_CDE" jdbcType="VARCHAR" property="certfCde"/>
+		<result column="vciInsureEnd" jdbcType="VARCHAR" property="vciInsureEnd"/>
+		<result column="tciInsureEnd" jdbcType="VARCHAR" property="tciInsureEnd"/>
+	</resultMap>
+	
+	
+	<!-- 根据车牌查询车辆信息 -->
+	<select id="getResVehicleByPlateNoDAO" resultMap="rvResultMapping">
+		SELECT  PLATE_NO AS plateNo,
+				ENG_NO AS engNo,
+				FRM_NO AS frmNo,
+				FST_REG_YM AS fstRegYm,
+				MODEL_NME AS modelNme,
+				OWNER_NME AS ownerNme,
+				CERTF_CDE AS certfCde,
+				vci_insure_end AS vciInsureEnd, 
+				tci_insure_end AS tciInsureEnd
+		 from T_RESOURCE_VEHICLE where PLATE_NO=#{plateNo} 
+	</select> 
+	
+	<!-- getResVehicleByModelName -->
+	<select id="getResVehicleByModelName" resultMap="rvResultMapping">
+		SELECT  PLATE_NO AS plateNo,
+				ENG_NO AS engNo,
+				FRM_NO AS frmNo,
+				FST_REG_YM AS fstRegYm,
+				MODEL_NME AS modelNme,
+				OWNER_NME AS ownerNme,
+				CERTF_CDE AS certfCde
+		 from T_RESOURCE_VEHICLE where MODEL_NME=#{modelName}  limit 1
+	</select> 
+	
+	<insert id="insert">
+		INSERT INTO t_resource_vehicle(PLATE_NO,ENG_NO,FRM_NO,FST_REG_YM,MODEL_NME,OWNER_NME,CERTF_CDE,vci_insure_end,tci_insure_end,crt_tm,upd_tm,crt_cde,upd_cde,data_source) 
+			VALUES(#{plateNo},#{engNo},#{frmNo},#{fstRegYm},#{modelNme},#{ownerNme},#{certfCde},#{vciInsureEnd},#{tciInsureEnd},NOW(),NOW(),'bxtx','bxtx','bxtx')
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM t_resource_vehicle WHERE PLATE_NO=#{plateNo}
+	</delete>
+	
+	<select id="getByPlateNo" resultType="Integer">
+		SELECT COUNT(*) FROM t_resource_vehicle WHERE PLATE_NO=#{plateNo}
+	</select>
+	
+</mapper>

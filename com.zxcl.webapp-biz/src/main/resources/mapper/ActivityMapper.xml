@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.ActivityDAO">
+	
+	<resultMap autoMapping="true" type="com.zxcl.webapp.dto.ActivityDTO" id="getOngoingActivity">
+		<!-- 
+		<id property="id" column="id" />
+		<result property="title" column="title"/>
+		<result property="startTime" column="startTime"/>
+		<result property="endTime" column="endTime"/>
+		<result property="mainImgUrl" column="mainImgUrl"/>
+	 -->
+	</resultMap>
+	
+	<resultMap  type="com.zxcl.webapp.dto.ActivityDTO" id="getHistoryActivitys" autoMapping="true">
+
+	</resultMap>
+	
+	<resultMap autoMapping="true" type="com.zxcl.webapp.dto.ActivityDTO" id="getActivityDetailById">
+		
+		
+	</resultMap>
+	
+	<select id="selectCountBetwByTitle" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT
+			count(*)
+		FROM
+			t_activity activity,t_activity_unfold_range activity_unfold_range
+		WHERE 
+			activity.ID=activity_unfold_range.ACTIVITY_ID
+		    <![CDATA[ 
+		  	AND now() >= activity.START_TIME
+			AND now() < activity.END_TIME
+			 ]]>
+			AND activity.TITLE LIKE concat('%',#{title},'%')
+	</select>
+	
+	<select id="getOngoingActivity" resultMap="getOngoingActivity" >
+		SELECT DISTINCT a.ID id ,a.TITLE title,a.START_TIME startTime,a.END_TIME endTime ,b.CONTENT as mainImgUrl 
+		FROM t_activity a ,t_activity_unfold_range aur,t_activity_content b 
+		WHERE b.ACTIVITY_ID = a.ID AND b.IS_MAIN = 1 AND b.DETAIL_TYPE = 1 AND b.CONTENT != ''
+			AND (a.TYPE = 2
+				<if test="activityType == 1 and agentId != null">
+					OR (a.TYPE = 1 AND aur.RANGE_CODE = #{agentId} AND aur.RANGE_TYPE = 1   AND aur.ACTIVITY_ID = a.ID  )
+				</if>
+			)
+		
+		AND a.START_TIME &lt;= #{currentTime}
+		AND a.END_TIME &gt; #{currentTime}
+		AND a.`STATUS` = 1 ORDER BY  a.CRT_TM DESC
+		 
+	</select>
+	
+	<select id="getHistoryActivitys" resultMap="getHistoryActivitys">
+		SELECT DISTINCT a.ID id ,a.TITLE title,a.START_TIME startTime,a.END_TIME endTime ,a.`STATUS` status ,b.CONTENT as mainImgUrl 
+		FROM t_activity a ,t_activity_unfold_range aur,t_activity_content b 
+		WHERE  b.ACTIVITY_ID = a.ID AND b.IS_MAIN = 1 AND b.DETAIL_TYPE = 1 AND b.CONTENT != ''
+			AND (a.TYPE = 2
+				<if test="activityType == 1 and agentId != null">
+					OR (a.TYPE = 1 AND aur.RANGE_CODE = #{agentId}  AND aur.RANGE_TYPE = 1   AND aur.ACTIVITY_ID = a.ID  )
+				</if>
+			)
+		ORDER BY a.CRT_TM DESC
+		
+		limit #{limitNo},#{pageSize}
+	
+	</select>
+
+	<select id="getActivityDetailById" resultMap="getActivityDetailById" >
+		SELECT DISTINCT a.ID id,a.TYPE activityType,a.TITLE title,a.START_TIME startTime,a.END_TIME endTime ,b.CONTENT as activityContent
+		  FROM t_activity a,t_activity_content b ,t_activity_unfold_range aur
+		WHERE  b.ACTIVITY_ID = a.ID  AND b.DETAIL_TYPE = 2 AND a.ID = #{id}
+			AND (a.TYPE = 2
+				<if test="activityType == 1 and agentId != null">
+					OR (a.TYPE = 1 AND aur.RANGE_CODE = #{agentId}  AND aur.RANGE_TYPE = 1   AND aur.ACTIVITY_ID = a.ID  )
+				</if>
+			)
+	</select>
+	
+	<select id="getActivityBxtxCOrderCount" resultType="java.lang.Integer">
+		SELECT count(ORDER_ID) FROM t_order WHERE PLY_CRT_TM &gt; #{startTime} AND PLY_CRT_TM &lt; #{endTime} AND VCI_PLY_NO is not null
+	</select>
+
+	<select id="getActivityBxtxcUsersCount" resultType="java.lang.Integer">
+		SELECT count(CRT_CDE) FROM t_order WHERE PLY_CRT_TM &gt; #{startTime} AND PLY_CRT_TM &lt; #{endTime} AND VCI_PLY_NO is not null  GROUP BY CRT_CDE
+	</select>
+</mapper>

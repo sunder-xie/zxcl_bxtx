@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.wallet.WalletTransferDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.wallet.WalletTransferDTO" >
+    <id column="TRANS_ID" property="transId" jdbcType="VARCHAR" />
+    <result column="FROM_USER_ID" property="fromUserId" jdbcType="VARCHAR" />
+    <result column="FROM_ID" property="fromId" jdbcType="VARCHAR" />
+    <result column="TO_USER_ID" property="toUserId" jdbcType="VARCHAR" />
+    <result column="TO_ID" property="toId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TRANS_ID, FROM_USER_ID, FROM_ID, TO_USER_ID, TO_ID, TYPE, AMOUNT, CRT_TM, CRT_CDE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_transfer
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_wallet_transfer
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zxcl.webapp.dto.wallet.WalletTransferDTO" >
+    insert into t_wallet_transfer (TRANS_ID, FROM_USER_ID, FROM_ID, 
+      TO_USER_ID, TO_ID, TYPE, 
+      AMOUNT, CRT_TM, CRT_CDE
+      )
+    values (#{transId,jdbcType=VARCHAR}, #{fromUserId,jdbcType=VARCHAR}, #{fromId,jdbcType=VARCHAR}, 
+      #{toUserId,jdbcType=VARCHAR}, #{toId,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{crtTm,jdbcType=TIMESTAMP}, #{crtCde,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.wallet.WalletTransferDTO" >
+    insert into t_wallet_transfer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="transId != null" >
+        TRANS_ID,
+      </if>
+      <if test="fromUserId != null" >
+        FROM_USER_ID,
+      </if>
+      <if test="fromId != null" >
+        FROM_ID,
+      </if>
+      <if test="toUserId != null" >
+        TO_USER_ID,
+      </if>
+      <if test="toId != null" >
+        TO_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM,
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="transId != null" >
+        #{transId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserId != null" >
+        #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromId != null" >
+        #{fromId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toId != null" >
+        #{toId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="crtTm != null" >
+        #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.wallet.WalletTransferDTO" >
+    update t_wallet_transfer
+    <set >
+      <if test="fromUserId != null" >
+        FROM_USER_ID = #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromId != null" >
+        FROM_ID = #{fromId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        TO_USER_ID = #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toId != null" >
+        TO_ID = #{toId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtCde != null" >
+        CRT_CDE = #{crtCde,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zxcl.webapp.dto.wallet.WalletTransferDTO" >
+    update t_wallet_transfer
+    set FROM_USER_ID = #{fromUserId,jdbcType=VARCHAR},
+      FROM_ID = #{fromId,jdbcType=VARCHAR},
+      TO_USER_ID = #{toUserId,jdbcType=VARCHAR},
+      TO_ID = #{toId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=CHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      CRT_CDE = #{crtCde,jdbcType=VARCHAR}
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </update>
+</mapper>

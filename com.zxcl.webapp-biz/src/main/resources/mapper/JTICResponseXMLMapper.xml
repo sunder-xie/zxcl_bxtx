@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.JTICResponseXmlDAO">
+
+	<!-- 将获取的报文插入到数据表中 -->
+	<insert id="insertResponseXml">
+		INSERT INTO
+		t_ins_xml(XML_ID,INQUIRY_ID,QUOTA_ID,INS_ID,ORDER_ID,XML_FILE,REQUEST_BACK,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,XML_TYPE)
+		VALUES(#{xmlId},#{inquiryId},#{quotaId},#{insId},#{orderId},#{xmlFile},#{requestOrBack},now(),#{crtCode},now(),#{updCode},#{xmlType})
+	</insert>
+
+    <!-- 根据xml_id 跟新数据库的数据 -->
+	<update id="updateXmlOrderId">
+	   UPDATE t_ins_xml t  SET t.ORDER_ID=#{orderId}  WHERE t.xml_id=#{xmlId}
+	</update>
+    
+    <!-- 根据xml_id 跟新数据库的数据 -->
+	<update id="updateXmlQuotaId">
+	   UPDATE t_ins_xml t  SET t.quota_id=#{quotaId}  WHERE t.xml_id=#{xmlId}
+	</update>
+	
+	<select id="getBackXml" resultType="String">
+		SELECT XML_FILE FROM T_INS_XML WHERE INQUIRY_ID=#{inquiryId} AND INS_ID=#{insId} AND QUOTA_ID=#{quotaId} AND REQUEST_BACK='B'
+	</select>
+</mapper>

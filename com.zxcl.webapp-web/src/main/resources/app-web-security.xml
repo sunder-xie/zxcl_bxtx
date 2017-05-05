@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:sec="http://www.springframework.org/schema/security" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	<sec:global-method-security pre-post-annotations="enabled">
+	<sec:expression-handler ref="expressionHandler" />
+	</sec:global-method-security>
+	<context:component-scan base-package="com.zxcl.webapp.web.security" />
+	<context:component-scan base-package="com.zxcl.webapp.security.authentication" />
+	<bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator" ref="permissionEvaluator" />
+	</bean>
+	
+	<sec:http pattern="/**/*.css" security="none"></sec:http>
+	<sec:http pattern="/**/*.js" security="none"></sec:http>
+	<sec:http pattern="/**/*.gif" security="none"></sec:http>
+	<sec:http pattern="/**/*.png" security="none"></sec:http>
+	<sec:http pattern="/**/*.ico" security="none"></sec:http>
+	<sec:http pattern="/**/*.jpg" security="none"></sec:http>
+	<sec:http security="none" pattern="/gateway.do"/>
+	<sec:http pattern="/html/*" security="none"></sec:http>
+	<sec:http pattern="/mzsm.do" security="none"></sec:http>
+	<sec:http pattern="/xtjsz.do" security="none"></sec:http>
+	<sec:http pattern="/fileserver.do" security="none"></sec:http>
+	<sec:http pattern="/logon.do" security="none"></sec:http>
+	<sec:http pattern="/addMicro.do" security="none"></sec:http>
+	<sec:http pattern="/CodeClass.do" security="none"></sec:http>
+	<sec:http pattern="/redirectUserXW.do" security="none"></sec:http>
+	<sec:http pattern="/userIdValidation.do" security="none"></sec:http>
+	<sec:http pattern="/phoneVidation2.do" security="none"></sec:http>
+	<sec:http pattern="/phoneVidation.do" security="none"></sec:http>
+	<sec:http pattern="/towCode.do" security="none"></sec:http>
+	<sec:http pattern="/token.do" security="none"></sec:http>
+	<sec:http pattern="/sms.do" security="none"></sec:http>
+	<sec:http pattern="/tpic/paySucceedInform.do" security="none"></sec:http>
+	<sec:http pattern="/aics/wap/*.do" security="none"></sec:http>
+	<sec:http pattern="/tpic/underwriteAffirmInform.do" security="none"></sec:http>
+	<sec:http pattern="/ygbx/undrResult.do" security="none"></sec:http>
+	<sec:http pattern="/ygbx/plyResult.do" security="none"></sec:http>
+	<sec:http pattern="/nonauth_*" security="none"></sec:http>
+	<sec:http pattern="/call/**/*.do" security="none"></sec:http>
+	<sec:http pattern="/activity_unicom/**/*.do" security="none"></sec:http>
+	<sec:http pattern="/activityd/toActivity3Page.do" security="none"></sec:http>
+	<sec:http pattern="/remoting/*" security="none"></sec:http>
+	<sec:http pattern="/passport/*.do" security="none"></sec:http>
+	<sec:http pattern="/fdcp/wap/*.do" security="none"></sec:http>
+	<sec:http pattern="/test.html" security="none"></sec:http>
+	<sec:http pattern="/deniedAccess.do" security="none"></sec:http>
+	<sec:http pattern="/jtic/payCallback.do" security="none"></sec:http>
+	<sec:http pattern="/used.do" security="none"></sec:http>
+	<sec:http pattern="/question.do" security="none"></sec:http>
+	<sec:http pattern="/about.do" security="none"></sec:http>
+	<sec:http pattern="/insureSeviceTel.do" security="none"></sec:http>
+	<sec:http pattern="/hacp/payCallback.do" security="none"></sec:http>
+	<sec:http pattern="/cpic/wxpayResult.do" security="none"></sec:http>
+	<sec:http pattern="/ccic/undwrtResult.do" security="none"></sec:http>
+	<sec:http pattern="/ccic/payCallback.do" security="none"></sec:http>
+	<sec:http pattern="/yongcheng/callback.do" security="none"></sec:http>
+	<sec:http pattern="/api/login/regist_and_login.do" security="none"></sec:http>
+	<sec:http pattern="/openapi/login/regist_and_login.do" security="none"></sec:http>
+	<sec:http use-expressions="true" auto-config="true">
+		<sec:form-login login-page="/logon.do" default-target-url="/index.do" authentication-failure-url="/logon.do?error=true" login-processing-url="/j_spring_security_check" />
+		<sec:logout logout-url="/j_spring_security_logout" logout-success-url="/logon.do"/>
+		<sec:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="mycSecFilter" />
+		<sec:custom-filter before="CAS_FILTER" ref="weChatSecFilter" />
+		<sec:custom-filter before="LAST" ref="statisticsVisitCountFilter"/>
+		<sec:custom-filter before="FIRST" ref="compCodeFilter"/>
+		<sec:access-denied-handler error-page="/deniedAccess.do" />
+	</sec:http>
+	<bean id="statisticsVisitCountFilter" class="com.zxcl.webapp.web.util.StatisticsVisitCountFilter"></bean>
+	<bean id="compCodeFilter" class="com.zxcl.webapp.web.util.CompCodeFilter">
+		<property name="currentServerUrl" value="${share.url}" />
+	</bean>
+	<bean id="mycSecFilter" class="com.meyacom.fw.app.web.security.filter.MycSecurityFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="securityMetadataSource" ref="securityMetadataSource" />
+	</bean>
+	<bean id="weChatSecFilter" class="com.zxcl.webapp.web.security.authentication.WeChatAuthProcessingFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider ref="mycAuthenticationProviderWithbxtx" />
+		<sec:authentication-provider ref="weChatAuthenticationProvider" />
+	</sec:authentication-manager>
+</beans>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.wallet.WalletBillDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.wallet.WalletBillDTO" >
+    <id column="BILL_ID" property="billId" jdbcType="VARCHAR" />
+    <result column="WALLET_ID" property="walletId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="BILL_AMOUNT" property="billAmount" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="PAY_CHANNEL" property="payChannel" jdbcType="VARCHAR" />
+    <result column="PAY_ORDER_NO" property="payOrderNo" jdbcType="VARCHAR" />
+    <result column="CASH_BANK_NO" property="cashBankNo" jdbcType="VARCHAR" />
+    <result column="CASH_CARD_NO" property="cashCardNo" jdbcType="VARCHAR" />
+    <result column="CASH_CARD_OWNER" property="cashCardOwner" jdbcType="VARCHAR" />
+    <result column="RESULT_MSG" property="resultMsg" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    
+    <result column="amount_type" property="amountType" jdbcType="VARCHAR" />
+    <result column="amount_target_Id" property="amountTargetId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BILL_ID, WALLET_ID, USER_ID, BILL_AMOUNT, REMARK, CRT_CDE, 
+    CRT_TM, UPD_CDE, UPD_TM, PAY_CHANNEL, PAY_ORDER_NO, CASH_BANK_NO, CASH_CARD_NO, CASH_CARD_OWNER, 
+    RESULT_MSG, STATUS, amount_type, amount_target_Id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_bill
+    where BILL_ID = #{billId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- getBillListByParam -->
+<!--   <select id="getBillListByParam" resultMap="BaseResultMap"> -->
+<!--     select  -->
+<!--     <include refid="Base_Column_List" /> -->
+<!--     from t_wallet_bill -->
+<!--     where USER_ID=#{userId} -->
+<!--     and TRANS_TYPE=#{transType} -->
+<!--     and BILL_TYPE=#{billType} -->
+<!--   </select> -->
+  
+  
+  <!-- selectWalletBillByPayOrderNo -->
+  <select id="selectWalletBillByPayOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_bill
+    where PAY_ORDER_NO = #{billId,jdbcType=VARCHAR} limit 1
+  </select>
+  
+  <!-- billListCount -->
+  <select id="billListCount" resultType="java.lang.Integer" parameterType="com.zxcl.webapp.biz.util.model.PageParam" >
+    select 
+    count(BILL_ID)
+    from t_wallet_bill
+    where 1=1
+    and USER_ID = #{operateUser,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- billList -->
+  <select id="billList" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.biz.util.model.PageParam" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet_bill
+    where 1=1
+    and USER_ID = #{operateUser,jdbcType=VARCHAR}
+    order by CRT_TM desc
+    limit #{start,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <!-- getBillListByTransType -->
+<!--   <select id="getBillListByTransType" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.dto.wallet.WalletBillDTO"> -->
+<!--   	select  -->
+<!--     <include refid="Base_Column_List" /> -->
+<!--     from t_wallet_bill -->
+<!--     where 1=1 -->
+<!--     and USER_ID = #{userId,jdbcType=VARCHAR} -->
+<!--     and TRANS_TYPE = #{transType,jdbcType=VARCHAR} -->
+<!--   </select> -->
+  
+  
+  
+</mapper>

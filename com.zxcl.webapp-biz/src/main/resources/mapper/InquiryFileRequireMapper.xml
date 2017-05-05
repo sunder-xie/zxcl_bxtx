@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.InquiryFileRequireDAO" >
+  
+  <resultMap type="com.zxcl.webapp.dto.InquiryFileRequireDTO" id="result" autoMapping="true"></resultMap>
+  
+  <insert id="insertInquiryFileRequire" parameterType="com.zxcl.webapp.dto.InquiryFileRequireDTO">
+  
+  	INSERT INTO t_inquiry_file_require (INQUIRY_ID,INS_ID,FILE_TYPE,FILE_ID,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+  	VALUES(#{inquiryId},#{insId},#{fileType},#{fileId},#{crtTm},#{crtBy},#{updTm},#{updBy})
+  </insert>
+  
+  <delete id="deleteInquiryFileRequire">
+  	DELETE FROM t_inquiry_file_require WHERE INQUIRY_ID = #{inquiryId} AND INS_ID = #{insId}
+  </delete>
+  
+  <select id="getListByInquiryId" resultMap="result">
+  	SELECT INQUIRY_ID inquiryId,INS_ID insId,FILE_TYPE fileType,FILE_ID fileId,
+  	CRT_TM crtTm,CRT_CDE crtBy,UPD_TM updTm,UPD_CDE updBy
+  	 FROM t_inquiry_file_require WHERE INQUIRY_ID = #{inquiryId} AND INS_ID = #{insId}
+  </select>
+  
+  <update id="updateInquiryFileRequires"  parameterType="com.zxcl.webapp.dto.InquiryFileRequireDTO">
+  	UPDATE t_inquiry_file_require SET FILE_ID = #{fileId}
+  	 WHERE  INQUIRY_ID = #{inquiryId} AND INS_ID = #{insId} AND FILE_TYPE = #{fileType}
+  </update>
+</mapper>

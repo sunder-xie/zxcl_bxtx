@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.RelyInsuranceDAO">
+	<resultMap type="com.zxcl.webapp.dto.RelyInsuranceDTO" id="relyInsuranceResultMapping">
+		<result column="INS_ID" jdbcType="VARCHAR" property="insId" />
+		<result column="RELY_INS_ID" jdbcType="VARCHAR" property="relyInsId" />
+	</resultMap>
+	
+	<select id="getAll" resultMap="relyInsuranceResultMapping">
+		SELECT INS_ID,RELY_INS_ID FROM t_rely_ins
+	</select>
+
+</mapper>

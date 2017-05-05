@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.CarModelRelatedDAO">
+
+	<resultMap type="com.zxcl.webapp.dto.CarModelRelatedDTO" id="result" autoMapping="true"></resultMap>
+
+	<select id="getCarModelRelated" resultMap="result">
+		SELECT MODEL_CODE_A modelCodeA,MODEL_CODE_B modelCodeB FROM t_carmodel_related
+		WHERE 1=1 
+		<if test="modelCodeA != null  and modelCodeA != ''">
+			AND MODEL_CODE_A = #{modelCodeA}
+		</if>
+		<if test="modelCodeB != null  and modelCodeB != ''">
+			AND MODEL_CODE_B = #{modelCodeB}
+		</if>
+	</select>
+	
+</mapper> 

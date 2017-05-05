@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="  
+	 http://cxf.apache.org/jaxws  http://cxf.apache.org/schemas/jaxws.xsd
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd" >
+
+
+	<!-- 钱包-后端佣金结算接口 -->
+<!--     <bean id="walletPolicyFeeService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">  -->
+<!--     	<property name="serviceUrl" value="${zxcl_web_intf_policy}" />  -->
+<!--     	<property name="serviceInterface" value="com.zxcl.bxtxmanage.biz.service.WalletPolicyFeeService" />  -->
+<!-- 	</bean> -->
+	
+	<!-- 钱包-后端提现申请接口 -->
+    <bean id="walletSettleService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean"> 
+    	<property name="serviceUrl" value="${zxcl_web_intf_settle}" /> 
+    	<property name="serviceInterface" value="com.zxcl.bxtxmanage.biz.service.WalletSettleService" /> 
+	</bean>
+	
+	<!-- 钱包-前端提供的接口 -->
+	<bean name="/intf_webappWalletService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="walletRmiServiceImpl"/>
+        <property name="serviceInterface" value="com.zxcl.webapp.biz.service.WalletRmiService"/>
+    </bean>
+</beans>

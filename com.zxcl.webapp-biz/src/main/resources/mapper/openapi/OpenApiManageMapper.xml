@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.openapi.OpenApiManageDAO">
+	<sql id="findAppBaseSql">
+		app_id appId, app_name appName, app_key appKey, app_status status, comp_code compCode, 
+	    team_mapping_sign teamMappingSign, policy_upload_url policyUploadUrl, policy_upload_sign policyUploadSign
+	</sql>
+	<select id="findAppByUserId" parameterType="java.lang.String" resultType="com.zxcl.webapp.dto.openapi.ApiAppDTO">
+		select 
+		<include refid="findAppBaseSql" />
+		FROM t_api_app
+		WHERE comp_code=(
+		  SELECT comp_code FROM t_agent_info
+		  WHERE STATUS='1' AND AGENT_ID=(
+		    SELECT AGENT_ID FROM t_micro_info
+		    WHERE USER_ID=#{userId} AND STATUS='1' 
+		  )
+		)
+		AND app_status='1'
+		LIMIT 1
+	</select>
+	
+	<select id="findApp" parameterType="java.lang.String" resultType="com.zxcl.webapp.dto.openapi.ApiAppDTO">
+		select
+		<include refid="findAppBaseSql" />
+		from t_api_app
+		where app_id=#{appId}
+	</select>
+
+	<select id="findAppQtnConfigList" parameterType="java.lang.String" resultType="com.zxcl.webapp.dto.openapi.ApiAppQtnConfigDTO">
+		select app_id appId, ins_id insId, ins_user_name insUserName, cfg_status status
+		from t_api_app_qtn_config 
+		where app_id = #{appId}
+	</select>
+	
+	<update id="updateApiCallRecord" parameterType="com.zxcl.webapp.dto.openapi.ApiCallPlateQueryRecordDTO" >
+		update t_api_call_record
+		set cost_ms=#{costMs}, result_code=#{resultCode}, result_msg=#{resultMsg}, biz_ret_code=#{bizRetCode},biz_ret_msg=#{bizRetMsg}
+		where call_id=#{callId}
+	</update>
+	
+	<insert id="addApiCallRecord" parameterType="com.zxcl.webapp.dto.openapi.ApiCallRecordDTO" useGeneratedKeys="true" keyProperty="callId">
+		insert into t_api_call_record (app_id, method, call_tm, cost_ms, result_code) 
+		values (#{appId}, #{method}, #{callTm}, #{costMs}, #{resultCode} )
+	</insert>
+	<insert id="addApiCallPlateQueryRecord" parameterType="com.zxcl.webapp.dto.openapi.ApiCallPlateQueryRecordDTO" >
+		insert into t_api_call_plate_query_record (call_id, app_id, plate_no, query_result, crt_tm) 
+		values (#{callId}, #{appId}, #{plateNo}, #{queryResult}, now() )
+	</insert>
+</mapper>

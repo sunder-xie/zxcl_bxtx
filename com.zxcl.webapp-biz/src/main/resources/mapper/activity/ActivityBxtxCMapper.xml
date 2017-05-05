@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.activity.ActivityBxtxCDAO">
+	
+	<resultMap autoMapping="true" type="com.zxcl.webapp.dto.activity.ActivityBxtxCNameListDTO" id="resultMap"></resultMap>
+	
+	<select id="getActivityBxtxCNamingByUserId" resultMap="resultMap">
+		SELECT USER_ID userId,LOTTERY_NUM lotteryNum,LOTTERIED_NUM lotteriedNum,LOTTERY_TOTAL lotteryTotal
+		,LOTTERIED_TOTAL lotteriedTotal,ACTIVITY_SEQID activitySeqId,`STATUS` status
+		 FROM t_activity_bxtx_c_lettrynamelist WHERE `STATUS` = 1 AND  ACTIVITY_SEQID = #{activitySeqId} AND USER_ID = #{userId}
+	</select>
+	
+	<update id="updateActivityBxtxCNaming" parameterType="com.zxcl.webapp.dto.activity.ActivityBxtxCNameListDTO">
+		UPDATE t_activity_bxtx_c_lettrynamelist SET LOTTERIED_NUM = LOTTERIED_NUM + 1 ,LOTTERIED_TOTAL = LOTTERIED_TOTAL + #{lotteriedTotal}
+		,UPD_TM = #{updTm},UPD_CDE = #{updCde} WHERE LOTTERY_NUM >= LOTTERIED_NUM + 1 
+		AND LOTTERY_TOTAL>= LOTTERIED_TOTAL + #{lotteriedTotal} AND `STATUS` = 1
+		 AND  ACTIVITY_SEQID = #{activitySeqId} AND USER_ID = #{userId}
+	</update>
+	
+	<insert id="insertActivityBxtxCLotteriedDetailed" parameterType="com.zxcl.webapp.dto.activity.ActivityBxtxCLettriedDetailed">
+		INSERT INTO t_activity_bxtx_c_lettried_detailed(USER_ID,LETTERIED_MONEY,SEQ_ID,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES(#{userId},#{letteriedMoney},#{seqId},#{crtTm},#{crtCde},#{updTm},#{updCde})
+	</insert>
+	
+	<select id="getActivityBxtxCLotteriedTotal" resultType="java.math.BigDecimal">
+		SELECT sum(LETTERIED_MONEY) from t_activity_bxtx_c_lettried_detailed
+	</select>
+	
+	<select id="getActivityBxtxCOrders" resultType="com.zxcl.webapp.dto.activity.ActivityBxtxCOrderDTO">
+		SELECT i.MICRO_NAME name,t.total from (
+SELECT a.USER_ID,sum(a.LETTERIED_MONEY) as total from t_activity_bxtx_c_lettried_detailed as a  GROUP BY a.USER_ID  ORDER BY sum(a.LETTERIED_MONEY) desc limit 10) as t
+LEFT JOIN t_micro_info i on (i.USER_ID = t.USER_ID) ORDER BY t.total DESC
+	</select>
+</mapper>

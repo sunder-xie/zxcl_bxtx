@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.wallet.WalletDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.wallet.WalletDTO" >
+    <id column="WALLET_ID" property="walletId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="AMOUNT_INCOME" property="amountIncome" jdbcType="DECIMAL" />
+    <result column="AMOUNT_CASH" property="amountCash" jdbcType="DECIMAL" />
+    <result column="AMOUNT_CASH_STAY" property="amountCashStay" jdbcType="DECIMAL" />
+    <result column="AMOUNT_STAY" property="amountStay" jdbcType="DECIMAL" />
+    <result column="WALLET_PWD" property="walletPwd" jdbcType="VARCHAR" />
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_CDE" property="crtCde" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_CDE" property="updCde" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="VERSION_ID" property="versionId" jdbcType="BIGINT" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    WALLET_ID, USER_ID, AMOUNT, AMOUNT_INCOME, AMOUNT_CASH, WALLET_PWD, CRT_TM, CRT_CDE, 
+    UPD_TM, UPD_CDE, STATUS,AMOUNT_CASH_STAY,AMOUNT_STAY,VERSION_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet
+    where WALLET_ID = #{walletId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wallet
+    where USER_ID = #{userId,jdbcType=VARCHAR} limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_wallet
+    where WALLET_ID = #{walletId,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectAllWallet" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_wallet
+  </select>
+  <select id="selectTotalIncomeAndStay" resultType="java.math.BigDecimal" parameterType="java.lang.String">
+  	SELECT (SUM( a.amount_income)+SUM(a.amount_stay)) AS sums FROM t_wallet a WHERE user_id= #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectTotalBillInAmountByUserId" parameterType="java.lang.String" resultType="java.math.BigDecimal">
+  	SELECT SUM(bill_amount) FROM t_wallet_bill a WHERE a.bill_type='I' AND a.status != '0'  AND user_id=#{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.wallet.WalletDTO" >
+    insert into t_wallet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="walletId != null" >
+        WALLET_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="amountIncome != null" >
+        AMOUNT_INCOME,
+      </if>
+      <if test="amountCash != null" >
+        AMOUNT_CASH,
+      </if>
+      <if test="walletPwd != null" >
+        WALLET_PWD,
+      </if>
+        CRT_TM,
+      <if test="crtCde != null" >
+        CRT_CDE,
+      </if>
+        UPD_TM,
+      <if test="updCde != null" >
+        UPD_CDE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      	VERSION_ID,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="walletId != null" >
+        #{walletId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="amountIncome != null" >
+        #{amountIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="amountCash != null" >
+        #{amountCash,jdbcType=DECIMAL},
+      </if>
+      <if test="walletPwd != null" >
+        #{walletPwd,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="crtCde != null" >
+        #{crtCde,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updCde != null" >
+        #{updCde,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      	1,
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelectiveBusi" parameterType="com.zxcl.webapp.dto.wallet.WalletDTO" >
+    update t_wallet
+    <set >
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="amountIncome != null" >
+        AMOUNT_INCOME = #{amountIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="amountCash != null" >
+        AMOUNT_CASH = #{amountCash,jdbcType=DECIMAL},
+      </if>
+      <if test="walletPwd != null" >
+        WALLET_PWD = #{walletPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="amountCashStay != null" >
+        AMOUNT_CASH_STAY = #{amountCashStay,jdbcType=DECIMAL},
+      </if>
+      <if test="amountStay != null" >
+        AMOUNT_STAY = #{amountStay,jdbcType=DECIMAL},
+      </if>
+        UPD_TM = now(),
+      <if test="userId != null" >
+        UPD_CDE = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      	VERSION_ID = (VERSION_ID+1),
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+    and VERSION_ID=#{versionId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.wallet.WalletDTO" >
+    update t_wallet
+    <set >
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="amountIncome != null" >
+        AMOUNT_INCOME = #{amountIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="amountCash != null" >
+        AMOUNT_CASH = #{amountCash,jdbcType=DECIMAL},
+      </if>
+      <if test="walletPwd != null" >
+        WALLET_PWD = #{walletPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="amountCashStay != null" >
+        AMOUNT_CASH_STAY = #{amountCashStay,jdbcType=DECIMAL},
+      </if>
+      <if test="amountStay != null" >
+        AMOUNT_STAY = #{amountStay,jdbcType=DECIMAL},
+      </if>
+        UPD_TM = now(),
+      <if test="userId != null" >
+        UPD_CDE = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

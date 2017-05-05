@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.FeeRulesDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.FeeRulesDTO" >
+    <id column="fee_rules_id" property="feeRulesId" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+    <result column="agent_id" property="agentId" jdbcType="VARCHAR" />
+    <result column="ins_id" property="insId" jdbcType="VARCHAR" />
+    <result column="product_code" property="productCode" jdbcType="VARCHAR" />
+    <result column="ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="flag_apply_subordinate" property="flagApplySubordinate" jdbcType="VARCHAR" />
+    <result column="fee_status" property="feeStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.zxcl.webapp.dto.FeeDTO" >
+    <result column="ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="isShow" property="isShow" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    fee_rules_id, created_by, created_date, updated_by, updated_date, agent_id, ins_id, 
+    product_code, ratio, start_date, end_date, flag_apply_subordinate,fee_status
+  </sql>
+
+  
+  <select id="selectRatioNowWith2" resultMap="BaseResultMap2" >
+  	SELECT
+	rules_factor.ratio ratio,
+	rules_factor.flag_show_fee_bxtx isShow
+	FROM
+	t_fee_rules_factor rules_factor
+LEFT JOIN t_fee_rules r on (r.fee_rules_id = rules_factor.fee_rules_id)
+WHERE r.fee_status = '1'
+	AND r.ins_id=#{insId}
+	AND r.product_code = #{productCode}
+		AND DATE_FORMAT(NOW(), '%Y-%m-%d') &gt;= rules_factor.start_date
+		AND (rules_factor.end_date IS NULL OR DATE_FORMAT(NOW(), '%Y-%m-%d') &lt;= rules_factor.end_date)
+AND rules_factor.agt_team_id = #{teamId}
+LIMIT 1
+  </select>
+  
+</mapper>

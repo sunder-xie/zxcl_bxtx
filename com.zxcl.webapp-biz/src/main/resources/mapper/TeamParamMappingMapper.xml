@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.TeamParamMappingDAO">
+	
+	<resultMap type="com.zxcl.webapp.dto.TeamParamMappingDTO" id="teamParamMappingMapper">
+		<result column="configId" jdbcType="VARCHAR" property="configId" />
+		<result column="teamId" jdbcType="VARCHAR" property="teamId" />
+		<result column="insId" jdbcType="VARCHAR" property="insId" />
+		<result column="serviceType" jdbcType="VARCHAR" property="serviceType" />
+		<result column="flowControl" jdbcType="VARCHAR" property="flowControl" />
+		<result column="quotnType" jdbcType="VARCHAR" property="quotnType" />
+	</resultMap>
+	
+	<select id="getCountAutoQuote" resultType="Integer">
+		SELECT COUNT(a.config_id) FROM t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID = b.AGT_TEAM_ID AND b.USER_ID=#{userId} 
+			AND a.SERVICE_TYPE=#{serviceType} AND a.QUOTN_TYPE='A' AND a.STATUS='1';
+	</select>
+	
+	<select id="getTeamParamMappingInfo" resultMap="teamParamMappingMapper">
+		SELECT a.INS_ID insId,a.config_id configId,a.TEAM_ID teamId,a.SERVICE_TYPE serviceType,a.QUOTN_TYPE quotnType,a.FLOW_CONTROL flowControl FROM
+			t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID = b.AGT_TEAM_ID AND b.USER_ID=#{userId} AND SERVICE_TYPE=#{serviceType} 
+			AND a.STATUS='1' AND QUOTN_TYPE=#{quotnType}
+			GROUP BY a.INS_ID,a.config_id,a.TEAM_ID,a.SERVICE_TYPE,a.QUOTN_TYPE,a.FLOW_CONTROL
+	</select>
+	
+	<select id="getTeamParamMappingInfoByInsId" resultMap="teamParamMappingMapper">
+		SELECT a.INS_ID insId,a.config_id configId,a.TEAM_ID teamId,a.SERVICE_TYPE serviceType,a.QUOTN_TYPE quotnType,a.FLOW_CONTROL flowControl FROM 
+			t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID = b.AGT_TEAM_ID AND b.USER_ID=#{userId} AND a.SERVICE_TYPE=#{serviceType} 
+			AND a.QUOTN_TYPE=#{quotnType} AND a.STATUS='1' AND a.INS_ID=#{insId};
+	</select>
+	
+	<select id="getConfigId" resultType="String">
+		SELECT config_id FROM t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID=b.AGT_TEAM_ID AND a.INS_ID=#{insId} AND a.SERVICE_TYPE=#{serviceType} 
+			AND a.QUOTN_TYPE=#{quotnType} AND a.STATUS='1' AND b.USER_ID=#{userId}; 
+	</select>
+	
+	<select id="getOnelyManualQuotnInsId" resultType="String">
+		SELECT a.INS_ID insId FROM
+			t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID = b.AGT_TEAM_ID AND b.USER_ID=#{userId} AND SERVICE_TYPE=#{serviceType} 
+			AND a.STATUS='1' AND QUOTN_TYPE='M' AND a.INS_ID NOT IN (SELECT a.INS_ID insId FROM
+				t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID = b.AGT_TEAM_ID AND b.USER_ID=#{userId} AND SERVICE_TYPE=#{serviceType} 
+				AND a.STATUS='1' AND QUOTN_TYPE='A')
+	</select>
+	
+</mapper>

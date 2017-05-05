@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.6 in JDK 6. --><xs:schema xmlns:tns="http://ws.front.app.echannel.ebiz.alltrust.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.front.app.echannel.ebiz.alltrust.com/">
+
+<xs:element name="UnderWriteVehicleInsurancePolicySaliService" type="tns:UnderWriteVehicleInsurancePolicySaliService"></xs:element>
+
+<xs:element name="UnderWriteVehicleInsurancePolicySaliServiceResponse" type="tns:UnderWriteVehicleInsurancePolicySaliServiceResponse"></xs:element>
+
+<xs:complexType name="UnderWriteVehicleInsurancePolicySaliService">
+<xs:sequence>
+<xs:element name="request" type="tns:underWriteVehicleInsurancePolicySaliRequest" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="underWriteVehicleInsurancePolicySaliRequest">
+<xs:sequence>
+<xs:element name="authorityData" type="tns:authorityData" minOccurs="0"></xs:element>
+<xs:element name="condition" type="tns:underwriteVHLPolicySaliCondition" minOccurs="0"></xs:element>
+<xs:element name="deliveryInfo" type="tns:deliveryInfoData" minOccurs="0"></xs:element>
+<xs:element name="productSign" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authorityData">
+<xs:sequence>
+<xs:element name="password" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="userName" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="underwriteVHLPolicySaliCondition">
+<xs:complexContent>
+<xs:extension base="tns:messageRequestHead">
+<xs:sequence>
+<xs:element name="absoluteFranchise" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="address" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="age" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agencyNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agencyProfId" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentData" type="tns:agentData" minOccurs="0"></xs:element>
+<xs:element name="agriType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agtagrNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="amount" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="amtCur" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="annualTaxamt" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appAddress" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appCertiCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appCi" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appContact" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appPdfFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appRecord" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appTel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appTime" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appZip" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="arbitrationDept" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="autoCheck" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="belongType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitCertiCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="businessMode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="businessStyle" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="businessType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="calcFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="calculatedType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="calculatedTypeLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="carColor" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="carMark" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="certDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="certificateDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="certificateNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="certificateType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="changeOwnerFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="checkCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="citizenRelocatedDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="clntAddr" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cmpnyageCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="commissionPercentage" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="company" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="computerIp" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="conruty" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="currentTax" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="customer" type="tns:customer" minOccurs="0"></xs:element>
+<xs:element name="customerName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="debateSolve" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="decStatus" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="declareDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="defineWay" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="department" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="depreciationYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="deptCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="docTyp" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drinkDrivingDealTime" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drinkDrivingNonDealTime" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drinkDrivingTime" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drunkDrivingDealTime" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drunkDrivingFloatingRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drunkDrivingLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drunkDrivingNonDealTime" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drunkDrivingTime" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drvOwnerBirthday" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drvOwnerCertiCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drvOwnerCertiType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drvOwnerCustType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drvOwnerNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drvOwnerSex" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="dutyReparFloatingRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="ecdemicVehicleFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="email" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="endDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="endDateLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="engineNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="exchangeRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="exhaust" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="exhaustCapacity" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="formerTax" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="fromCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="fuelType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="glassType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="groupPurchaseContactNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="guardCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="idType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="industury" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="inqId" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredAddress" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredCertiCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredTel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredZip" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="inteFalg" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="kernelFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="lastCompany" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="lastPaidYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="lateFee" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="lateFeeChange" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="lateFeeValue" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="licenceType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="licenseColor" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="limitLoadPerson" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="loanBank" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="locationCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="newVehicleFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="noclaimAmountCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="oldCarMark" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="operTyp" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="operateDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="operatorCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="operatorDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="orderCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="otherData" type="tns:otherData" minOccurs="0"></xs:element>
+<xs:element name="otherFirstNoProveYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="overCommitmentLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="overallFloatingCoefficient" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="owner" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="park" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="payChange" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="payChangeLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="payEvidenceNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="payLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="payNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="payValueCurrent" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="payValueLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="paymode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="pcCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="platformVehicleModel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="poCategory" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="policyAppNoCi" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="policyAppNoCiVehicle" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="policyGeneratedType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="posNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="positionCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="power" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="premium" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="printType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="prmCur" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="productNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="querySequenceNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="rackNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="ratio" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="ratioType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="reachArea" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="recDiscount" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="reduceNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="registerDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="registrationTransferedDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="reinsuranceFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="relatedOffensesFloating" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="remark" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="renewalFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="renewalNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="renewalPolicyNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="requestCoverageDatas" type="tns:coverageData" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="requestDriverDatas" type="tns:driverData" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="returnTaxFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="riskLevel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="roadAccidentFloatingRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="roadAccidentFloatingRateValue" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="roadViolatFloatingRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="salesmanNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="seatCapacity" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="secondaryOrganization" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="sex" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="signDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="snapFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="specialAppoint" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="specialDeclareReason" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="startDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="startDateLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="sumUpTax" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taskType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxBeginDateCurrentYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxBeginDateLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxBillType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxBillingNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxCurrentType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxDepartmentName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxDiscount" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxEndDateCurrentYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxEndDateLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxFreeAmount" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxPaidDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxPayerName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxPeriod" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxPoCategory" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxPrintNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxReduceProp" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxReduceRsn" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxReduceType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxRemark" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxStandard" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxVehicleCategory" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxVehicleType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxWay" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxerCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxpayerAddress" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxpayerNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="taxpayerType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="tel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="ticketType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="tonnage" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="totalChange" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="totalDiscount" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="totalTaxValue" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="typeMismatchLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="undrmsgData" type="tns:undrmsgData" minOccurs="0"></xs:element>
+<xs:element name="unitRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="unittypeCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="untaxedPolicyNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="usbkey" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="useAges" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="useStatus" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="useType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="userType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehecleTypeDetail" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleBrand" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleCategory" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleModel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehiclePrice" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleQuality" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vehicleType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vhlAppName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="vhlPriceRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="voilateRoadSignLastYear" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="zip" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="messageRequestHead">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="dataSource" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="source" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="baseObject">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="agentData">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="agentBankType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentCategory" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentCategoryNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentMajorType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentProfId" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentSaleNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentStaffNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentStockMrk" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentStockType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="agentType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="commissionProprortion" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="conferCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cusLvl" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="custNature" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="dutyCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="dutyCnm" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseClass" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseLvl" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="extPrm" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="extProp" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="fromCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="preventRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="qlftNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="subCoNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="supportServicePacket" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="supportServiceProvider" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="trainRate" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="customer">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="appAddress" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appAge" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appCertiCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appCertiType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appClntQq" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appContact" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appCustType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appEmail" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appLegalCertificateType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appSchoolName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appSex" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appTel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appZip" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appmobileTel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitAge" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitCertiCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitCertiType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitCustType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitLegalCertificateType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitSchoolName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="benefitSex" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CAppCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CAppClntQQ" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CAppLegalCType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CAppSchoolName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CCntrNme" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CEmail" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CInsuredLegalCType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CMachineCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CZipCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredAddress" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredAge" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredCertiCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredCertiType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredClntQq" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredCustType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredEmail" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredLegalCertificateType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredSchoolName" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredSex" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredTel" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredZip" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="insuredmobileTel" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="otherData">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="cusLvl" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseClass" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseLvl" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="enterpriseNme" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="coverageData">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="afterDiscountYearPremium" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="appType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="basicPremium" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="beforeDductPrm" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="beforeDiscountPremium" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="beforeDiscountYearPremium" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CGlassTyp" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CPureRiskPremiumFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CResvTxt1" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CResvTxt2" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageAmount" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageAmountThird" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageFranchise" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageNumber" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coveragePremium" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageRemark" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="coverageSeq" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="dductPrm" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="franchiseFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="NDductPrm" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="NDductRate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="NPureRiskPremiun" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="NResvNum2" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="NResvNum3" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="NSepcRep" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="originalPremium" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="driverData">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="age" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CLicenseStatusCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="CMainDrvMrk" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="driverFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="driverPeriod" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="driverType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="drvLcnNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="lcnSendDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="licenseNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="licenseStatus" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="licenseType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="marriageStatus" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="name" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="seqNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="sex" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="undrmsgData">
+<xs:sequence>
+<xs:element name="descDptCde" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="emergency" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="rptDesc" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deliveryInfoData">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="addressFlag" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cellphone" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="deliveryDetail" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="deliveryType" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="name" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="productSort" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="receiptHead" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="remark" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="telArea" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="telephone" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="title" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="zip" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="UnderWriteVehicleInsurancePolicySaliServiceResponse">
+<xs:sequence>
+<xs:element name="response" type="tns:underWriteVehicleInsurancePolicySaliResponse" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="underWriteVehicleInsurancePolicySaliResponse">
+<xs:sequence>
+<xs:element name="result" type="tns:underwriteVHLPolicySaliResult" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="underwriteVHLPolicySaliResult">
+<xs:complexContent>
+<xs:extension base="tns:baseObject">
+<xs:sequence>
+<xs:element name="amount" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="bizNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="buisSeqNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="operateDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="paymentEndDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="paymentStartDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="policyAppNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="premium" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="proconfirmEndDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="proconfirmSequenceNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="proconfirmStartDate" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="productNo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="returnCode" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="returnMessage" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="status" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>

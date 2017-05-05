@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.QuotaDetailedDAO">
+
+	<resultMap type="com.zxcl.webapp.dto.QuotaDetailedDTO" id="quotaDetailedResultMapping">
+		<id column="quotaId" jdbcType="VARCHAR" property="quota.quotaId" />
+		<result column="insId" jdbcType="VARCHAR" property="insurance.insId" />
+		<collection property="coverageItems" ofType="com.zxcl.webapp.dto.rmi.intf.quota.resp.CoverageItemDTO">
+			<id column="cvrgId" jdbcType="VARCHAR" property="code" />
+			<result column="cvrgAmount" jdbcType="VARCHAR" property="amount" />
+			<result column="sumLimit" jdbcType="VARCHAR" property="sumLimit" />
+		</collection>
+		
+	</resultMap>
+
+	<!-- 查询 -->
+	<select id="getDetailed" resultMap="quotaDetailedResultMapping">
+		select QUOTA_ID quotaId,INS_ID
+		insId,CVRG_ID
+		cvrgId,CVRG_PREM
+		cvrgAmount,CVRG_AMOUNT sumLimit from t_quota_detailed where
+		INS_ID=#{insId} AND QUOTA_id=#{quotaId}
+	</select>
+
+	<!-- 插入明细 -->
+	<insert id="insertDetailed">
+		INSERT into
+		t_quota_detailed(INQUIRY_ID,QUOTA_ID,INS_ID,CVRG_ID,CVRG_AMOUNT,CVRG_PREM,EXCLD_DDCTP_PREM,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES
+		<foreach collection="detailed.coverageItems" item="cover" separator=",">
+			(#{detailed.inquiry.inquiryId},#{detailed.quota.quotaId},#{detailed.insurance.insId},#{cover.code}
+			,#{cover.sumLimit},#{cover.amount},null,now(),#{detailed.crtCode},now(),#{detailed.updCode})
+		</foreach>
+	</insert>
+	
+<!-- 	删除报价单详情 -->
+	<delete id="deleteQuotaDetailedByQuotaId">
+		delete FROM t_quota_detailed where QUOTA_ID=#{quotaId}
+	</delete>
+</mapper>

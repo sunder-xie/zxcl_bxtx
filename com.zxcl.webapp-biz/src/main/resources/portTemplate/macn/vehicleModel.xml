@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="GBK"?>
+<Packet type="REQUEST" version="1.0">
+<Head>
+<RequestType>Q06</RequestType>
+<FlowInTime />
+<UserName>testcar</UserName>
+<PassWord>$!{attestationBase.password}</PassWord>
+<RequesterCode>$!{attestationBase.user}</RequesterCode>
+<IP>10.192.21.88</IP>
+</Head>
+<Body>
+<BaseInfo>
+<ModelCName>$!{vehicleName}</ModelCName>
+</BaseInfo>
+</Body>
+</Packet>
+

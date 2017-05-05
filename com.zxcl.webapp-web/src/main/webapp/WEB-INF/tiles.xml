@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <!-- 顶层菜单 -->
+    <definition name="logon" template="/WEB-INF/views/logon.jsp" />
+    <definition name="footer" template="/WEB-INF/views/footer.jsp" />
+    <definition name="header" template="/WEB-INF/views/header.jsp" />
+    <definition name="left_menu" template="/WEB-INF/views/leftmenu.jsp" />
+    <definition name="welcome" template="/WEB-INF/views/welcome.jsp" >
+    	<put-attribute name="left_menu" value="left_menu"></put-attribute>
+	</definition>
+    <!-- 主模板 -->
+    <definition name="index" template="/WEB-INF/views/index.jsp">
+        <put-attribute name="header" value="header" />
+        <put-attribute name="welcome" value="welcome" />
+        <put-attribute name="footer" value="footer" />
+    </definition>
+    <definition name="casloginfailed" template="/WEB-INF/views/casloginfailed.jsp">
+    </definition>
+    <!-- 定义模板 -->
+	<definition name="base.definition" template="/WEB-INF/views/template.jsp">
+		<put-attribute name="title" value="中华联合基础开发框架" />
+		<put-attribute name="header" value="header" />
+		<put-attribute name="menu" value="left_menu" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="footer" />
+	</definition>
+    <!-- 实现通配符配置页面 -->
+<!--     <definition name=".page.*.*" extends="base.definition"> -->
+<!-- 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" /> -->
+<!-- 	</definition> -->
+
+	<definition name="*.*"  template="/WEB-INF/views/{1}/{2}.jsp" ></definition>
+	<!-- 以下是新定义的 -->
+<!-- 	<definition name="info" template="/WEB-INF/views/info.jsp" /> -->
+<!-- 	<definition name="insurance" template="/WEB-INF/views/insurance.jsp" /> -->
+<!-- 	<definition name="premium" template="/WEB-INF/views/premium.jsp" /> -->
+<!-- 	<definition name="allinpayPost" template="/WEB-INF/views/allinpayPost.jsp" /> -->
+<!-- 	<definition name="allinpayResult" template="/WEB-INF/views/allinpayResult.jsp" /> -->
+<!-- 	<definition name="pay" template="/WEB-INF/views/pay.jsp" /> -->
+<!-- 	<definition name="details" template="/WEB-INF/views/details.jsp" /> -->
+<!-- 	<definition name="list1" template="/WEB-INF/views/list1.jsp" /> -->
+<!-- 	<definition name="list2" template="/WEB-INF/views/list2.jsp" /> -->
+<!-- 	<definition name="list3" template="/WEB-INF/views/list3.jsp" /> -->
+<!-- 	<definition name="list4" template="/WEB-INF/views/list4.jsp" /> -->
+<!-- 	<definition name="personal" template="/WEB-INF/views/personal.jsp" /> -->
+<!-- 	<definition name="comPrice" template="/WEB-INF/views/comPrice.jsp" /> -->
+<!-- 	<definition name="bind" template="/WEB-INF/views/bind.jsp" /> -->
+<!-- 	<definition name="install" template="/WEB-INF/views/install.jsp" /> -->
+<!-- 	<definition name="question" template="/WEB-INF/views/question.jsp" /> -->
+<!-- 	<definition name="myTeam" template="/WEB-INF/views/myTeam.jsp" /> -->
+<!-- 	<definition name="used" template="/WEB-INF/views/used.jsp" /> -->
+<!-- 	<definition name="performance" template="/WEB-INF/views/performance.jsp" /> -->
+<!-- 	<definition name="performanceInfo" template="/WEB-INF/views/performanceInfo.jsp" /> -->
+</tiles-definitions>

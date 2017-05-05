@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.AgencyDAO">
+	<!-- 没有关联的映射 -->
+	<resultMap id="agencyResultMapping" type="com.zxcl.webapp.dto.AgencyDTO">
+		<id column="agentId" jdbcType="VARCHAR" property="agent_id"/>
+		<result column="prxCode" jdbcType="VARCHAR" property="prxCode"/>
+		<result column="ptlCode" jdbcType="VARCHAR" property="ptlCode"/>
+		<result column="appId" jdbcType="VARCHAR" property="appId"/>
+		<result column="inskey" jdbcType="VARCHAR" property="key"/>
+	</resultMap>
+
+	<resultMap id="insResultMapping" type="com.zxcl.webapp.dto.rmi.intf.common.InsuranceDTO">
+		<id column="insId" jdbcType="VARCHAR" property="insId"/>
+		<id column="configId" jdbcType="VARCHAR" property="configId"/>
+		<id column="insType" jdbcType="VARCHAR" property="insType"/>
+		
+	</resultMap>
+
+	<!-- selectAgencyTaxRuleByUserId -->
+	<select id="selectAgencyTaxRuleByUserId" resultType="java.lang.String">
+		SELECT tax_rule FROM t_agent_info
+		where AGENT_ID = (
+			SELECT AGENT_ID FROM t_micro_info WHERE user_id = #{userId}
+		)
+	</select>
+
+	<!-- 	查询和小薇有关联保险公司 -->
+	<!-- <select id="getInsByMicroId" resultMap="insResultMapping">
+		SELECT a.INS_ID insId FROM t_team_param_mapping a LEFT JOIN t_ins_sort b ON a.ins_id=b.ins_id WHERE a.TEAM_ID=(SELECT AGT_TEAM_ID FROM t_micro_info WHERE MICRO_ID=#{microId})
+		AND a.AGT_ID=(SELECT AGENT_ID FROM t_micro_info WHERE MICRO_ID=#{microId}) AND a.STATUS='1' GROUP BY a.INS_ID ORDER BY b.sort_no DESC
+	</select>  -->
+	
+	<select id="getTeamType" resultType="int">
+		SELECT a.FLOW_CONTROL FROM t_team_param_mapping a,t_micro_info b WHERE a.TEAM_ID = b.AGT_TEAM_ID AND b.MICRO_ID=#{microId} 
+		AND a.INS_ID=#{insId} AND a.SERVICE_TYPE=#{serviceType} AND a.QUOTN_TYPE=#{quotnType};
+	</select>
+	
+	<select id="getAgtTeamByTeamId" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select 
+		AGT_TEAM_ID, AGT_TEAM_NAME, AGT_TEAM_LEADER_TEL, AGT_ID
+		from t_agt_team
+		where STATUS='1'
+		and AGT_TEAM_ID=#{teamId}
+	</select>
+	
+	<!-- getAgtByAgtId -->
+	<select id="getAgtByAgtId" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select 
+		AGENT_ID, AGENT_NAME, AGENT_ABBREV, AGENT_PAR_ID
+		from t_agent_info
+		where STATUS='1'
+		and AGENT_ID=#{agtId}
+	</select>
+	
+	
+	<select id="getSwitchByTeamId" resultType="String">
+		SELECT AGT_SWITCH FROM t_owner_query_config WHERE AGT_TEAM_ID=#{teamId}
+	</select>
+	
+	<select id="findCountCompCodeWithTeamId" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM t_agt_team a
+		LEFT JOIN t_agent_info b ON b.AGENT_ID=a.AGT_ID
+		WHERE  a.`STATUS`='1'
+		AND b.comp_code=#{compCode}
+		AND a.AGT_TEAM_ID=#{teamId}
+	</select>
+	
+	<select id="findTeamIdWithCompCodeAndTeamIdMapping" resultType="java.lang.String">
+		SELECT AGT_TEAM_ID FROM t_agt_team a
+		LEFT JOIN t_agent_info b ON b.AGENT_ID=a.AGT_ID
+		WHERE  a.`STATUS`='1'
+		AND b.comp_code=#{compCode}
+		AND a.third_team_id=#{thirdTeamId}
+	</select>
+</mapper>

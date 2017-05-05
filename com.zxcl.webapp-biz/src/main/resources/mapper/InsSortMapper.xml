@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.InsSortDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.InsSortDTO" >
+    <result column="INS_ID" property="insId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.InsSortDTO" >
+    insert into t_ins_sort
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="insId != null" >
+        INS_ID,
+      </if>
+      <if test="sortNo != null" >
+        SORT_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="insId != null" >
+        #{insId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null" >
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.InsMsgMatchDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.InsMsgMatchDTO" >
+    <result column="ins_id" property="insId" jdbcType="VARCHAR" />
+    <result column="key_word" property="keyWord" jdbcType="VARCHAR" />
+    <result column="match_type" property="matchType" jdbcType="INTEGER" />
+    <result column="match_msg" property="matchMsg" jdbcType="VARCHAR" />
+    <result column="manual_quotn" jdbcType="VARCHAR" property="manualQuotn"/>
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <select id="selectByInsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select ins_id, key_word, match_type, match_msg, sort, status, manual_quotn
+  	from t_ins_msg_match
+  	where status=1
+  	and ins_id=#{insId}
+  	order by sort ASC
+  </select>
+  
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.BankDAO">
+	<!-- 对t_bank自关联的查询映射 -->
+	<resultMap type="com.zxcl.webapp.dto.BankDTO" id="payInfoMapping">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="icon" jdbcType="VARCHAR" property="icon" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+
+	<!-- 查询t_bank -->
+	<select id="findBankDAO" resultMap="payInfoMapping">
+		SELECT id id,code code,icon icon,name name FROM t_bank
+	</select>
+	<!-- 根据银行名称查询编码 -->
+	<select id="findCodeByNameDAO" resultMap="payInfoMapping">
+		SELECT id id,code code,icon icon,name name FROM t_bank
+		WHERE name=#{bankName}
+	</select>
+	
+	<!-- findBankByCode -->
+	<select id="findBankByCode" parameterType="java.lang.String" resultMap="payInfoMapping">
+		SELECT id id,code code,icon icon,name name FROM t_bank
+		WHERE code=#{code}
+	</select>
+</mapper> 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.ManualQuoterInfoDAO">
+	
+	<resultMap type="com.zxcl.webapp.dto.ManualQuotaNotfiyToQuoterDTO" id="notifyquoters" autoMapping="true"></resultMap>
+	
+	<update id="updateLastSendTime" parameterType="com.zxcl.webapp.dto.ManualQuotaNotfiyToQuoterDTO">
+		UPDATE t_mq_quoterinfo SET LAST_SEND_TIME = NOW(),UPD_TM = NOW() WHERE QUOTER_ID = #{quoterId}
+	</update>
+	
+	<select id="getNotifyQuoter"  resultMap="notifyquoters">
+		SELECT q.QUOTER_ID quoterId,q.QUOTER_NAME quoterName,q.WX_OPEN_ID wxOpenId,q.START_WORK_TIME startWorkTime,q.STOP_WORK_TIME stopWorkTime,q.LAST_SEND_TIME lastSendTime
+		 FROM t_mq_quoterinfo q,t_mq_quoter_ins qi where q.QUOTER_ID = qi.QUOTER_ID AND q.AGT_TEAM_ID = #{teamId} AND qi.INS_ID = #{insId}
+	</select>
+	
+</mapper>

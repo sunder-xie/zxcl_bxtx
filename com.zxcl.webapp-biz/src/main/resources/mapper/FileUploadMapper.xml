@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.FileUploadDAO">
+	
+	<resultMap type="com.zxcl.webapp.dto.FileUploadDTO" id="getFileUploadByFileId" autoMapping="true"></resultMap>
+	
+	
+	<select id="getFileUploadByFileId" resultMap="getFileUploadByFileId">
+		SELECT `FILE_ID` fileId,`PATH` path,`FILE_SIZE` fileSize,`FILE_EXT` fileExt,
+		`SYSTEM_NAME` systemName,`FILE_TYPE` fileType,CRT_TM crtTM,CRT_CDE crtCde,
+		UPD_TM updTm,UPD_CDE updCde FROM `t_file_upload` WHERE FILE_ID = #{fileId}
+		
+		
+	</select>
+
+	
+	<insert id="insertFileUpload" parameterType="com.zxcl.webapp.dto.FileUploadDTO">
+		INSERT INTO `t_file_upload` (`FILE_ID`,`PATH`,FILE_SIZE,FILE_EXT,SYSTEM_NAME,`FILE_TYPE`,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES(#{fileId},#{path},#{fileSize},#{fileExt},#{systemName},#{fileType},#{crtTm},#{crtCde}
+		,#{updTm},#{updCde})
+	</insert>
+	
+</mapper>

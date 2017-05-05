@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.ManualQuotationTaskDAO" >
+  <resultMap type="com.zxcl.webapp.dto.ManualQuotationTaskDTO" id="manualQuotationTaskMap">
+  		<id column="taskId" jdbcType="VARCHAR"  property="taskId"/>
+		<result column="inquiryId"  jdbcType="VARCHAR"  property="inquiryId"/>
+		<result column="quoteId"  jdbcType="VARCHAR"  property="quoteId"/>
+		<result column="insId"  jdbcType="VARCHAR"  property="insId"/>
+		<result column="teamId"  jdbcType="VARCHAR"  property="teamId"/>
+		<result column="userId"  jdbcType="VARCHAR"  property="userId"/>
+		<result column="taskStatus"  jdbcType="VARCHAR"  property="taskStatus"/>
+		<result column="recordStatus"  jdbcType="VARCHAR"  property="recordStatus"/>
+  </resultMap>
+  	
+  	<resultMap type="com.zxcl.webapp.dto.ManualQuotaNotfiyToQuoterDTO" id="notifyquoters" autoMapping="true"></resultMap>
+  	
+  	<insert id="insert">
+  		INSERT INTO t_m_quotn_task(TASK_ID,INQUIRY_ID,QUOTE_ID,TEAM_ID,INS_ID,USER_ID,TASK_STATUS,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE,RECORD_STATUS) 
+			VALUES(#{taskId},#{inquiryId},#{quoteId},#{teamId},#{insId},#{userId},#{taskStatus},NOW(),#{userId},NOW(),#{userId},'1');
+  	</insert>
+  	
+  	<update id="withdrawQuotn">
+  		UPDATE t_m_quotn_task SET TASK_STATUS='5',UPD_TM=NOW(),UPD_CDE=#{userId} WHERE INQUIRY_ID=#{inquiryId};
+  	</update>
+  	
+  	<select id="queryInfoByInquiryId" resultMap="manualQuotationTaskMap">
+  		SELECT TASK_ID taskId,INQUIRY_ID inquiryId,QUOTE_ID quoteId,INS_ID insId,TEAM_ID teamId,USER_ID userId,TASK_STATUS taskStatus,RECORD_STATUS recordStatus  
+  			FROM t_m_quotn_task WHERE INQUIRY_ID=#{inquiryId};
+  	</select>
+  	
+  	<select id="queryByQuoteId" resultMap="manualQuotationTaskMap">
+  		SELECT TASK_ID taskId,INQUIRY_ID inquiryId,QUOTE_ID quoteId,INS_ID insId,TEAM_ID teamId,USER_ID userId,TASK_STATUS taskStatus,RECORD_STATUS recordStatus  
+  			FROM t_m_quotn_task WHERE QUOTE_ID=#{quoteId};
+  	</select>
+  	
+  	<update id="underwriteTypeUpdate">
+  		UPDATE t_m_quotn_task SET TASK_STATUS=#{status},UPD_TM=NOW(),UPD_CDE=#{userId} WHERE QUOTE_ID=#{quoteId};
+  	</update>
+  	
+  	<select id="getNotifyQuoters" resultMap="notifyquoters">
+  		SELECT qinfo.QUOTER_ID quoterId,qinfo.QUOTER_NAME quoterName,qinfo.WX_OPEN_ID wxOpenId,qinfo.START_WORK_TIME startWorkTime,qinfo.STOP_WORK_TIME stopWorkTime,qinfo.LAST_SEND_TIME lastSendTime,r.c count
+  		 from t_mq_quoterinfo qinfo ,(
+	select  count(tmp.QUOTER_ID) c ,tmp.QUOTER_ID from ( 
+	SELECT t.TEAM_ID,t.TASK_ID,t.INQUIRY_ID,t.QUOTE_ID,quoter.* FROM t_m_quotn_task t , (
+
+	SELECT q.QUOTER_ID,q.AGT_TEAM_ID,qi.INS_ID FROM  t_mq_quoterinfo q ,t_mq_quoter_ins qi 
+	
+	 where q.quoter_id = qi.quoter_id AND q.status = 1
+	
+	) as quoter  WHERE quoter.AGT_TEAM_ID = t.TEAM_ID AND t.INS_ID = quoter.INS_ID
+	
+	 AND t.TASK_STATUS IN (1,6)  
+	) as tmp 
+	GROUP BY (tmp.QUOTER_ID)
+	
+	)as r 
+	WHERE qinfo.QUOTER_ID = r.QUOTER_ID  limit #{start},#{end}
+  	</select>
+  	
+</mapper>

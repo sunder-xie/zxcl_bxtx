@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.InquiryCustomerDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.InquiryCustomerDTO" >
+    <result column="inquiry_id" property="inquiryId" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_card_id" property="customerCardId" jdbcType="VARCHAR" />
+    <result column="customer_type" property="customerType" jdbcType="INTEGER" />
+    <result column="is_vhl_owner" property="isVhlOwner" jdbcType="INTEGER" />
+    <result column="crt_by" property="crtBy" jdbcType="VARCHAR" />
+    <result column="crt_tm" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="upd_by" property="updBy" jdbcType="VARCHAR" />
+    <result column="upd_tm" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="CERTF_CDE_TYPE" property="certfCdeType" jdbcType="INTEGER"/>
+  </resultMap>
+  
+  <sql id="base_sql">
+  	inquiry_id, customer_name, customer_card_id, customer_type, is_vhl_owner, crt_by, 
+  	crt_tm, upd_by, upd_tm, status,CERTF_CDE_TYPE 
+  </sql>
+  
+  <delete id="delByInquiryId" parameterType="java.lang.String">
+  	delete from t_inquiry_customer
+  	where inquiry_id=#{inquiryId}
+  </delete>
+  
+  <!-- selectByInquiryId -->
+  <select id="selectByInquiryId" resultMap="BaseResultMap">
+  	select 
+  	<include refid="base_sql"/>
+  	from t_inquiry_customer
+  	where status=1
+  	and inquiry_id=#{inquiryId}
+  	and customer_type=#{customerType}
+  </select>
+  
+  <!-- selectsByInquiryId -->
+  <select id="selectsByInquiryId" resultMap="BaseResultMap">
+  	select 
+  	<include refid="base_sql"/>
+  	from t_inquiry_customer
+  	where status=1
+  	and inquiry_id=#{inquiryId}
+  </select>
+  
+  <update id="updateSelective" parameterType="com.zxcl.webapp.dto.InquiryCustomerDTO" >
+  	update t_inquiry_customer
+  	<set>
+  		<if test="null != customerName and '' != customerName">
+  			customer_name=#{customerName},
+  		</if>
+  		<if test="null != customerCardId and '' != customerCardId">
+  			customer_card_id=#{customerCardId},
+  		</if>
+  		<if test="customerType != null" >
+	        customer_type=#{customerType},
+	    </if>
+	    <if test="isVhlOwner != null" >
+	        is_vhl_owner=#{isVhlOwner},
+	    </if>
+	    <if test="null != status">
+  			status=#{status},
+  		</if>
+  		upd_tm=now(),
+  	</set>
+  	where inquiry_id=#{inquiryId}
+  </update>
+  
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.InquiryCustomerDTO" >
+    insert into t_inquiry_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="inquiryId != null" >
+        inquiry_id,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="customerCardId != null" >
+        customer_card_id,
+      </if>
+      <if test="customerType != null" >
+        customer_type,
+      </if>
+      <if test="isVhlOwner != null" >
+	    is_vhl_owner,
+	  </if>
+      <if test="crtBy != null" >
+        crt_by,
+      </if>
+        crt_tm,
+      <if test="updBy != null" >
+        upd_by,
+      </if>
+        upd_tm,
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="certfCdeType != null">
+      	certf_cde_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="inquiryId != null" >
+        #{inquiryId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCardId != null" >
+        #{customerCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerType != null" >
+        #{customerType,jdbcType=INTEGER},
+      </if>
+      <if test="isVhlOwner != null" >
+	    #{isVhlOwner,jdbcType=INTEGER},
+	  </if>
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="certfCdeType != null">
+      	 #{certfCdeType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.MessageTargetDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.MessageTargetDTO" >
+    <id column="MESSAGE_BODY_ID" property="messageBodyId" jdbcType="VARCHAR" />
+    <result column="MESSAGE_THEME" property="messageTheme" jdbcType="VARCHAR" />
+    
+    <result column="MESSAGE_AGENT_IDS" property="messageAgentIds" jdbcType="VARCHAR" />
+    
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_BY" property="crtBy" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_BY" property="updBy" jdbcType="VARCHAR" />
+    
+    <result column="CONTENT_TYPE" property="contentType" jdbcType="INTEGER" />
+    
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zxcl.webapp.dto.MessageTargetDTOWithBLOBs" extends="BaseResultMap" >
+    <result column="MESSAGE_BODY" property="messageBody" jdbcType="LONGVARCHAR" />
+    <result column="WX_POST_CONTENT" property="wxPostContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MESSAGE_BODY_ID, MESSAGE_THEME, CRT_TM, CRT_BY, UPD_TM, UPD_BY,MESSAGE_AGENT_IDS,CONTENT_TYPE
+  </sql>
+  <sql id="Blob_Column_List" >
+    MESSAGE_BODY, WX_POST_CONTENT
+  </sql>
+  
+  <!-- messageTargetListCount -->
+  <select id="messageTargetListCount" resultType="java.lang.Integer" parameterType="com.zxcl.webapp.biz.util.model.PageParam">
+  	select count(MESSAGE_BODY_ID) 
+  	from t_message_content
+    where CRT_BY=#{operateUser,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- messageTargetList -->
+  <select id="messageTargetList" resultMap="ResultMapWithBLOBs" parameterType="com.zxcl.webapp.biz.util.model.PageParam">
+  	select
+  	<include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_message_content
+    where CRT_BY=#{operateUser,jdbcType=VARCHAR}
+    order by CRT_TM DESC
+	limit #{start},#{pageSize}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_message_content
+    where MESSAGE_BODY_ID = #{messageBodyId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_message_content
+    where MESSAGE_BODY_ID = #{messageBodyId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.MessageTargetDTOWithBLOBs" >
+    insert into t_message_content
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageBodyId != null" >
+        MESSAGE_BODY_ID,
+      </if>
+      <if test="messageTheme != null" >
+        MESSAGE_THEME,
+      </if>
+        CRT_TM,
+      <if test="crtBy != null" >
+        CRT_BY,
+      </if>
+        UPD_TM,
+      <if test="updBy != null" >
+        UPD_BY,
+      </if>
+      <if test="messageBody != null" >
+        MESSAGE_BODY,
+      </if>
+      <if test="wxPostContent != null" >
+        WX_POST_CONTENT,
+      </if>
+      <if test="messageAgentIds != null" >
+        MESSAGE_AGENT_IDS,
+      </if>
+      <if test="contentType != null" >
+        CONTENT_TYPE,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageBodyId != null" >
+        #{messageBodyId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTheme != null" >
+        #{messageTheme,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="messageBody != null" >
+        #{messageBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="wxPostContent != null" >
+        #{wxPostContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="messageAgentIds != null" >
+        #{messageAgentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        #{contentType,jdbcType=INTEGER},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.MessageTargetDTOWithBLOBs" >
+    update t_message_content
+    <set >
+      <if test="messageTheme != null" >
+        MESSAGE_THEME = #{messageTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTm != null" >
+        CRT_TM = #{crtTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtBy != null" >
+        CRT_BY = #{crtBy,jdbcType=VARCHAR},
+      </if>
+        UPD_TM = now(),
+      <if test="updBy != null" >
+        UPD_BY = #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="messageBody != null" >
+        MESSAGE_BODY = #{messageBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="wxPostContent != null" >
+        WX_POST_CONTENT = #{wxPostContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="messageAgentIds != null" >
+        MESSAGE_AGENT_IDS=#{messageAgentIds,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MESSAGE_BODY_ID = #{messageBodyId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.TaxReliefModelDAO">
+	<!-- 没有关联的映射 
+	<resultMap id="taxReliefModelsResultMapping" type="com.zxcl.webapp.dto.TaxReliefModelsDTO">
+		<id column="modelNumber" jdbcType="VARCHAR" property="MODEL_NUMBER"/>
+		<result column="debutDate" jdbcType="VARCHAR" property="DEBUT_DATE"/>
+		<result column="taxMode" jdbcType="VARCHAR" property="TAX_MODE"/>
+		<result column="reasonTaxRelief" jdbcType="VARCHAR" property="REASION_TAXRELIEF"/>
+		<result column="energyType" jdbcType="VARCHAR" property="ENERGY_TYPE"/>
+		<result column="taxExemptionScheme" jdbcType="VARCHAR" property="TAX_EXEMPTION_SCHEME"/>
+		<result column="taxReliefProportion" jdbcType="INT" property="TAXRELIEF_PROPORTION"/>
+		<result column="certificateNo" jdbcType="VARCHAR" property="CERTIFICATE_NO"/>
+	</resultMap>-->
+	<resultMap id="taxReliefModelsResultMapping" type="com.zxcl.webapp.dto.TaxReliefModelsDTO">
+		<id property="modelNumber" column="modelNumber"/>
+		<result property="fstReg" column="fstReg" />
+		<result property="taxMode" column="taxMode" />
+		<result property="reasonTaxRelief" column="reasonTaxRelief" />
+		<result property="energyType" column="energyType" />
+		<result property="taxExemptionScheme" column="taxExemptionScheme" />
+		<result property="taxReliefProportion" column="taxReliefProportion" />
+		<result property="certificateNo" column="certificateNo"  />
+	</resultMap>
+
+	<select id="getTaxReliefModelsByModelNumber" resultMap="taxReliefModelsResultMapping" >
+		SELECT 
+			MODEL_NUMBER as modelNumber,FST_REG_DATE as fstReg,
+			TAX_MODE as taxMode ,REASION_TAXRELIEF as reasonTaxRelief,
+			ENERGY_TYPE as energyType ,TAX_EXEMPTION_SCHEME as taxExemptionScheme,
+			TAXRELIEF_PROPORTION as taxReliefProportion,CERTIFICATE_NO as certificateNo
+		 FROM t_tax_relief_model where MODEL_NUMBER = #{modelNumber} limit 1
+	</select>
+
+</mapper>

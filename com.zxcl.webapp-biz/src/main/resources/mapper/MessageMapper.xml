@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxcl.webapp.integration.dao.MessageDAO" >
+  <resultMap id="BaseResultMap" type="com.zxcl.webapp.dto.MessageDTO" >
+    <id column="MESSAGE_ID" property="messageId" jdbcType="VARCHAR" />
+    <result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
+    <result column="MESSAGE_SEND_FROM" property="messageSendFrom" jdbcType="VARCHAR" />
+    <result column="MESSAGE_SEND_TO" property="messageSendTo" jdbcType="VARCHAR" />
+    
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId" jdbcType="VARCHAR" />
+    <result column="SEND_RESULT_MSG" property="sendResultMsg" jdbcType="VARCHAR" />
+    <result column="MESSAGE_BODY_ID" property="messageBodyId" jdbcType="VARCHAR" />
+    
+    <result column="CRT_TM" property="crtTm" jdbcType="TIMESTAMP" />
+    <result column="CRT_BY" property="crtBy" jdbcType="VARCHAR" />
+    <result column="UPD_TM" property="updTm" jdbcType="TIMESTAMP" />
+    <result column="UPD_BY" property="updBy" jdbcType="VARCHAR" />
+    <result column="TIMER_STATUS" property="timerStatus" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MESSAGE_ID,MESSAGE_BODY_ID,  MESSAGE_TYPE, MESSAGE_SEND_FROM, MESSAGE_SEND_TO, 
+    CRT_TM, CRT_BY, UPD_TM, UPD_BY, TIMER_STATUS, STATUS,WX_TEMPLATE_ID,SEND_RESULT_MSG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_message
+    where MESSAGE_ID = #{messageId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- selectByTimerStatus -->
+  <select id="selectByTimerStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_message
+    where TIMER_STATUS = #{timerStatus,jdbcType=INTEGER}
+  </select>
+  
+  <!-- messageListCount -->
+  <select id="messageListCount" resultType="java.lang.Integer" parameterType="com.zxcl.webapp.biz.util.model.PageParam">
+  	select count(MESSAGE_ID)
+  	from t_message
+  	where MESSAGE_SEND_TO=#{operateUser,jdbcType=VARCHAR}
+  	and MESSAGE_TYPE=1
+  	and STATUS in (2,3)
+  </select>
+  
+  <!-- messageList -->
+  <select id="messageList" resultMap="BaseResultMap" parameterType="com.zxcl.webapp.biz.util.model.PageParam">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_message
+    where MESSAGE_SEND_TO=#{operateUser,jdbcType=VARCHAR}
+    and MESSAGE_TYPE=1
+  	and STATUS in (2,3)
+  	order by CRT_TM DESC
+  	limit #{start},#{pageSize}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_message
+    where MESSAGE_ID = #{messageId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zxcl.webapp.dto.MessageDTO" >
+    insert into t_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        MESSAGE_ID,
+      </if>
+      <if test="messageBodyId != null" >
+        MESSAGE_BODY_ID,
+      </if>
+      <if test="messageType != null" >
+        MESSAGE_TYPE,
+      </if>
+      <if test="messageSendFrom != null" >
+        MESSAGE_SEND_FROM,
+      </if>
+      <if test="messageSendTo != null" >
+        MESSAGE_SEND_TO,
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID,
+      </if>
+      <if test="sendResultMsg != null" >
+        SEND_RESULT_MSG,
+      </if>
+        CRT_TM,
+      <if test="crtBy != null" >
+        CRT_BY,
+      </if>
+        UPD_TM,
+      <if test="updBy != null" >
+        UPD_BY,
+      </if>
+      <if test="timerStatus != null" >
+        TIMER_STATUS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageBodyId != null" >
+        #{messageBodyId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null" >
+        #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="messageSendFrom != null" >
+        #{messageSendFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="messageSendTo != null" >
+        #{messageSendTo,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="wxTemplateId != null" >
+        #{wxTemplateId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendResultMsg != null" >
+        #{sendResultMsg,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="crtBy != null" >
+        #{crtBy,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="updBy != null" >
+        #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="timerStatus != null" >
+        #{timerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxcl.webapp.dto.MessageDTO" >
+    update t_message
+    <set >
+      <if test="messageBodyId != null" >
+        MESSAGE_BODY_ID = #{messageBodyId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null" >
+        MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="messageSendFrom != null" >
+        MESSAGE_SEND_FROM = #{messageSendFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="messageSendTo != null" >
+        MESSAGE_SEND_TO = #{messageSendTo,jdbcType=VARCHAR},
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID = #{wxTemplateId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendResultMsg != null" >
+        SEND_RESULT_MSG = #{sendResultMsg,jdbcType=VARCHAR},
+      </if>
+        UPD_TM = now(),
+      <if test="updBy != null" >
+        UPD_BY = #{updBy,jdbcType=VARCHAR},
+      </if>
+      <if test="timerStatus != null" >
+        TIMER_STATUS = #{timerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where MESSAGE_ID = #{messageId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getUnreadMessageCount" parameterType="String" resultType="Integer">
+  	SELECT COUNT(MESSAGE_ID) FROM t_message WHERE MESSAGE_SEND_TO = #{userId} AND STATUS=2 AND MESSAGE_TYPE=1
+  </select>
+</mapper>

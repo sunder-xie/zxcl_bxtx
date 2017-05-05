@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PACKET>
+<HEAD>
+<REQCODE>$!{attestationBase.method}</REQCODE>
+<AREACODE>$!{attestationBase.areaCode}</AREACODE>
+<USERCODE>$!{attestationBase.user}</USERCODE>
+<USERPWD>$!{attestationBase.password}</USERPWD>
+<CHANNEL>$!{attestationBase.channel}</CHANNEL>
+</HEAD>
+<BODY>
+<BASE>
+<RISKCODE/>
+<COMCODE>$!{attestationBase.comCode}</COMCODE>
+<AGENTCODE></AGENTCODE>
+</BASE>
+<VEHICLE>
+<LICENSENO>$!{licenseno}</LICENSENO>
+<ENGINENO>$!{engineno}</ENGINENO>
+<FRAMENO>$!{frameno}</FRAMENO>
+<BRANDNAME>$!{vehicleName}</BRANDNAME>
+<PAGENO>1</PAGENO>
+<ROWSPERPAGE>10</ROWSPERPAGE>
+</VEHICLE>
+</BODY>
+</PACKET>
+

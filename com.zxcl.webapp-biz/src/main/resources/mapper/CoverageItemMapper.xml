@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxcl.webapp.integration.dao.CoverageItemDAO">
+
+<!-- 	<resultMap type="com.zxcl.webapp.dto.InquiryInsTypeDTO" id="inquiryInsTypeResultMapping"> -->
+<!-- 		<result column="code" jdbcType="VARCHAR" property="code" /> -->
+<!-- 		<result column="amount" jdbcType="VARCHAR" property="amount" /> -->
+<!-- 		<result column="deductible" jdbcType="VARCHAR" property="deductible" /> -->
+<!-- 		<result column="cityCode" jdbcType="VARCHAR" property="cityCode" /> -->
+<!-- 	</resultMap> -->
+
+	<!-- 	险种 -->
+	<resultMap type="com.zxcl.webapp.dto.rmi.intf.quota.resp.CoverageItemDTO" id="coverageItemResultMapping">
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="sumLimit" jdbcType="VARCHAR" property="sumLimit" />
+		<result column="noDduct" jdbcType="VARCHAR" property="noDduct" />
+		<result column="remark" jdbcType="VARCHAR" property="glsType" />
+		<result column="amount" jdbcType="VARCHAR" property="amount" />
+	</resultMap>
+
+	<select id="getCoverageItems" resultMap="coverageItemResultMapping">
+		SELECT c.CVRG_ID code,c.CVRG_AMOUNT sumLimit,c.CVRG_AMOUNT amount,c.EXCLD_DEDUCTIBLE noDduct,c.REMARK remark,
+		 (SELECT a.REMARK FROM t_base a where a.`CODE` = c.CVRG_ID AND a.CODE_CLASS = '险种代码') `name`
+		FROM t_inquiry_cvrg c  
+		LEFT JOIN t_inquiry i on  c.INQUIRY_ID = i.INQUIRY_ID 
+		WHERE c.INQUIRY_ID= #{inquiryId}
+	</select>
+	
+	<!-- 险种信息：t_inquiry_cvrg -->
+	<insert id="insert">
+		INSERT INTO
+		t_inquiry_cvrg(INQUIRY_ID,CVRG_ID,CVRG_AMOUNT,EXCLD_DEDUCTIBLE,REMARK,CRT_TM,CRT_CDE,UPD_TM,UPD_CDE)
+		VALUES
+		<foreach collection="covers" item="cover" separator=",">
+			(#{cover.inquiry.inquiryId},#{cover.code},#{cover.sumLimit},#{cover.noDduct},#{cover.remark},now(),#{cover.crtCode},now(),#{cover.updCode})
+		</foreach>
+	</insert>
+	
+	<select id="getCoverageItemByInquiryId" resultMap="coverageItemResultMapping">
+		select CVRG_ID code,CVRG_AMOUNT sumLimit,EXCLD_DEDUCTIBLE noDduct,REMARK glsType 
+		from t_inquiry_cvrg where INQUIRY_ID = #{inquiryId}
+	</select>
+	
+	<delete id="deleteCoverageItemsByInquiryId">
+		DELETE FROM t_inquiry_cvrg WHERE INQUIRY_ID = #{inquiryId}
+	</delete>	
+	
+	<select id="getCoverageItems2" resultMap="coverageItemResultMapping">
+		select CVRG_ID code,CVRG_AMOUNT sumLimit,EXCLD_DEDUCTIBLE noDduct,REMARK glsType 
+		from t_inquiry_cvrg where INQUIRY_ID = #{inquiryId}
+	</select>
+</mapper>
